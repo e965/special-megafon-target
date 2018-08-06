@@ -24,18 +24,15 @@
     <script>
         (function(d, ver) {
             var s = d.createElement('script');
-            s.src = './dist/all.js?' + ver;
+            s.src = './all.js?' + ver;
             s.async = true;
 
             var container = d.getElementById('specialContainer');
-            var newContainer = container.cloneNode(true);
-
-            container.parentNode.replaceChild(newContainer, container);
 
             s.onload = function() {
-                var special = new Special({
-                    css: './dist/all.css?' + ver,
-                    container: newContainer,
+                var special = new Special.Special({
+                    // css: './all.css?' + ver,
+                    container: container,
                     share: {
                         url: 'https://vc.ru/special/url',
                         twitter: 'Optional title for Twitter',

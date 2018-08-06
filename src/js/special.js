@@ -22,7 +22,9 @@ class Special extends BaseSpecial {
             Object.assign(Data, params.data);
         }
 
-        this.loadStyles(this.params.css).then(() => this.init());
+        if (this.params.css) {
+            this.loadStyles(this.params.css).then(() => this.init());
+        }
     }
 
     init() {
