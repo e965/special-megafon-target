@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
-import Config from './src/config.js';
+import Config from './src/config';
 
 module.exports = (env, options) => {
   const inProd = options.mode === 'production';
@@ -26,26 +26,26 @@ module.exports = (env, options) => {
     devtool: inProd ? 'source-map' : false,
     optimization: {
       minimizer: [
-        new UglifyJsPlugin({
-          cache: true,
-          parallel: true,
-          sourceMap: true
-        }),
-        new OptimizeCSSAssetsPlugin({
-          cssProcessorOptions: {
-            map: {
-              inline: false
-            }
-          }
-        })
+        // new UglifyJsPlugin({
+        //   cache: true,
+        //   parallel: true,
+        //   sourceMap: true
+        // }),
+        // new OptimizeCSSAssetsPlugin({
+        //   cssProcessorOptions: {
+        //     map: {
+        //       inline: false
+        //     }
+        //   }
+        // })
       ]
     },
     plugins: inProd
-      ? [ 
+      ? [
           new MiniCssExtractPlugin({ filename: 'all.css' }),
           new webpack.DefinePlugin({ IS_PRODUCTION: JSON.stringify(inProd) })
         ]
-      : [ 
+      : [
           new webpack.HotModuleReplacementPlugin(),
           new webpack.DefinePlugin({ IS_PRODUCTION: JSON.stringify(inProd) })
         ],
@@ -89,4 +89,4 @@ module.exports = (env, options) => {
       }]
     }
   }
-}
+};
