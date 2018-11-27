@@ -19,6 +19,7 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
+    "cmtt-likely": "^1.2.2",
     "css-loader": "^1.0.0",
     "gh-pages": "^1.2.0",
     "mini-css-extract-plugin": "^0.4.1",
@@ -30,8 +31,5 @@
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"
-  },
-  "dependencies": {
-    "cmtt-likely": "^1.2.1"
   }
 }
