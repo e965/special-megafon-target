@@ -2,7 +2,7 @@
 <html lang="ru">
 
 <head>
-    <title>Базовый спецпроект</title>
+    <title>Special</title>
 
     <meta charset="utf-8">
     <meta name="referrer" content="always">
@@ -18,31 +18,58 @@
 
 <body>
 
-    <!-- Если спецпроект интегрирован в статью, используется такая конструкция -->
-    <div id="specialContainer"></div>
+<style>
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+        padding-top: 50px;
+        overflow: hidden;
+    }
+    .wrapper > span {
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 50px;
+        background-color: #feebef;
+    }
+</style>
 
-    <script>
-        (function(d, ver) {
-            var s = d.createElement('script');
-            s.src = './all.js?' + ver;
-            s.async = true;
+<div class="wrapper">
+    <span></span>
+    <div style="max-width: 100%; padding: 10px 0;">
+        <div id="special"></div>
+    </div>
+</div>
 
-            var container = d.getElementById('specialContainer');
+<script>
+  (function(d, ver) {
+    var s = d.createElement('script');
+    s.src = './all.js?' + ver;
+    s.async = true;
 
-            s.onload = function() {
-                var special = new Special.Special({
-                    // css: './all.css?' + ver,
-                    container: container,
-                    share: {
-                        url: 'https://vc.ru/special/url',
-                        twitter: 'Optional title for Twitter',
-                        title: 'Optional title for VK'
-                    }
-                });
-            };
-            d.body.appendChild(s);
-        })(document, 0);
-    </script>
+    var container = d.getElementById('special');
+
+    s.onload = function() {
+      new PSBMoney.Special({
+        // css: './all.css?' + ver,
+        container: container,
+        isFeed: document.querySelector('[air-module="module.feed"]') ? true : false,
+        share: {
+          url: '',
+          title: '',
+        }
+      });
+    };
+    d.body.appendChild(s);
+  })(document, 0);
+</script>
 
 </body>
 
