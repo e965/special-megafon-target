@@ -56,17 +56,19 @@
 
     var container = d.getElementById('special');
 
-    s.onload = function() {
-      new Special.Special({
-        // css: './all.css?' + ver,
-        container: container,
-        isFeed: document.querySelector('[air-module="module.feed"]') ? true : false,
-        share: {
-          url: '',
-          title: '',
-        }
-      });
-    };
+    if (container) {
+      s.onload = function() {
+        new Special.Special({
+          // css: './all.css?' + ver,
+          container: container,
+          isFeed: document.querySelector('[air-module="module.feed"]') ? true : false,
+          share: {
+            url: '',
+            title: '',
+          }
+        });
+      };
+    }
     d.body.appendChild(s);
   })(document, 0);
 </script>
