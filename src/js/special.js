@@ -24,6 +24,8 @@ class Special extends BaseSpecial {
 
         if (this.params.css) {
             this.loadStyles(this.params.css).then(() => this.init());
+        } else {
+            this.init();
         }
     }
 
