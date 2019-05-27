@@ -13,7 +13,7 @@
 
     <!-- Подключаем стили сайта на тот же случай -->
     <!-- ВАЖНО: в стилях сайта ПОЧТИ для всех элементов свойство box-sizing определено как border-box -->
-    <link rel="stylesheet" href="https://s38736.cdn.ngenix.net/static/build/vc.ru/all.min.css?9a6ff7a9">
+    <link rel="stylesheet" href="https://static-osnova.gcdn.co/static/build/vc.ru/all.min.css">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
 <div class="wrapper">
     <span></span>
     <div style="max-width: 100%; padding: 10px 0;">
-        <div id="special"></div>
+        <div id="megafon-special"></div>
     </div>
 </div>
 
@@ -58,7 +58,7 @@
 
     if (container) {
       s.onload = function() {
-        new Special.Special({
+        new MegafonTarget.Special({
           // css: './all.css?' + ver,
           container: container,
           isFeed: document.querySelector('[air-module="module.feed"]') ? true : false,
