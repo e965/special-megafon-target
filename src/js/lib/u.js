@@ -1,0 +1,102 @@
+// https://github.com/tehcojam/cmtt-test/blob/master/source/js/modules/u.js
+
+export const U = {
+	prepareText(text) {
+		let regExps = {
+			links:  new RegExp(/\[link\|(?:[^\]]+)\|([^\]]+)\]/),
+			bold:   new RegExp(/\[b\|(?:[^\]]+)\]/),
+			quote:  new RegExp(/\[q\|(?:[^\]]+)\]/),
+		}
+
+		let regExps_keys = Object.keys(regExps)
+
+		let regExps_g = {}
+
+		regExps_keys.forEach(key => {
+			regExps_g[key] = new RegExp(regExps[key], 'g')
+		})
+
+		let matches = {}
+
+		regExps_keys.forEach(key => {
+			matches[key] = text.match(regExps_g[key])
+		})
+
+		if (matches.links) {
+			matches.links.forEach(link => {
+				let _link = link.split('|')
+
+				text = text.replace(
+					regExps.links,
+					$create.link(
+						_link[1],
+						_link[2].replace(/]/g, ''),
+						'',
+						['e', 'html']
+					)
+				)
+			})
+		}
+
+		if (matches.bold) {
+			matches.bold.forEach(bold => {
+				let _bold = bold.split('|')
+
+				text = text.replace(
+					regExps.bold,
+					$create.elem(
+						'b',
+						_bold[1].replace(/]/g, ''),
+						'',
+						['html']
+					)
+				)
+			})
+		}
+
+		if (matches.quote) {
+			matches.quote.forEach(quote => {
+				let _quote = quote.split('|')
+
+				text = text.replace(
+					regExps.quote,
+					$create.elem(
+						'q',
+						_quote[1].replace(/]/g, ''),
+						'',
+						['html']
+					)
+				)
+			})
+		}
+
+		return text
+	},
+
+	shuffleArray(a) {
+		// взято отсюда: https://stackoverflow.com/a/6274381
+
+		for (let i = a.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[a[i], a[j]] = [a[j], a[i]]
+		}
+
+		return a
+	},
+
+	clearNode(_node, exceptions = []) {
+		if (_node.hasChildNodes()) {
+			Array.from(_node.childNodes).forEach(node_ => {
+				let trigger = false
+
+				exceptions.forEach(exception => {
+					if (node_.classList.contains(exception)) {
+						trigger = true
+					}
+				})
+
+				if (!trigger) { _node.removeChild(node_) }
+			})
+		}
+	},
+}
