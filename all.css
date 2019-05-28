@@ -1,0 +1,73 @@
+.specialContainer {
+  font-size: 16px;
+  line-height: 1.5em;
+  padding: 15px;
+  border: 1px solid #000;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+@media (min-width: 680px) {
+  .specialContainer {
+    font-size: 18px;
+    padding: 50px;
+  }
+}
+.specialContainer svg {
+  display: block;
+  fill: currentColor;
+}
+.specialContainer input,
+.specialContainer button {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: block;
+  width: 200px;
+  padding: 10px;
+  margin: 5px 0;
+}
+.specialContainer .likely {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.specialContainer .likely__widget {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: transparent;
+  border: 1px solid;
+  height: 40px;
+  padding: 0 10px;
+  margin: 0 2px;
+  color: inherit;
+}
+.specialContainer .likely__icon {
+  background-color: transparent;
+}
+.specialContainer .likely__icon svg {
+  display: block;
+}
+/*# sourceMappingURL=src/css/special.css.map */
+
+/*# sourceMappingURL=all.css.map*/
