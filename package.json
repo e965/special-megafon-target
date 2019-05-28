@@ -1,41 +1,44 @@
 {
-  "name": "special-megafon-target",
-  "version": "1.0.1",
-  "description": "Спецпроект для «Мегафона»",
-  "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production",
-    "deploy": "gh-pages -d dist"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "browserslist": [
-    "last 2 versions"
-  ],
-  "devDependencies": {
-    "autoprefixer": "^9.1.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "cmtt-likely": "^1.2.2",
-    "css-loader": "^2.1.1",
-    "eslint": "^5.9.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1",
-    "gh-pages": "^2.0.1",
-    "mini-css-extract-plugin": "^0.7.0",
-    "optimize-css-assets-webpack-plugin": "^5.0.0",
-    "postcss-loader": "^3.0.0",
-    "style-loader": "^0.23.1",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.10"
-  }
+	"name": "special-megafon-target",
+	"description": "Спецпроект для «Мегафона»",
+	"private": true,
+	"version": "1.0.2",
+	"author": "Dmitry <dmitry@cojam.ru> (https://e965.ru)",
+	"repository": "github:tehcojam/special-megafon-target",
+	"scripts": {
+		"start": "webpack-dev-server --mode development",
+		"build": "webpack --mode production",
+		"deploy": "gh-pages -d dist"
+	},
+	"license": "UNLICENSED",
+	"browserslist": [
+		"last 2 versions"
+	],
+	"dependencies": {
+		"cmtt-likely": "^1.2.2"
+	},
+	"devDependencies": {
+		"autoprefixer": "^9.1.0",
+		"babel-core": "^6.26.3",
+		"babel-loader": "^7.1.5",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-stage-2": "^6.24.1",
+		"css-loader": "^2.1.1",
+		"eslint": "^5.9.0",
+		"eslint-config-airbnb": "^17.1.0",
+		"eslint-plugin-import": "^2.14.0",
+		"eslint-plugin-jsx-a11y": "^6.1.2",
+		"eslint-plugin-react": "^7.11.1",
+		"gh-pages": "^2.0.1",
+		"mini-css-extract-plugin": "^0.7.0",
+		"optimize-css-assets-webpack-plugin": "^5.0.0",
+		"postcss-loader": "^3.0.0",
+		"style-loader": "^0.23.1",
+		"stylus": "^0.54.5",
+		"stylus-loader": "^3.0.2",
+		"uglifyjs-webpack-plugin": "^2.0.1",
+		"webpack": "^4.16.5",
+		"webpack-cli": "^3.1.0",
+		"webpack-dev-server": "^3.1.10"
+	}
 }
