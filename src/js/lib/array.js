@@ -12,17 +12,15 @@ export const getMostFrequentValue = (array) => {
 
 /**
  * Shuffle an array (original array will be modified)
- * @param {Array} array
+ * @param {Array} a
  */
-export const shuffle = (array) => {
-    let j, x, i;
-
-    for (i = array.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = array[i];
-        array[i] = array[j];
-        array[j] = x;
+export const shuffle = a => {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]]
     }
+
+    return a
 };
 
 /**

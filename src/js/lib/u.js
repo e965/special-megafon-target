@@ -1,102 +1,81 @@
 // https://github.com/tehcojam/cmtt-test/blob/master/source/js/modules/u.js
 
+import { makeElement } from './dom';
+
 export const U = {
-	prepareText(text) {
-		let regExps = {
-			links:  new RegExp(/\[link\|(?:[^\]]+)\|([^\]]+)\]/),
-			bold:   new RegExp(/\[b\|(?:[^\]]+)\]/),
-			quote:  new RegExp(/\[q\|(?:[^\]]+)\]/),
-		}
+  prepareText(text) {
+    let regExps = {
+      links:  new RegExp(/\[link\|(?:[^\]]+)\|([^\]]+)\]/),
+      bold:   new RegExp(/\[b\|(?:[^\]]+)\]/),
+      quote:  new RegExp(/\[q\|(?:[^\]]+)\]/),
+    }
 
-		let regExps_keys = Object.keys(regExps)
+    let regExps_keys = Object.keys(regExps)
 
-		let regExps_g = {}
+    let regExps_g = {}
 
-		regExps_keys.forEach(key => {
-			regExps_g[key] = new RegExp(regExps[key], 'g')
-		})
+    regExps_keys.forEach(key => {
+      regExps_g[key] = new RegExp(regExps[key], 'g')
+    })
 
-		let matches = {}
+    let matches = {}
 
-		regExps_keys.forEach(key => {
-			matches[key] = text.match(regExps_g[key])
-		})
+    regExps_keys.forEach(key => {
+      matches[key] = text.match(regExps_g[key])
+    })
 
-		if (matches.links) {
-			matches.links.forEach(link => {
-				let _link = link.split('|')
+    if (matches.links) {
+      matches.links.forEach(link => {
+        let _link = link.split('|')
 
-				text = text.replace(
-					regExps.links,
-					$create.link(
-						_link[1],
-						_link[2].replace(/]/g, ''),
-						'',
-						['e', 'html']
-					)
-				)
-			})
-		}
+        let linkNode = makeElement('a', '', { innerHTML: _link[2].replace(/]/g, '') })
+        linkNode.setAttribute('href', _link[1])
 
-		if (matches.bold) {
-			matches.bold.forEach(bold => {
-				let _bold = bold.split('|')
+        text = text.replace(
+          regExps.links,
+          linkNode.outerHTML
+        )
+      })
+    }
 
-				text = text.replace(
-					regExps.bold,
-					$create.elem(
-						'b',
-						_bold[1].replace(/]/g, ''),
-						'',
-						['html']
-					)
-				)
-			})
-		}
+    if (matches.bold) {
+      matches.bold.forEach(bold => {
+        let _bold = bold.split('|')
 
-		if (matches.quote) {
-			matches.quote.forEach(quote => {
-				let _quote = quote.split('|')
+        text = text.replace(
+          regExps.bold,
+          makeElement('b', '', { innerHTML: _bold[1].replace(/]/g, '') }).outerHTML
+        )
+      })
+    }
 
-				text = text.replace(
-					regExps.quote,
-					$create.elem(
-						'q',
-						_quote[1].replace(/]/g, ''),
-						'',
-						['html']
-					)
-				)
-			})
-		}
+    if (matches.quote) {
+      matches.quote.forEach(quote => {
+        let _quote = quote.split('|')
 
-		return text
-	},
+        text = text.replace(
+          regExps.quote,
+          makeElement('q', '', { innerHTML: _quote[1].replace(/]/g, '') }).outerHTML
+        )
+      })
+    }
 
-	shuffleArray(a) {
-		// взято отсюда: https://stackoverflow.com/a/6274381
+    return text
+  },
 
-		for (let i = a.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[a[i], a[j]] = [a[j], a[i]]
-		}
+  clearNode(_node, exceptions = []) {
+    if (_node.hasChildNodes()) {
+      Array.from(_node.childNodes).forEach(node_ => {
+        let trigger = false
 
-		return a
-	},
+        exceptions.forEach(exception => {
+          if (node_.classList.contains(exception)) {
+            trigger = true
+          }
+        })
 
-	clearNode(_node, exceptions = []) {
-		if (_node.hasChildNodes()) {
-			Array.from(_node.childNodes).forEach(node_ => {
-				let trigger = false
-
-				exceptions.forEach(exception => {
-					if (node_.classList.contains(exception)) {
-						trigger = true
-					}
-				})
-
-				if (!trigger) { _node.removeChild(node_) }
-			})
-		}
-	},
+        if (!trigger) { _node.removeChild(node_) }
+      })
+    }
+  },
 }

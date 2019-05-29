@@ -1,8 +1,8 @@
 // Если спецпроект интегрирован в сайт, из media queries обычно хватает только двух: mobile и not_mobile
-@import 'mq'
+@import 'inc/mq'
 
-@import 'functions'
-@import 'keyframes'
+@import 'inc/functions'
+@import 'inc/keyframes'
 
 // base.styl подключается только в том случае, когда спецпроект расположен на отдельной странице
 // @import 'base'
@@ -18,52 +18,182 @@ $colors = {
 // Название класса рекомендуется выбирать так, чтобы точно не было конфликтов с существующими спецпроектами.
 // Обычно имени проекта достаточно
 .mgfn-trgt
-  font-size: 16px
-  line-height: 1.5em
-  padding: 15px
-  border: 1px solid $colors.black
-  width: 100%
-  max-width: 600px
-  text-align: center
-  margin: auto
-  display: flex
-  flex-direction: column
-  align-items: center
-  justify-content: center
+  font-size 16px
+  line-height 1.5em
+
+  &[data-theme='green'] {
+    --mgfn__header-bg-color #00B956
+    --mgfn__header-text-color #fff
+  }
+
+  &[data-theme='pink'] {
+    --mgfn__header-bg-color #fbeaee
+    --mgfn__header-text-color #000
+  }
 
   @media $mq.notMobile
-    font-size: 18px
-    padding: 50px
-
-  svg
-    display: block
-    fill: currentColor
+    font-size 18px
 
   // Для подобных элементов придется сбрасывать стили, если спецпроект не на отдельной странице
-  input,
-  button
-    box-sizing: border-box
-    display: block
-    width: 200px
-    padding: 10px
-    margin: 5px 0
+  input, button
+    box-sizing border-box
+    display block
+    width 200px
+    padding 10px
+    margin 5px 0
+
+  &__screen
+    &--quiz
+      width 1060px; height 700px
+      background-color #F3F3F3
+
+      position relative
+
+  &__phone
+    position absolute
+    width 300px; height 550px
+    left 0; right 0; bottom 50px
+    margin 0 auto
+
+    &::before
+      content ''
+      position absolute
+      width 100%; height 100%
+
+      background-image url(img/phone-borders.png)
+      background-size contain
+      background-position center top
+      background-repeat no-repeat
+
+    &--notch
+      content ''
+      position absolute
+      width 130px; height 30px
+      left 0; right 0
+
+      margin 5px auto 0
+
+      background-color #fff
+      border-radius 20px
+
+      z-index 1
+
+      &::before, &::after
+        position absolute
+        content ''
+        background-color #E3E3E3
+
+      &::before
+        left 0; right 0; bottom 10px
+        width 40px; height 5px
+        margin 0 auto
+        border-radius 100px
+
+      &::after
+        right 30px; bottom 9px
+        width 8px; height 8px
+        border-radius 99px
+
+    &--content
+      position absolute
+      width 100%; height 100%
+      padding 15px
+
+      display grid
+      grid-template-columns 1fr
+      grid-auto-rows 60px 1fr
+
+      z-index 0
+
+  &__header
+    background-color var(--mgfn__header-bg-color)
+    border-radius 30px 30px 0 0
+
+    position relative
+
+    color var(--mgfn__header-text-color)
+
+    cursor default
+    user-select none
+
+    & > *
+      position absolute
+
+    &--counter, &--operator
+      line-height 1.3
+
+    &--counter
+      top 5px; left 30px
+      font-size .7em
+
+    &--operator
+      top 7px; right 20px
+      font-size .4em
+
+    &--sender
+      right 0; left 0; bottom 5px
+      margin 0 auto
+
+      width: -webkit-max-content;
+      width: max-content;
+
+      font-size .85em
+
+    &--avatar
+      right 5px; bottom 7px
+
+      width 25px; height 25px
+
+      background-image url(img/anon.png)
+      background-size cover
+
+  &__chat
+    background-image url(img/chat-bg.png)
+    background-size cover
+    border-radius 0 0 30px 30px
+
+  &__answers
+    position absolute
+    width 900px; height 220px
+    left 0; right 0; bottom 0
+
+    margin 0 auto
+
+    border-radius 30px 30px 0 0
+
+    background-color #fff
+    box-shadow: 0px -1px 34px rgba(#000, .1)
+
+    &--theme-switcher
+      position absolute
+      right 0
+
+      padding 15px
+
+      & > *
+        display inline-block !important
+        vertical-align middle
+
+      input
+        width auto
+        margin-left 5px
 
   .likely
-    display: flex
+    display flex
 
     &__widget
-      display: flex
-      align-items: center
-      justify-content: center
-      background-color: transparent
-      border: 1px solid
-      height: 40px
-      padding: 0 10px
-      margin: 0 2px
-      color: inherit
+      display flex
+      align-items center
+      justify-content center
+      background-color transparent
+      border 1px solid
+      height 40px
+      padding 0 10px
+      margin 0 2px
+      color inherit
 
     &__icon
-      background-color: transparent
+      background-color transparent
 
       svg
-        display: block
+        display block
