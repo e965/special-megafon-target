@@ -19,7 +19,7 @@ module.exports = (env, options) => {
 		devServer: {
 			contentBase: path.join(__dirname, 'public'),
 			compress: true,
-			// hot: true,
+			hot: true,
 			port: 3000
 		},
 
