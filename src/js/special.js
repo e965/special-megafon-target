@@ -128,10 +128,15 @@ class Special extends BaseSpecial {
   createTemplates() {
     NODES.T = {}
 
-    NODES.T.SMS = createElement('div', `${CSS.main}__sms`)
+    NODES.T.textSMS = createElement('div', [`${CSS.main}__sms`, `${CSS.main}__sms-text`])
 
-    NODES.T.SMS.appendChild(createElement('p', `${CSS.main}__sms--sender`))
-    NODES.T.SMS.appendChild(createElement('p', `${CSS.main}__sms--text`))
+    NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}__sms--sender`))
+    NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}__sms--text`))
+
+    NODES.T.faceSMS = createElement('div', [`${CSS.main}__sms`, `${CSS.main}__sms-face`])
+
+    NODES.T.faceSMS.appendChild(createElement('img', `${CSS.main}__sms--face`))
+    NODES.T.faceSMS.appendChild(createElement('img', `${CSS.main}__sms--mark`))
 
     NODES.T.answerItemBtn = createElement('button', `${CSS.main}__answers-item-btn`)
 
@@ -220,6 +225,40 @@ class Special extends BaseSpecial {
     NODES.S.quiz.appendChild(NODES.E.answers)
   }
 
+  spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', tail = 'left', images = {}, success = true }) {
+    let sms = document.createElement('div')
+
+    // TODO scrollIntoView
+
+    if (type == 'text') {
+      sms = NODES.T.textSMS.cloneNode('true')
+
+      sms.dataset.tail = tail
+
+      U.qsf('div[class$="sender"]', sms).textContent = sender
+      U.qsf('div[class$="text"]', sms).textContent = text
+    } else if (type == 'face') {
+      sms = NODES.T.faceSMS.cloneNode('true')
+
+      if (success) {
+        sms.dataset.success = ''
+      } else {
+        sms.dataset.failure = ''
+      }
+
+      U.qsf('img[class$="face"]', sms).src = images.x1
+      U.qsf('img[class$="face"]', sms).srcset = images.x2
+    }
+
+    NODES.E.chat.appendChild(sms)
+  }
+
+  goToLevel(level) {
+    this.spawnSMS({
+      text: level.text
+    })
+  }
+
   showQuestion() {
     let currQ = this.getCurrentQuestion()
 
@@ -246,6 +285,8 @@ class Special extends BaseSpecial {
 
       NODES.E.answersList.appendChild(answerItem)
     })
+
+    this.goToLevel(this.getCurrentLevel())
   }
 
   init() {
