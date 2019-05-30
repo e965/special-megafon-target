@@ -4,7 +4,7 @@
 export default {
   title: 'Мегафон Таргет',
 
-  test: {
+  quiz: {
     questions: [
       {
         answers: {
@@ -434,7 +434,7 @@ export default {
 
         answersCommonTexts: {
           nikolay: {
-            text: 'Отлично, как раз для премиальных клиентов.',
+            chat: 'Отлично, как раз для премиальных клиентов.',
             result: 'Доставлено! Премиальные клиенты Revolut получают стальные карты.'
           }
         }

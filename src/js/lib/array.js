@@ -14,7 +14,7 @@ export const getMostFrequentValue = (array) => {
  * Shuffle an array (original array will be modified)
  * @param {Array} a
  */
-export const shuffle = a => {
+export const shuffleArray = a => {
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [a[i], a[j]] = [a[j], a[i]]
@@ -28,5 +28,5 @@ export const shuffle = a => {
  * @param {NodeList} nodeList
  */
 export const toArray = (nodeList) => {
-    return Array.prototype.slice.call(nodeList);
+    return Array.from(nodeList);
 };

@@ -57,13 +57,13 @@ export const scrollToElement = (element, offset = 0) => {
  * @param {Function} callback - fired whether command was successful or not
  */
 export const copyToClipboard = (string, callback) => {
-    let input = document.createElement('textarea'),
-        isSuccess = false;
+    let input = document.createElement('textarea')
+
+    let isSuccess = false;
 
     Object.assign(input.style, {
         position: 'fixed',
-        top: '0',
-        left: '0',
+        top: '0', left: '0',
         opacity: '0'
     });
 

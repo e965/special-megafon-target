@@ -1,8 +1,24 @@
 // https://github.com/tehcojam/cmtt-test/blob/master/source/js/modules/u.js
 
-import { makeElement } from './dom';
+import { createElement } from './dom'
 
 export const U = {
+  qs: (qS, options = []) => {
+    return options.includes('a')
+      ? document.querySelectorAll(qS)
+      : document.querySelector(qS)
+  },
+
+  qsf: (qS, from, options = []) => {
+    if (!from.nodeName) {
+      from = document.querySelector(from)
+    }
+
+    return options.includes('a')
+      ? from.querySelectorAll(qS)
+      : from.querySelector(qS)
+  },
+
   prepareText(text) {
     let regExps = {
       links:  new RegExp(/\[link\|(?:[^\]]+)\|([^\]]+)\]/),
@@ -28,12 +44,9 @@ export const U = {
       matches.links.forEach(link => {
         let _link = link.split('|')
 
-        let linkNode = makeElement('a', '', { innerHTML: _link[2].replace(/]/g, '') })
-        linkNode.setAttribute('href', _link[1])
-
         text = text.replace(
           regExps.links,
-          linkNode.outerHTML
+          createElement('a', '', { innerHTML: _link[2].replace(/]/g, ''), href: _link[1] }).outerHTML
         )
       })
     }
@@ -44,7 +57,7 @@ export const U = {
 
         text = text.replace(
           regExps.bold,
-          makeElement('b', '', { innerHTML: _bold[1].replace(/]/g, '') }).outerHTML
+          createElement('b', '', { innerHTML: _bold[1].replace(/]/g, '') }).outerHTML
         )
       })
     }
@@ -55,7 +68,7 @@ export const U = {
 
         text = text.replace(
           regExps.quote,
-          makeElement('q', '', { innerHTML: _quote[1].replace(/]/g, '') }).outerHTML
+          createElement('q', '', { innerHTML: _quote[1].replace(/]/g, '') }).outerHTML
         )
       })
     }
@@ -63,19 +76,5 @@ export const U = {
     return text
   },
 
-  clearNode(_node, exceptions = []) {
-    if (_node.hasChildNodes()) {
-      Array.from(_node.childNodes).forEach(node_ => {
-        let trigger = false
-
-        exceptions.forEach(exception => {
-          if (node_.classList.contains(exception)) {
-            trigger = true
-          }
-        })
-
-        if (!trigger) { _node.removeChild(node_) }
-      })
-    }
-  },
+  createText: content => document.createTextNode(content)
 }

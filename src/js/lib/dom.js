@@ -1,10 +1,12 @@
+import { toArray } from './array'
+
 /**
  * Make html element
  * @param {String} tagName
  * @param {Array|String} classNames - array of classnames or string for single classname
  * @param {Object} attributes - object with html attributes
  */
-export const makeElement = (tagName, classNames = [], attributes = []) => {
+export const createElement = (tagName, classNames = [], attributes = []) => {
     tagName = tagName.toLowerCase();
 
     let element = document.createElement(tagName);
@@ -39,8 +41,9 @@ export const makeElement = (tagName, classNames = [], attributes = []) => {
  * @param {Object} obj - object
  */
 export const cacheElements = (obj, attr = 'view') => {
-    let newObj = {},
-        elements = document.querySelectorAll(`[data-${attr}]`);
+    let newObj = {}
+
+    let elements = document.querySelectorAll(`[data-${attr}]`);
 
     Array.prototype.forEach.call(elements, el => {
         let name = el.dataset[attr];
@@ -55,8 +58,9 @@ export const cacheElements = (obj, attr = 'view') => {
  * @param {Element} element
  */
 export const getSiblings = (element) => {
-    let siblings = [],
-        sibling = element.parentNode.firstChild;
+    let siblings = []
+
+    let sibling = element.parentNode.firstChild;
 
     for (; sibling; sibling = sibling.nextSibling) {
         if (sibling.nodeType !== 1 || sibling === element) continue;
@@ -70,9 +74,19 @@ export const getSiblings = (element) => {
  * Remove all children from element
  * @param {Element} parent
  */
-export const removeChildren = (parent) => {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
+export const clearNode = (node, exceptions = []) => {
+    if (node.hasChildNodes()) {
+      toArray(node.childNodes).forEach(node_ => {
+        let trigger = false
+
+        exceptions.forEach(exception => {
+          if (node_.classList.contains(exception)) {
+            trigger = true
+          }
+        })
+
+        if (!trigger) { node.removeChild(node_) }
+      })
     }
 };
 
