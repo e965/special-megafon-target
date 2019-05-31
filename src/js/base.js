@@ -1,4 +1,4 @@
-import Config from './../config';
+import { projectConfig } from './../config';
 import * as Analytics from './lib/analytics';
 
 /**
@@ -14,7 +14,7 @@ class BaseSpecial {
             container: document.body
         };
 
-        if (Config.sendPageView) {
+        if (projectConfig.sendPageView) {
             Analytics.sendPageView();
         }
     }
@@ -24,7 +24,7 @@ class BaseSpecial {
      * @param {Object} params - params object with custom values
      */
     saveParams() {
-        Object.assign(this.params, Config);
+        Object.assign(this.params, projectConfig);
         this.container = this.params.container;
 
         this.addEventListeners();

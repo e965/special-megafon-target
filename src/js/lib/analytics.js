@@ -1,4 +1,4 @@
-import Config from './../../config';
+import { projectConfig } from './../../config';
 
 const CONSOLE_STYLE = 'color: #E87E04';
 
@@ -8,13 +8,13 @@ const CONSOLE_STYLE = 'color: #E87E04';
  * @param {String} action - event action ("Click" by default)
  */
 export const sendEvent = (label, action = 'Click') => {
-    let value = `${Config.analyticsCategory} — ${label} — ${action}`;
+    let value = `${projectConfig.analyticsCategory} — ${label} — ${action}`;
 
     if (!IS_PRODUCTION) {
         console.log(`Analytics: %c${value}`, CONSOLE_STYLE);
     }
 
-    if (window.dataLayer !== undefined && Config.analyticsCategory) {
+    if (window.dataLayer !== undefined && projectConfig.analyticsCategory) {
         window.dataLayer.push({
             event: 'data_event',
             data_description: value

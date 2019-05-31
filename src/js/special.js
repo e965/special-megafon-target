@@ -303,4 +303,4 @@ class Special extends BaseSpecial {
   }
 }
 
-export default Special
+export { Special }

@@ -2,7 +2,7 @@ const path = require('path')
 
 const webpack = require('webpack')
 
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -10,9 +10,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const autoprefixer = require('autoprefixer')
 
-import Config from './src/config.js';
+//const Config = require('./src/config.js')
 
-module.exports = (env, options) => {
+import { projectConfig } from './src/config'
+
+const CONFIG = (env, options) => {
   const inProd = options.mode === 'production';
 
   return {
@@ -28,14 +30,14 @@ module.exports = (env, options) => {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'all.js',
-      library: Config.name
+      library: projectConfig.name
     },
 
     devtool: inProd ? 'source-map' : false,
 
     optimization: {
       minimizer: [
-        new UglifyJsPlugin({
+        new TerserPlugin({
           cache: true,
           parallel: true,
           sourceMap: true
@@ -62,20 +64,25 @@ module.exports = (env, options) => {
         ],
 
     module: {
-      rules: [{
-        test: /\.js$/,
+      rules: [/*{
+        test: /\.m?js$/,
+        enforce: 'pre',
         exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['babel-preset-env']
-          }
+        loader: 'eslint-loader'
+      },*/{
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env']
         }
       }, {
         test: /\.styl$/,
         use: inProd
           ? [
-              MiniCssExtractPlugin.loader,
+              {
+                loader: MiniCssExtractPlugin.loader
+              },
               {
                 loader: 'css-loader',
                 options: {
@@ -102,3 +109,5 @@ module.exports = (env, options) => {
     }
   }
 }
+
+export default CONFIG
