@@ -2,11 +2,10 @@ import '../css/special.styl'
 
 import BaseSpecial from './base'
 import Data from './data'
-import Svg from './svg'
 import * as Share from './lib/share'
 import * as Analytics from './lib/analytics'
 import { shuffleArray } from './lib/array'
-import { createElement } from './lib/dom'
+import { createElement, clearNode } from './lib/dom'
 import { U } from './lib/u'
 
 const CSS = {
@@ -14,6 +13,8 @@ const CSS = {
 }
 
 const NODES = {}
+
+const TIME = 2000
 
 class Special extends BaseSpecial {
   constructor(params = {}) {
@@ -46,6 +47,8 @@ class Special extends BaseSpecial {
 
     this.quizLength = this.questions.length
 
+    this.btnsClickAbility = true
+
     this.typeShowing = this.isFeed() ? 'in Feed' : 'in Page'
 
     this.container.dataset.theme = 'green'
@@ -62,11 +65,7 @@ class Special extends BaseSpecial {
   increaseScore() { this.score++ }
 
   prepareQuestions() {
-    // здесь очень странные названия переменных
-    // надо просто внутренне принять это и смириться
-    // ¯\_(ツ)_/¯
-
-    let act = 'answersCommonTexts'
+     let act = 'answersCommonTexts'
 
     this.questions.forEach(question => {
       let actKeys = []
@@ -110,7 +109,7 @@ class Special extends BaseSpecial {
           }
 
           arrayLOL.forEach(lol => {
-            if (lol in qaa && answersTexts[atk][lol] == '') {
+            if (lol in qaa && answersTexts[atk][lol] === '') {
               answersTexts[atk][lol] = qaa[lol]
             }
 
@@ -133,14 +132,13 @@ class Special extends BaseSpecial {
     NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}__sms--sender`))
     NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}__sms--text`))
 
-    NODES.T.faceSMS = createElement('div', [`${CSS.main}__sms`, `${CSS.main}__sms-face`])
+    NODES.T.faceSMS = createElement('picture', [`${CSS.main}__sms`, `${CSS.main}__sms-face`])
 
     NODES.T.faceSMS.appendChild(createElement('img', `${CSS.main}__sms--face`))
-    NODES.T.faceSMS.appendChild(createElement('img', `${CSS.main}__sms--mark`))
 
     NODES.T.answerItemBtn = createElement('button', `${CSS.main}__answers-item-btn`)
 
-    NODES.T.answerItemBtn.appendChild(createElement('img', `${CSS.main}__answers-item-btn--face`))
+    NODES.T.answerItemBtn.appendChild(createElement('picture', `${CSS.main}__answers-item-btn--face`, { innerHTML: '<img>' }))
     NODES.T.answerItemBtn.appendChild(createElement('p', `${CSS.main}__answers-item-btn--name`))
     NODES.T.answerItemBtn.appendChild(createElement('p', `${CSS.main}__answers-item-btn--company`))
   }
@@ -181,18 +179,24 @@ class Special extends BaseSpecial {
     })
     NODES.E.header.appendChild(NODES.E.headerOperator)
 
-    NODES.E.headerSender = createElement('div', `${CSS.main}__header--sender`, {
-      innerText: 'Неизвестный номер'
-    })
+    NODES.E.headerSender = createElement('div', `${CSS.main}__header--sender`, { innerText: 'Неизвестный номер' })
     NODES.E.header.appendChild(NODES.E.headerSender)
+
+    NODES.E.headerTyping = createElement('div', `${CSS.main}__header--typing`, { innerText: 'печатает', style: { display: 'none' } })
+    NODES.E.header.appendChild(NODES.E.headerTyping)
 
     NODES.E.headerAvatar = createElement('div', `${CSS.main}__header--avatar`)
     NODES.E.header.appendChild(NODES.E.headerAvatar)
 
     NODES.E.chat = createElement('div', `${CSS.main}__chat`)
+
+    NODES.E.chatBottom = createElement('div', `${CSS.main}__chat--bottom`)
+
+    NODES.E.chat.appendChild(NODES.E.chatBottom)
+
     NODES.E.phoneContent.appendChild(NODES.E.chat)
 
-    NODES.E.answers = createElement('div', `${CSS.main}__answers`)
+    NODES.E.answers = createElement('div', `${CSS.main}__answers`, { data: { show: 'answers' } })
 
     NODES.E.answersHeader = createElement('div', `${CSS.main}__answers--header`)
 
@@ -220,6 +224,19 @@ class Special extends BaseSpecial {
     NODES.E.answersList = createElement('ul', `${CSS.main}__answers-list`)
     NODES.E.answersMain.appendChild(NODES.E.answersList)
 
+    NODES.E.answersResult = createElement('div', `${CSS.main}__answers-result`)
+
+    NODES.E.answersResultStatus = createElement('div', `${CSS.main}__answers-result--status`)
+    NODES.E.answersResult.appendChild(NODES.E.answersResultStatus)
+
+    NODES.E.answersResultText = createElement('div', `${CSS.main}__answers-result--text`)
+    NODES.E.answersResult.appendChild(NODES.E.answersResultText)
+
+    NODES.E.answersResultBtn = createElement('button', `${CSS.main}__answers-result--next-btn`, { innerText: 'Далее' })
+    NODES.E.answersResult.appendChild(NODES.E.answersResultBtn)
+
+    NODES.E.answersMain.appendChild(NODES.E.answersResult)
+
     NODES.E.answers.appendChild(NODES.E.answersMain)
 
     NODES.S.quiz.appendChild(NODES.E.answers)
@@ -228,41 +245,104 @@ class Special extends BaseSpecial {
   spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', tail = 'left', images = {}, success = true }) {
     let sms = document.createElement('div')
 
-    // TODO scrollIntoView
-
-    if (type == 'text') {
+    if (type === 'text') {
       sms = NODES.T.textSMS.cloneNode('true')
 
       sms.dataset.tail = tail
 
       U.qsf('div[class$="sender"]', sms).textContent = sender
       U.qsf('div[class$="text"]', sms).textContent = text
-    } else if (type == 'face') {
+
+    } else if (type === 'face') {
       sms = NODES.T.faceSMS.cloneNode('true')
 
-      if (success) {
-        sms.dataset.success = ''
-      } else {
-        sms.dataset.failure = ''
-      }
+      setTimeout(() => {
+        if (success) {
+          sms.dataset.success = ''
+        } else {
+          sms.dataset.failure = ''
+        }
+      }, TIME)
 
       U.qsf('img[class$="face"]', sms).src = images.x1
       U.qsf('img[class$="face"]', sms).srcset = images.x2
     }
 
-    NODES.E.chat.appendChild(sms)
-  }
+    NODES.E.chat.insertBefore(sms, NODES.E.chatBottom)
 
-  goToLevel(level) {
-    this.spawnSMS({
-      text: level.text
+    NODES.E.chatBottom.scrollIntoView({
+      block: 'end',
+      behavior: 'smooth'
     })
   }
 
-  showQuestion() {
+  showResult(success, text = false, next) {
+    NODES.E.answers.dataset.show = 'result'
+
+    NODES.E.answersResult.dataset.right = success ? 'yes': 'no'
+
+    NODES.E.answersResultStatus.textContent = success ? 'Доставлено' : 'Не доставлено'
+
+    NODES.E.answersResultText.innerHTML = text ? text : ''
+
+    switch (next) {
+      case 'q':
+        NODES.E.answersResultBtn.onclick = () => {
+          this.nextQuestion()
+        }
+        NODES.E.answersResultBtn.textContent = 'Далее'; break
+
+      case 'l':
+        NODES.E.answersResultBtn.onclick = () => {
+          this.showAnswers()
+          this.nextLevel()
+        }
+        NODES.E.answersResultBtn.textContent = 'Попробовать снова'; break
+
+      case 'end':
+        NODES.E.answersResultBtn.onclick = () => {
+
+        }
+        NODES.E.answersResultBtn.textContent = 'Завершить'; break
+    }
+
+    if (!this.btnsClickAbility) {
+      this.btnsClickAbility = true
+    }
+  }
+
+  showAnswers() {
+    NODES.E.answers.dataset.show = 'answers'
+  }
+
+  nextLevel() {
+    ++this.qLevel
+
+    this.spawnSMS({
+      text: this.getCurrentLevel().text
+    })
+  }
+
+  nextQuestion() {
+    ++this.qIndex
+
+    this.qLevel = 0
+
+    this.newQuestion()
+
+    this.showAnswers()
+  }
+
+  newQuestion() {
     let currQ = this.getCurrentQuestion()
 
     NODES.E.headerCounter.textContent = `${this.qIndex + 1}/${this.quizLength}`
+
+    clearNode(NODES.E.answersList)
+
+    this.spawnSMS({
+      text: this.getCurrentLevel().text
+    })
 
     currQ.answers.forEach(answerData => {
       let answerItem = createElement('li', `${CSS.main}__answers-list-item`)
@@ -276,9 +356,68 @@ class Special extends BaseSpecial {
       U.qsf('p[class$="company"]', answerItemBtn).textContent = answerData.company
 
       answerItemBtn.addEventListener('click', e => {
+        if (!this.btnsClickAbility) { return }
+
+        let cat = this.getCurrentLevel().answersTexts[answerData.id]
+
         let isRight = ('right' in answerData && answerData.right)
 
+        if (isRight) {
+          this.increaseScore()
+        }
+
+        this.btnsClickAbility = false
+
         Analytics.sendEvent(`${this.typeShowing} — Answer (question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'})`, 'Click')
+
+        this.spawnSMS({
+          type: 'face',
+          images: {
+            x1: 'img/' + Data.images.faces[answerData.id],
+            x2: 'img/' + Data.images.faces_2x[answerData.id]
+          },
+          success: isRight
+        })
+
+        let nextEvent =
+          (typeof currQ.levels[this.qLevel + 1] === 'undefined' || isRight)
+            ? 'q'
+            : 'l'
+
+        if (
+          (this.qIndex + 1) === this.quizLength &&
+          currQ.levels[this.qLevel + 1] === 'undefined'
+        ) {
+          nextEvent = 'end'
+        }
+
+        NODES.E.headerTyping.style.display = 'block'
+
+        setTimeout(() => {
+          if (!isRight) {
+            e.target.disabled = true
+          }
+
+          this.showResult(
+            isRight,
+
+            ('result' in cat)
+              ? cat.result
+              : false,
+
+            nextEvent
+          )
+
+          if ('chat' in cat) {
+            this.spawnSMS({
+              sender: answerData.who,
+              text: cat.chat,
+              tail: 'right'
+            })
+          }
+
+          NODES.E.headerTyping.style.display = 'none'
+        }, TIME)
       })
 
       answerItem.appendChild(answerItemBtn)
@@ -286,7 +425,7 @@ class Special extends BaseSpecial {
       NODES.E.answersList.appendChild(answerItem)
     })
 
-    this.goToLevel(this.getCurrentLevel())
+    //-this.goToLevel(this.getCurrentLevel())
   }
 
   init() {
@@ -297,7 +436,7 @@ class Special extends BaseSpecial {
     this.createTemplates()
     this.createElements()
 
-    this.showQuestion()
+    this.newQuestion()
 
     Analytics.sendEvent(`${this.typeShowing} — Show`, 'Init')
   }

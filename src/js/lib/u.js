@@ -46,7 +46,7 @@ export const U = {
 
         text = text.replace(
           regExps.links,
-          createElement('a', '', { innerHTML: _link[2].replace(/]/g, ''), href: _link[1] }).outerHTML
+          createElement('a', '', { innerText: _link[2].replace(/]/g, ''), href: _link[1] }).outerHTML
         )
       })
     }
@@ -57,7 +57,7 @@ export const U = {
 
         text = text.replace(
           regExps.bold,
-          createElement('b', '', { innerHTML: _bold[1].replace(/]/g, '') }).outerHTML
+          createElement('b', '', { innerText: _bold[1].replace(/]/g, '') }).outerHTML
         )
       })
     }
@@ -68,7 +68,7 @@ export const U = {
 
         text = text.replace(
           regExps.quote,
-          createElement('q', '', { innerHTML: _quote[1].replace(/]/g, '') }).outerHTML
+          createElement('q', '', { innerText: _quote[1].replace(/]/g, '') }).outerHTML
         )
       })
     }

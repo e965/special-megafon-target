@@ -22,14 +22,27 @@ export const createElement = (tagName, classNames = [], attributes = []) => {
     }
 
     for (let attr in attributes) {
-        if (attr === 'data') {
-            let dataAttributes = attributes[attr];
+        switch (attr) {
+          case 'data':
+            let dataAttributes = attributes[attr]
 
             for (let attr in dataAttributes) {
-                element.dataset[attr] = dataAttributes[attr];
+                element.dataset[attr] = dataAttributes[attr]
             }
-        } else {
-            element[attr] = attributes[attr];
+
+            break
+
+          case 'style':
+            let styleAttributes = attributes[attr]
+
+            for (let attr in styleAttributes) {
+                element.style[attr] = styleAttributes[attr]
+            }
+
+            break
+
+          default:
+            element[attr] = attributes[attr]
         }
     }
 

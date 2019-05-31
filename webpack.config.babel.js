@@ -77,7 +77,7 @@ const CONFIG = (env, options) => {
           presets: ['@babel/preset-env']
         }
       }, {
-        test: /\.styl$/,
+        test: /(\.styl$|\.css$)/,
         use: inProd
           ? [
               {
