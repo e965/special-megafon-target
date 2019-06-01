@@ -1,6 +1,10 @@
 &__final
+  ^[-1][data-is-feed]
+    & ^[-1]
+      font-size .5em
+
   &-result, &-megafon
-    max-width 800px
+    max-width 700px
 
     background-color #fff
     box-shadow: 0px -1px 34px rgba(0, 0, 0, .1)
@@ -12,15 +16,24 @@
 
     grid-template 'score sms face' 120px 'share sms face' 50px 'btn sms face' 80px / 300px auto auto
 
+    ^[0][data-is-feed]
+      & ^[-1]
+        padding 0 20px
+
+        grid-template 'score sms face' 140px 'share sms face' 80px 'btn sms face' 60px / 200px auto auto
+
   &--score
     grid-area score
 
-    padding 0 5px
-    padding-top 40px
+    padding 40px 5px 0
 
     font-size 1.2em
     font-weight 500
     color #00B956
+
+    ^[0][data-is-feed]
+      & ^[-1]
+        padding-top 20px
 
   &--share
     grid-area share
@@ -34,6 +47,8 @@
 
       margin-top 10px
       padding 0
+
+      outline 0
 
       cursor pointer
       user-select none
@@ -71,7 +86,15 @@
     padding 10px
 
     & ^[0]__sms
-      margin-top 40px
+      margin 0
+
+      ^[0][data-is-feed]
+        & ^[-1]
+          &-text--content
+            padding 10px
+
+          &--sender, &--text
+            font-size .9em
 
       &-text--content
         background-color #00B956
@@ -104,6 +127,10 @@
     img
       height 150px
 
+      ^[0][data-is-feed]
+        & ^[-1]
+          height 120px
+
   &-megafon
     margin-top 20px
     padding 30px 40px
@@ -131,6 +158,8 @@
 
       background-color #731982
       border-radius 5px
+
+      user-select none
 
       color #fff
 

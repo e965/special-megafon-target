@@ -8,8 +8,6 @@ import { shuffleArray, toArray } from './lib/array'
 import { createElement, clearNode } from './lib/dom'
 import { U } from './lib/u'
 
-import ElementQueries from 'css-element-queries/src/ElementQueries'
-
 const CSS = {
   main: 'mgfn-trgt',
 }
@@ -661,14 +659,6 @@ class Special extends BaseSpecial {
     })
 
     this.showScreen('quiz')
-
-    document.addEventListener('DOMContentLoaded', () => {
-      ElementQueries.listen()
-    })
-
-    window.addEventListener('load', () => {
-      ElementQueries.init()
-    })
 
     Analytics.sendEvent(`${this.typeShowing} — Show`, 'Init')
   }

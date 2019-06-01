@@ -2,7 +2,7 @@
 	"name": "special-megafon-target",
 	"description": "Спецпроект для «Мегафона»",
 	"private": true,
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"author": "Dmitry <dmitry@cojam.ru> (https://e965.ru)",
 	"repository": "github:tehcojam/special-megafon-target",
 	"scripts": {
@@ -15,8 +15,7 @@
 		"last 2 versions"
 	],
 	"dependencies": {
-		"cmtt-likely": "^1.2.2",
-		"css-element-queries": "^1.2.0"
+		"cmtt-likely": "^1.2.2"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.4.5",

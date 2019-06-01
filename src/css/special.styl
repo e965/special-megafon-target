@@ -9,21 +9,24 @@
 // base.styl подключается только в том случае, когда спецпроект расположен на отдельной странице
 // @import 'base'
 
-$colors = {
-  white: #ffffff,
-  black: #000000
-}
-
 // FYI: на десктопе на странице статьи максимальная ширина контейнера — 1060px. В ленте сайта — 640px.
 // Мобильная версия начинается с 679px, и там ограничений по ширине нет
 
 // Название класса рекомендуется выбирать так, чтобы точно не было конфликтов с существующими спецпроектами.
 // Обычно имени проекта достаточно
+
 .mgfn-trgt
   position relative
+  width 1060px; height 750px
 
   font-size 16px
   line-height 1.5em
+
+  &[data-is-feed]
+    width 640px
+
+  @media $mq.notMobile
+    font-size 18px
 
   --mgfn__svg-vc_logo: $svg.vc_logo
   --mgfn__svg-megafon_logo: $svg.megafon_logo
@@ -71,20 +74,20 @@ $colors = {
   --mgfn__switch-theme-transilion all .5s ease-in-out
   --mgfn__standard-transilion all .3s ease-in-out
 
-  @media $mq.notMobile
-    font-size 18px
-
   &__screens
-    width 1060px; height 750px
+    width 100%; height 100%;
+
 
   &__screen
     position relative
     width 100%; height 100%
 
-    background-color #F3F3F3
+    background-color #f0f0f0
 
     &:not([data-show])
-      display none
+      position absolute
+      overflow hidden
+      clip rect(0 0 0 0)
 
     &--quiz
       //
