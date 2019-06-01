@@ -4,7 +4,7 @@ import BaseSpecial from './base'
 import Data from './data'
 import * as Share from './lib/share'
 import * as Analytics from './lib/analytics'
-import { shuffleArray } from './lib/array'
+import { shuffleArray, toArray } from './lib/array'
 import { createElement, clearNode } from './lib/dom'
 import { U } from './lib/u'
 
@@ -16,9 +16,9 @@ const CSS = {
 
 const NODES = {}
 
-const TIME = 200
+const TIME = 2000
 
-const CDN_URL = 'img/'
+const CDN_URL = Data.imagesCDN
 
 class Special extends BaseSpecial {
   constructor(params = {}) {
@@ -48,6 +48,8 @@ class Special extends BaseSpecial {
     this.score = 0
 
     this.questions = Data.quiz.questions
+
+    this.results = Data.quiz.results
 
     this.quizLength = this.questions.length
 
@@ -130,21 +132,34 @@ class Special extends BaseSpecial {
 
   createTemplates() {
     NODES.T = {}
+    NODES.T._temp = {}
+
+    /* Текстовая СМС */
 
     NODES.T.textSMS = createElement('div', [`${CSS.main}__sms`, `${CSS.main}__sms-text`])
 
-    NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}__sms--sender`))
-    NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}__sms--text`))
+    NODES.T._temp.smsContent = createElement('div', `${CSS.main}__sms-text--content`)
+
+    NODES.T._temp.smsContent.appendChild(createElement('div', `${CSS.main}__sms--sender`))
+    NODES.T._temp.smsContent.appendChild(createElement('div', `${CSS.main}__sms--text`))
+
+    NODES.T.textSMS.appendChild(NODES.T._temp.smsContent)
+
+    /* СМС-лицо */
 
     NODES.T.faceSMS = createElement('picture', [`${CSS.main}__sms`, `${CSS.main}__sms-face`])
 
     NODES.T.faceSMS.appendChild(createElement('img', `${CSS.main}__sms--face`))
+
+    /* Кнопка ответа на вопрос */
 
     NODES.T.answerItemBtn = createElement('button', `${CSS.main}__answers-item-btn`)
 
     NODES.T.answerItemBtn.appendChild(createElement('picture', `${CSS.main}__answers-item-btn--face`, { innerHTML: '<img>' }))
     NODES.T.answerItemBtn.appendChild(createElement('p', `${CSS.main}__answers-item-btn--name`))
     NODES.T.answerItemBtn.appendChild(createElement('p', `${CSS.main}__answers-item-btn--company`))
+
+    delete NODES.T._temp
   }
 
   createElements() {
@@ -153,11 +168,15 @@ class Special extends BaseSpecial {
 
     /* Экраны */
 
-    NODES.S.quiz = createElement('div', [`${CSS.main}__screen`, `${CSS.main}__screen--quiz`])
-    this.container.appendChild(NODES.S.quiz)
+    NODES.S.ALL = createElement('div', `${CSS.main}__screens`)
+
+    NODES.S.quiz = createElement('div', [`${CSS.main}__screen`, `${CSS.main}__screen--quiz`], { data: { show: '' } })
+    NODES.S.ALL.appendChild(NODES.S.quiz)
 
     NODES.S.final = createElement('div', [`${CSS.main}__screen`, `${CSS.main}__screen--final`])
-    this.container.appendChild(NODES.S.final)
+    NODES.S.ALL.appendChild(NODES.S.final)
+
+    this.container.appendChild(NODES.S.ALL)
 
     /* Элементы */
 
@@ -173,14 +192,10 @@ class Special extends BaseSpecial {
     NODES.E.header = createElement('div', `${CSS.main}__header`)
     NODES.E.phoneContent.appendChild(NODES.E.header)
 
-    NODES.E.headerCounter = createElement('div', `${CSS.main}__header--counter`, {
-      innerText: '0/0'
-    })
+    NODES.E.headerCounter = createElement('div', `${CSS.main}__header--counter`, { innerText: '0/0' })
     NODES.E.header.appendChild(NODES.E.headerCounter)
 
-    NODES.E.headerOperator = createElement('div', `${CSS.main}__header--operator`, {
-      innerText: 'MegaFon'
-    })
+    NODES.E.headerOperator = createElement('div', `${CSS.main}__header--operator`, { innerText: 'MegaFon' })
     NODES.E.header.appendChild(NODES.E.headerOperator)
 
     NODES.E.headerSender = createElement('div', `${CSS.main}__header--sender`, { innerText: 'Неизвестный номер' })
@@ -249,8 +264,60 @@ class Special extends BaseSpecial {
 
     NODES.S.quiz.appendChild(NODES.E.answers)
 
+    NODES.E.finalResult = createElement('div', `${CSS.main}__final-result`)
+
+    NODES.E.finalResultScore = createElement('div', `${CSS.main}__final--score`)
+    NODES.E.finalResult.appendChild(NODES.E.finalResultScore)
+
+    NODES.E.finalResultShare = createElement('div', `${CSS.main}__final--share`)
+    NODES.E.finalResult.appendChild(NODES.E.finalResultShare)
+
+    NODES.E.finalResultRefreshBtn = createElement('button', `${CSS.main}__final--refresh-btn`, { innerText: 'Пройти ещё раз' })
+    NODES.E.finalResultRefreshBtn.addEventListener('click', () => {
+      //
+
+      Analytics.sendEvent(`${this.typeShowing} — Refresh"`, 'Click')
+    })
+    NODES.E.finalResult.appendChild(NODES.E.finalResultRefreshBtn)
+
+    NODES.E.finalResultSMS = createElement('div', `${CSS.main}__final--sms`)
+    NODES.E.finalResult.appendChild(NODES.E.finalResultSMS)
+
+    NODES.E.finalResultFace = createElement('picture', `${CSS.main}__final--face`)
+    NODES.E.finalResultFace.appendChild(createElement('img', '', { alt: '' }))
+    NODES.E.finalResult.appendChild(NODES.E.finalResultFace)
+
+    NODES.S.final.appendChild(NODES.E.finalResult)
+
+    NODES.E.finalMegafon = createElement('div', `${CSS.main}__final-megafon`)
+
+    NODES.E.finalMegaLogo = createElement('a', `${CSS.main}__final-megafon--logo`, { href: Data.final_links.logo, target: '_blank' })
+    NODES.E.finalMegaLogo.appendChild(createElement('img', '', { src: CDN_URL + Data.images.target_logo.x1, srcset: CDN_URL + Data.images.target_logo.x2 }))
+    NODES.E.finalMegafon.appendChild(NODES.E.finalMegaLogo)
+
+    NODES.E.finalMegaText = createElement('div', `${CSS.main}__final-megafon--text`)
+    Data.mega_text.forEach(paragraph => {
+      NODES.E.finalMegaText.appendChild(createElement('p', '', { innerText: paragraph }))
+    })
+    NODES.E.finalMegafon.appendChild(NODES.E.finalMegaText)
+
+    NODES.E.finalMegaButton = createElement('a', `${CSS.main}__final-megafon--link`, { href: Data.final_links.button, target: '_blank', innerText: 'Попробовать' })
+    NODES.E.finalMegafon.appendChild(NODES.E.finalMegaButton)
+
+    NODES.S.final.appendChild(NODES.E.finalMegafon)
+
     NODES.E.cache = createElement('div', `${CSS.main}__cache`)
     this.container.appendChild(NODES.E.cache)
+  }
+
+  showScreen(screen) {
+    toArray(NODES.S.ALL.childNodes).forEach(node => {
+      if ('show' in node.dataset) {
+        delete node.dataset.show
+      }
+    })
+
+    NODES.S[screen].dataset.show = ''
   }
 
   spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', tail = 'left', images = {}, success = true }) {
@@ -275,8 +342,10 @@ class Special extends BaseSpecial {
         }
       }, TIME)
 
-      U.qsf('img[class$="face"]', sms).src = images.x1
-      U.qsf('img[class$="face"]', sms).srcset = images.x2
+      let faceImg = U.qsf('img[class$="face"]', sms)
+
+      faceImg.src = images.x1
+      faceImg.srcset = images.x2
     }
 
     NODES.E.chat.insertBefore(sms, NODES.E.chatBottom)
@@ -316,9 +385,11 @@ class Special extends BaseSpecial {
 
       case 'end':
         NODES.E.answersResultBtn.onclick = () => {
+          this.final()
+
           Analytics.sendEvent(`${this.typeShowing} — End — Score is ${this.score}`, 'Click')
         }
-        NODES.E.answersResultBtn.textContent = 'Завершить'; break
+        NODES.E.answersResultBtn.textContent = 'Завершить тест'; break
     }
 
     if (!this.btnsClickAbility) {
@@ -364,14 +435,32 @@ class Special extends BaseSpecial {
 
       let answerItemBtn = NODES.T.answerItemBtn.cloneNode('true')
 
-      U.qsf('img', answerItemBtn).src = CDN_URL + Data.images.faces[answerData.id]
-      U.qsf('img', answerItemBtn).srcset = CDN_URL + Data.images.faces_2x[answerData.id] + ' 2x'
+      if ('clicked' in answerData) {
+        delete answerData.clicked
+      }
+
+      let faceImg = U.qsf('img', answerItemBtn)
+
+      faceImg.src = CDN_URL + Data.images.faces[answerData.id]
+      faceImg.srcset = CDN_URL + Data.images.faces_2x[answerData.id] + ' 2x'
 
       U.qsf('p[class$="name"]', answerItemBtn).textContent = answerData.who
       U.qsf('p[class$="company"]', answerItemBtn).textContent = answerData.company
 
       answerItemBtn.addEventListener('click', e => {
         if (!this.btnsClickAbility) { return }
+
+        if ('clicked' in answerData) {
+          this.spawnSMS({
+            sender: 'vc.ru',
+            text: ':)',
+            tail: 'right'
+          })
+
+          return
+        }
+
+        answerData.clicked = true
 
         let cat = (answerData.id in this.getCurrentLevel().answersTexts)
           ? this.getCurrentLevel().answersTexts[answerData.id]
@@ -441,12 +530,47 @@ class Special extends BaseSpecial {
 
       NODES.E.answersList.appendChild(answerItem)
     })
+  }
 
-    //-this.goToLevel(this.getCurrentLevel())
+  final() {
+    let resultsPersonsKeys = Object.keys(Data.quiz.results)
+
+    let person = resultsPersonsKeys[U.random({ max: resultsPersonsKeys.length - 1 })]
+
+    let results = this.results[person]
+
+    let scoreKey = -1
+
+    this.score = U.random({ max: this.quizLength })
+
+    Object.keys(results).forEach(key => {
+      if (this.score >= Number(key)) { scoreKey++ }
+    })
+
+    let ourResult = Object.entries(results)[scoreKey]
+
+    console.log(ourResult)
+
+    // NODES.E.finalResult
+    // NODES.E.finalResultShare
+    // NODES.E.finalResultRefreshBtn
+    // NODES.E.finalResultSMS
+    // NODES.E.finalResultFace
+
+    NODES.E.finalResultScore.textContent = `${this.score} из ${this.quizLength} правильных ответов`
+
+    let finalFaceImg = U.qsf('img', NODES.E.finalResultFace)
+
+    finalFaceImg.src = CDN_URL + Data.images.faces[`${person}_nichosi`]
+    finalFaceImg.srcset = CDN_URL + Data.images.faces_2x[`${person}_nichosi`]
+
+    this.showScreen('final')
   }
 
   cacheImages() {
     let images = []
+
+    this.imagesIsCached = true
 
     Object.keys(Data.images.faces).forEach(key => {
       images.push(CDN_URL + Data.images.faces[key])
@@ -475,6 +599,12 @@ class Special extends BaseSpecial {
     this.cacheImages()
 
     this.newQuestion()
+
+    NODES.E.headerCounter.addEventListener('dblclick', () => {
+      this.final()
+    })
+
+    this.showScreen('quiz')
 
     document.addEventListener('DOMContentLoaded', () => {
       ElementQueries.listen()
