@@ -20,9 +20,10 @@ const CONFIG = (env, options) => {
   return {
     devServer: {
       contentBase: path.join(__dirname, 'public'),
-      compress: true,
+      //compress: true,
       hot: true,
-      port: 3000
+      port: 3000,
+      open: true
     },
 
     entry: './src/index.js',

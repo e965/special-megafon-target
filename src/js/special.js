@@ -8,13 +8,17 @@ import { shuffleArray } from './lib/array'
 import { createElement, clearNode } from './lib/dom'
 import { U } from './lib/u'
 
+import ElementQueries from 'css-element-queries/src/ElementQueries'
+
 const CSS = {
   main: 'mgfn-trgt',
 }
 
 const NODES = {}
 
-const TIME = 2000
+const TIME = 200
+
+const CDN_URL = 'img/'
 
 class Special extends BaseSpecial {
   constructor(params = {}) {
@@ -206,12 +210,16 @@ class Special extends BaseSpecial {
 
     NODES.E.themeSwitcher = createElement('div', `${CSS.main}__answers--theme-switcher`)
 
-    NODES.E.themeSwitcher__label = createElement('label', '', { for: 'theme_switcher', innerText: 'Сменить тему' })
+    NODES.E.themeSwitcher__label = createElement('label', '', { htmlFor: 'theme_switcher', innerText: 'Сменить тему' })
     NODES.E.themeSwitcher.appendChild(NODES.E.themeSwitcher__label)
 
     NODES.E.themeSwitcher__input = createElement('input', '', { type: 'checkbox', id: 'theme_switcher' })
     NODES.E.themeSwitcher__input.addEventListener('click', e => {
-      this.container.dataset.theme = e.target.checked ? 'pink' : 'green'
+      let theme = e.target.checked ? 'pink' : 'green'
+
+      this.container.dataset.theme = theme
+
+      Analytics.sendEvent(`${this.typeShowing} — Theme switcher — Change to "${theme}"`, 'Click')
     })
     NODES.E.themeSwitcher.appendChild(NODES.E.themeSwitcher__input)
 
@@ -240,6 +248,9 @@ class Special extends BaseSpecial {
     NODES.E.answers.appendChild(NODES.E.answersMain)
 
     NODES.S.quiz.appendChild(NODES.E.answers)
+
+    NODES.E.cache = createElement('div', `${CSS.main}__cache`)
+    this.container.appendChild(NODES.E.cache)
   }
 
   spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', tail = 'left', images = {}, success = true }) {
@@ -289,6 +300,8 @@ class Special extends BaseSpecial {
       case 'q':
         NODES.E.answersResultBtn.onclick = () => {
           this.nextQuestion()
+
+          Analytics.sendEvent(`${this.typeShowing} — Next question — To question №${this.qIndex + 1}, score is ${this.score}`, 'Click')
         }
         NODES.E.answersResultBtn.textContent = 'Далее'; break
 
@@ -296,12 +309,14 @@ class Special extends BaseSpecial {
         NODES.E.answersResultBtn.onclick = () => {
           this.showAnswers()
           this.nextLevel()
+
+          Analytics.sendEvent(`${this.typeShowing} — Next level — Question №${this.qIndex + 1}, to level ${this.qLevel + 1}`, 'Click')
         }
         NODES.E.answersResultBtn.textContent = 'Попробовать снова'; break
 
       case 'end':
         NODES.E.answersResultBtn.onclick = () => {
-
+          Analytics.sendEvent(`${this.typeShowing} — End — Score is ${this.score}`, 'Click')
         }
         NODES.E.answersResultBtn.textContent = 'Завершить'; break
     }
@@ -349,8 +364,8 @@ class Special extends BaseSpecial {
 
       let answerItemBtn = NODES.T.answerItemBtn.cloneNode('true')
 
-      U.qsf('img', answerItemBtn).src = 'img/' + Data.images.faces[answerData.id]
-      U.qsf('img', answerItemBtn).srcset = 'img/' + Data.images.faces_2x[answerData.id] + ' 2x'
+      U.qsf('img', answerItemBtn).src = CDN_URL + Data.images.faces[answerData.id]
+      U.qsf('img', answerItemBtn).srcset = CDN_URL + Data.images.faces_2x[answerData.id] + ' 2x'
 
       U.qsf('p[class$="name"]', answerItemBtn).textContent = answerData.who
       U.qsf('p[class$="company"]', answerItemBtn).textContent = answerData.company
@@ -358,7 +373,9 @@ class Special extends BaseSpecial {
       answerItemBtn.addEventListener('click', e => {
         if (!this.btnsClickAbility) { return }
 
-        let cat = this.getCurrentLevel().answersTexts[answerData.id]
+        let cat = (answerData.id in this.getCurrentLevel().answersTexts)
+          ? this.getCurrentLevel().answersTexts[answerData.id]
+          : {}
 
         let isRight = ('right' in answerData && answerData.right)
 
@@ -368,13 +385,13 @@ class Special extends BaseSpecial {
 
         this.btnsClickAbility = false
 
-        Analytics.sendEvent(`${this.typeShowing} — Answer (question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'})`, 'Click')
+        Analytics.sendEvent(`${this.typeShowing} — Answer — Question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'}`, 'Click')
 
         this.spawnSMS({
           type: 'face',
           images: {
-            x1: 'img/' + Data.images.faces[answerData.id],
-            x2: 'img/' + Data.images.faces_2x[answerData.id]
+            x1: CDN_URL + Data.images.faces[answerData.id],
+            x2: CDN_URL + Data.images.faces_2x[answerData.id]
           },
           success: isRight
         })
@@ -385,8 +402,8 @@ class Special extends BaseSpecial {
             : 'l'
 
         if (
-          (this.qIndex + 1) === this.quizLength &&
-          currQ.levels[this.qLevel + 1] === 'undefined'
+          nextEvent === 'q' &&
+          (this.qIndex + 1) === this.quizLength
         ) {
           nextEvent = 'end'
         }
@@ -428,6 +445,25 @@ class Special extends BaseSpecial {
     //-this.goToLevel(this.getCurrentLevel())
   }
 
+  cacheImages() {
+    let images = []
+
+    Object.keys(Data.images.faces).forEach(key => {
+      images.push(CDN_URL + Data.images.faces[key])
+      images.push(CDN_URL + Data.images.faces_2x[key])
+    })
+
+    Object.keys(Data.images.target_logo).forEach(key => {
+      images.push(CDN_URL + Data.images.target_logo[key])
+    })
+
+    images.forEach(image => {
+      NODES.E.cache.appendChild(
+        createElement('img', '', { src: image, alt: 'cached image' })
+      )
+    })
+  }
+
   init() {
     this.setInitialParams()
 
@@ -436,7 +472,17 @@ class Special extends BaseSpecial {
     this.createTemplates()
     this.createElements()
 
+    this.cacheImages()
+
     this.newQuestion()
+
+    document.addEventListener('DOMContentLoaded', () => {
+      ElementQueries.listen()
+    })
+
+    window.addEventListener('load', () => {
+      ElementQueries.init()
+    })
 
     Analytics.sendEvent(`${this.typeShowing} — Show`, 'Init')
   }

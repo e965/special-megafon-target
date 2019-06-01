@@ -1,4 +1,5 @@
 // https://github.com/tehcojam/cmtt-test/blob/master/source/js/modules/u.js
+// https://github.com/tehcojam/kamina-js
 
 import { createElement } from './dom'
 
@@ -46,7 +47,7 @@ export const U = {
 
         text = text.replace(
           regExps.links,
-          createElement('a', '', { innerText: _link[2].replace(/]/g, ''), href: _link[1] }).outerHTML
+          createElement('a', '', { innerText: _link[2].replace(/]/g, ''), href: _link[1], target: '_blank' }).outerHTML
         )
       })
     }

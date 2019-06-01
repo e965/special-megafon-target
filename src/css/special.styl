@@ -50,6 +50,7 @@ $colors = {
     --mgtn__chat-text-color #FB9DB3
 
   --mgfn__switch-theme-transilion all .5s ease-in-out
+  --mgfn__standard-transilion all .3s ease-in-out
 
   @media $mq.notMobile
     font-size 18px
@@ -182,7 +183,7 @@ $colors = {
 
   &__chat
     height calc(100% - 130px)
-    padding 5px 10px 0
+    padding 0 10px
 
     position relative
 
@@ -209,7 +210,7 @@ $colors = {
     }
 
     &--bottom
-      height 5px
+      height 10px
 
   &__answers
     position absolute
@@ -276,7 +277,9 @@ $colors = {
         user-select none
         cursor pointer
 
-        transition all .3s ease-in-out
+        transition var(--mgfn__standard-transilion)
+
+        outline none
 
         &[disabled]
           cursor not-allowed
@@ -290,9 +293,6 @@ $colors = {
 
           @media $mq.notHover
             opacity 1
-
-        &:focus
-          outline none
 
         & > *
           pointer-events none
@@ -314,14 +314,15 @@ $colors = {
             background-size cover
             background-repeat no-repeat
 
-        &--name, &--company
-          margin-top 3px
-
         &--name
+          margin-top 10px
+
           font-weight 700
           font-size 1.1em
 
         &--company
+          margin-top 3px
+
           color #A6A6A6
 
     &[data-show='result']
@@ -337,6 +338,13 @@ $colors = {
       align-items center
       justify-content center
       flex-flow column
+
+      a
+        color var(--mgtn__chat-text-color)
+        border-bottom: 1px solid
+
+        &:hover
+          color #cd192e
 
       &[data-right='yes']
         & ^[-1]--status
@@ -355,8 +363,8 @@ $colors = {
 
       &--text
         max-width 550px
-        margin-top 5px
-        padding 5px
+        margin-top 10px
+        padding 0 10px
 
         font-size .85em
         text-align center
@@ -368,8 +376,12 @@ $colors = {
         background-color transparent
         border 0
 
+        transition var(--mgfn__standard-transilion)
+
         cursor pointer
         user-select none
+
+        outline none
 
         &:not([data-end])::after
           content ''
@@ -386,9 +398,18 @@ $colors = {
           background-size contain
           background-repeat no-repeat
 
+        &:hover
+          opacity .8
+
+          @media $mq.notHover
+            opacity 1
+
   &__sms
     position relative
-    margin-top 10px
+    margin-top 15px
+
+    &:first-child
+      margin-top 10px
 
     user-select none
 
@@ -433,7 +454,7 @@ $colors = {
           border-bottom 10px solid #fff
           border-right 10px solid transparent
 
-    &--sender, &--text
+    &-text, &--sender, &--text
       width -webkit-fit-content
       width    -moz-fit-content
       width         fit-content
@@ -449,8 +470,7 @@ $colors = {
       margin-top 5px
 
     &-face
-      height 150px
-      width max-content
+      width: 100%; height 150px
 
       display block
 
@@ -458,6 +478,13 @@ $colors = {
 
       img
         height 100%
+        float right
+
+      &::before
+        content ''
+        position absolute
+        top 0; left 0
+        width 100%; height 100%
 
       &[data-success]::after, &[data-failure]::after
         content ''
@@ -475,6 +502,11 @@ $colors = {
 
       &[data-failure]::after
         background-image var(--mgfn__svg-mark_failure)
+
+  &__cache
+    position absolute
+    overflow hidden
+    clip rect(0 0 0 0)
 
   .likely
     display flex
