@@ -2,7 +2,7 @@
 <html lang="ru">
 
 <head>
-  <title>Special</title>
+  <title>Megafon Target Special</title>
 
   <meta charset="utf-8">
   <meta name="referrer" content="always">
@@ -11,35 +11,40 @@
   <!-- Подключаем основной шрифт сайта на случай, если спецпроект будет не на отдельной странице -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700&amp;subset=cyrillic-ext">
 
-  <!-- Подключаем стили сайта на тот же случай -->
-  <!-- ВАЖНО: в стилях сайта ПОЧТИ для всех элементов свойство box-sizing определено как border-box -->
+  <!--
+    Подключаем стили сайта на тот же случай
+    ВАЖНО: в стилях сайта ПОЧТИ для всех элементов свойство box-sizing определено как border-box
+  -->
   <link rel="stylesheet" href="https://static-osnova.gcdn.co/static/build/vc.ru/all.min.css">
 
   <style>
-    .wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        min-height: 100vh;
-        padding-top: 50px;
-        overflow: hidden;
+    html, body, body > .wrapper {
+      width: 100%; height: 100%;
     }
 
-    .wrapper > span {
-        position: fixed;
-        z-index: 999;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 50px;
-        background-color: #feebef;
+    body > .wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 50px 1fr;
+
+      overflow: hidden;
     }
 
-    .mgfn-trgt__screen {
-      box-shadow: 0 0 4px rgba(0,0,0,.2);
+    body > .wrapper > header {
+      background-color: #feebef;
+      padding: 15px
+    }
+
+    body > .wrapper > main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 10px 0;
+    }
+
+    #cmtt-special {
+      box-shadow: 0 0 4px rgba(0, 0, 0, .2);
     }
   </style>
 </head>
@@ -47,10 +52,15 @@
 <body>
 
   <div class="wrapper">
-    <span></span>
-    <div style="max-width: 100%; padding: 10px 0;">
-      <div id="megafon-special" class="mgfn-trgt"></div>
-    </div>
+    <header>
+      <label class="toggle" for="feed-toggle">
+        <input type="checkbox" id="feed-toggle">
+        feed
+      </label>
+    </header>
+    <main>
+      <div id="cmtt-special" class="mgfn-trgt"></div>
+    </main>
   </div>
 
   <script>
@@ -59,7 +69,7 @@
       s.src = './all.js?' + ver;
       s.async = true;
 
-      var container = d.getElementById('megafon-special');
+      var container = d.getElementById('cmtt-special');
 
       if (container) {
         s.onload = function() {
@@ -76,6 +86,20 @@
       }
       d.body.appendChild(s);
     })(document, 0);
+
+    (function(d, w) {
+      var toggle = d.getElementById('feed-toggle');
+      var wrapper = d.getElementById('wrapper');
+      var specialContainer = d.getElementById('cmtt-special');
+
+      toggle.addEventListener('change', function () {
+        if (this.checked) {
+          specialContainer.dataset.isFeed = ''
+        } else {
+          delete specialContainer.dataset.isFeed
+        }
+      });
+    })(document, window);
   </script>
 
 </body>
