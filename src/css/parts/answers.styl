@@ -1,0 +1,259 @@
+&__answers
+  position absolute
+  width 900px; height 270px
+  left 0; right 0; bottom 0
+
+  display grid
+
+  grid-template-columns 1fr
+  grid-template-rows 40px 1fr
+
+  margin 0 auto
+
+  border-radius 30px 30px 0 0
+
+  background-color #fff
+  box-shadow: 0px -1px 34px rgba(#000, .1)
+
+  &--header, &--main
+    position relative
+
+  &--phrase, &--theme-switcher
+    position absolute
+    padding 15px
+    color #A6A6A6
+
+  &--phrase
+    left 10px
+    cursor default
+
+  &--theme-switcher
+    position absolute
+    right 10px
+
+    display block
+
+    cursor pointer
+
+    -webkit-tap-highlight-color transparent
+
+    span
+      position relative
+
+      display inline-block
+      width 46px; height 26px
+
+      margin-left 10px
+
+      background-color #E0E0E0
+      border-radius 23px
+
+      vertical-align middle
+
+      transition all .3s linear
+
+      &::before, &::after
+        content ''
+
+        position absolute
+        left 0
+
+        border-radius 11px
+
+        will-change transform
+
+      &::before
+        width 42px; height 22px
+        background-color var(--mgfn__header-bg-color)
+        border-radius 11px
+        transform translate3d(2px, 2px, 0) scale3d(1, 1, 1)
+        transition all .25s linear
+
+      &::after
+        width 22px; height 22px
+        background-color #fff
+        box-shadow 0 2px 2px rgba(0, 0, 0, .24)
+        transform translate3d(2px, 2px, 0)
+        transition all 0.2s ease-in-out
+
+    &:active
+      span::after
+        width 28px
+        transform translate3d(2px, 2px, 0)
+
+      input
+        &:checked + span::after
+          transform translate3d(16px, 2px, 0)
+
+    input
+      position absolute
+      opacity 0
+      pointer-events none
+
+      &::before, &::after
+        will-change transform
+
+      &:checked + span
+        background-color var(--mgfn__header-bg-color)
+
+        &::before
+          transform translate3d(18px, 2px, 0) scale3d(0, 0, 0)
+
+        &::after
+          transform translate3d(22px, 2px, 0)
+
+    // input
+    //   width auto
+    //   margin-left 5px
+
+  &-list, &-result
+    display none
+    width 100%; height 100%
+
+  &[data-show='answers']
+    & ^[-1]-list
+      display grid
+
+  &-list
+    grid-template-columns 25% 25% 25% 25%
+    grid-template-rows 1fr
+
+    &-item
+      display flex
+      align-items center
+      justify-content center
+
+  &-item
+    &-btn
+      background-color transparent
+      border 0
+
+      user-select none
+      cursor pointer
+
+      transition var(--mgfn__standard-transilion)
+
+      outline none
+
+      &[disabled]
+        cursor not-allowed
+
+        & ^[-1]--face
+          &::after
+            content ''
+
+      &:not([disabled]):hover
+        opacity .8
+
+        @media $mq.notHover
+          opacity 1
+
+      & > *
+        pointer-events none
+
+      &--face
+        position relative
+        height 100px
+        display block
+
+        img
+          height 100%
+
+        &::after
+          position absolute
+          width 20px; height 20px
+          bottom 0; right 0
+
+          background-image var(--mgfn__svg-mark_failure)
+          background-size cover
+          background-repeat no-repeat
+
+      &--name
+        margin-top 10px
+
+        font-weight 700
+        font-size 1.1em
+
+      &--company
+        margin-top 3px
+
+        color #A6A6A6
+
+  &[data-show='result']
+    & ^[-1]--phrase
+      display none
+
+    & ^[-1]-result
+      display flex
+
+  &-result
+    position relative
+
+    align-items center
+    justify-content center
+    flex-flow column
+
+    a
+      color var(--mgtn__chat-text-color)
+      border-bottom: 1px solid
+
+      &:hover
+        color #cd192e
+
+    &[data-right='yes']
+      & ^[-1]--status
+        color #3BBA6E
+
+    &[data-right='no']
+      & ^[-1]--status
+        color #E7473B
+
+    &--status
+      font-size 1.4em
+      font-weight 700
+
+      &:empty
+        display none
+
+    &--text
+      max-width 550px
+      margin-top 10px
+      padding 0 10px
+
+      font-size .85em
+      text-align center
+
+    &--next-btn
+      position absolute
+      bottom 15px; right 15px
+
+      background-color transparent
+      border 0
+
+      transition var(--mgfn__standard-transilion)
+
+      cursor pointer
+      user-select none
+
+      outline none
+
+      &:not([data-end])::after
+        content ''
+
+        display inline-block
+        width 1em; height 1em
+        margin-left 5px
+
+        vertical-align middle
+
+        font-size .8em
+
+        background-image var(--mgfn__svg-arrow)
+        background-size contain
+        background-repeat no-repeat
+
+      &:hover
+        opacity .8
+
+        @media $mq.notHover
+          opacity 1

@@ -1,0 +1,34 @@
+&__chat
+  height calc(100% - 130px)
+  padding 0 15px 0 10px
+
+  position relative
+
+  background-image var(--mggn__img-chat_bg_x1)
+  background-color var(--mgtn__chat-bg-color)
+
+  background-size cover
+
+  transition var(--mgfn__switch-theme-transilion)
+
+  overflow-y scroll
+  overflow-x hidden
+
+  scroll-behavior smooth
+
+  &::-webkit-scrollbar
+    width 4px
+
+    &-thumb
+      background-color #ccc
+
+      &:hover
+        background-color #999
+
+  @supports (-moz-appearance: none) {
+    scrollbar-width thin
+    scrollbar-color #ccc #fff
+  }
+
+  &--bottom
+    height 20px

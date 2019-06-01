@@ -201,7 +201,7 @@ class Special extends BaseSpecial {
     NODES.E.headerSender = createElement('div', `${CSS.main}__header--sender`, { innerText: 'Неизвестный номер' })
     NODES.E.header.appendChild(NODES.E.headerSender)
 
-    NODES.E.headerTyping = createElement('div', `${CSS.main}__header--typing`, { innerText: 'печатает', style: { display: 'none' } })
+    NODES.E.headerTyping = createElement('div', `${CSS.main}__header--typing`, { innerText: 'отправка', style: { display: 'none' } })
     NODES.E.header.appendChild(NODES.E.headerTyping)
 
     NODES.E.headerAvatar = createElement('div', `${CSS.main}__header--avatar`)
@@ -223,20 +223,22 @@ class Special extends BaseSpecial {
 
     NODES.E.answersHeader.appendChild(NODES.E.answersPhrase)
 
-    NODES.E.themeSwitcher = createElement('div', `${CSS.main}__answers--theme-switcher`)
+    NODES.E.themeSwitcher = createElement('label', `${CSS.main}__answers--theme-switcher`, { htmlFor: 'theme_switcher' })
 
-    NODES.E.themeSwitcher__label = createElement('label', '', { htmlFor: 'theme_switcher', innerText: 'Сменить тему' })
-    NODES.E.themeSwitcher.appendChild(NODES.E.themeSwitcher__label)
+    NODES.E.themeSwitcherText = U.createText('Сменить тему')
+    NODES.E.themeSwitcher.appendChild(NODES.E.themeSwitcherText)
 
-    NODES.E.themeSwitcher__input = createElement('input', '', { type: 'checkbox', id: 'theme_switcher' })
-    NODES.E.themeSwitcher__input.addEventListener('click', e => {
+    NODES.E.themeSwitcherInput = createElement('input', '', { type: 'checkbox', id: 'theme_switcher' })
+    NODES.E.themeSwitcherInput.addEventListener('click', e => {
       let theme = e.target.checked ? 'pink' : 'green'
 
       this.container.dataset.theme = theme
 
       Analytics.sendEvent(`${this.typeShowing} — Theme switcher — Change to "${theme}"`, 'Click')
     })
-    NODES.E.themeSwitcher.appendChild(NODES.E.themeSwitcher__input)
+    NODES.E.themeSwitcher.appendChild(NODES.E.themeSwitcherInput)
+
+    NODES.E.themeSwitcher.appendChild(createElement('span'))
 
     NODES.E.answersHeader.appendChild(NODES.E.themeSwitcher)
 
@@ -272,13 +274,17 @@ class Special extends BaseSpecial {
     NODES.E.finalResultShare = createElement('div', `${CSS.main}__final--share`)
     NODES.E.finalResult.appendChild(NODES.E.finalResultShare)
 
-    NODES.E.finalResultRefreshBtn = createElement('button', `${CSS.main}__final--refresh-btn`, { innerText: 'Пройти ещё раз' })
-    NODES.E.finalResultRefreshBtn.addEventListener('click', () => {
-      //
+    NODES.E.finalResultRestart = createElement('div', `${CSS.main}__final--restart-btn`)
+    NODES.E.finalResultRestartBtn = createElement('button', '', { innerText: 'Пройти ещё раз' })
 
-      Analytics.sendEvent(`${this.typeShowing} — Refresh"`, 'Click')
+    NODES.E.finalResultRestartBtn.addEventListener('click', () => {
+      this.restart()
+
+      Analytics.sendEvent(`${this.typeShowing} — Restart`, 'Click')
     })
-    NODES.E.finalResult.appendChild(NODES.E.finalResultRefreshBtn)
+    NODES.E.finalResultRestart.appendChild(NODES.E.finalResultRestartBtn)
+
+    NODES.E.finalResult.appendChild(NODES.E.finalResultRestart)
 
     NODES.E.finalResultSMS = createElement('div', `${CSS.main}__final--sms`)
     NODES.E.finalResult.appendChild(NODES.E.finalResultSMS)
@@ -292,7 +298,7 @@ class Special extends BaseSpecial {
     NODES.E.finalMegafon = createElement('div', `${CSS.main}__final-megafon`)
 
     NODES.E.finalMegaLogo = createElement('a', `${CSS.main}__final-megafon--logo`, { href: Data.final_links.logo, target: '_blank' })
-    NODES.E.finalMegaLogo.appendChild(createElement('img', '', { src: CDN_URL + Data.images.target_logo.x1, srcset: CDN_URL + Data.images.target_logo.x2 }))
+    NODES.E.finalMegaLogo.appendChild(createElement('img', '', { src: CDN_URL + Data.images.target_logo.x1, srcset: CDN_URL + Data.images.target_logo.x2, alt: 'Megafon Target logo' }))
     NODES.E.finalMegafon.appendChild(NODES.E.finalMegaLogo)
 
     NODES.E.finalMegaText = createElement('div', `${CSS.main}__final-megafon--text`)
@@ -346,6 +352,17 @@ class Special extends BaseSpecial {
 
       faceImg.src = images.x1
       faceImg.srcset = images.x2
+    }
+
+    if (
+      !U.qsf(`.${CSS.main}__sms`, NODES.E.chat) &&
+      !U.qsf(`.${CSS.main}__sms[data-solo]`, NODES.E.chat)
+    ) {
+      sms.dataset.solo = ''
+    }
+
+    if (U.qsf(`.${CSS.main}__sms[data-solo]`, NODES.E.chat)) {
+      delete U.qsf(`.${CSS.main}__sms[data-solo]`, NODES.E.chat).dataset.solo
     }
 
     NODES.E.chat.insertBefore(sms, NODES.E.chatBottom)
@@ -460,6 +477,11 @@ class Special extends BaseSpecial {
           return
         }
 
+        // Кэширование изображений только в случае первого клика
+        if (this.qIndex === 0 && this.qLevel === 0) {
+          this.cacheImages()
+        }
+
         answerData.clicked = true
 
         let cat = (answerData.id in this.getCurrentLevel().answersTexts)
@@ -504,15 +526,28 @@ class Special extends BaseSpecial {
             e.target.disabled = true
           }
 
-          this.showResult(
-            isRight,
+          /*
+           * В норме, this.showResult() может отработать и для перехода на соелующий этап
+           * Здесь эта возможность убрана, но убрав if-else, её иожно вернуть
+           */
 
-            ('result' in cat)
-              ? cat.result
-              : false,
+          if (nextEvent === 'q' || nextEvent === 'end') {
+            this.showResult(
+              isRight,
 
-            nextEvent
-          )
+              ('result' in cat)
+                ? cat.result
+                : false,
+
+              nextEvent
+            )
+          } else {
+            this.nextLevel()
+
+            if (!this.btnsClickAbility) {
+              this.btnsClickAbility = true
+            }
+          }
 
           if ('chat' in cat) {
             this.spawnSMS({
@@ -547,24 +582,47 @@ class Special extends BaseSpecial {
       if (this.score >= Number(key)) { scoreKey++ }
     })
 
-    let ourResult = Object.entries(results)[scoreKey]
-
-    console.log(ourResult)
-
-    // NODES.E.finalResult
-    // NODES.E.finalResultShare
-    // NODES.E.finalResultRefreshBtn
-    // NODES.E.finalResultSMS
-    // NODES.E.finalResultFace
+    let ourResult = Object.values(results)[scoreKey]
 
     NODES.E.finalResultScore.textContent = `${this.score} из ${this.quizLength} правильных ответов`
 
+    clearNode(NODES.E.finalResultShare)
+
+    Share.make(NODES.E.finalResultShare, {
+      url: this.params.share.url,
+      title: this.params.share.title,
+      twitter: this.params.share.title,
+    })
+
     let finalFaceImg = U.qsf('img', NODES.E.finalResultFace)
+
+    clearNode(NODES.E.finalResultSMS)
+
+    NODES.E.finalResultSMS.appendChild(NODES.T.textSMS.cloneNode(true))
+
+    NODES.E.finalResultSMS.firstChild.dataset.tail = 'left'
+
+    U.qsf('div[class$="--sender"]', NODES.E.finalResultSMS).textContent = ourResult.sender
+    U.qsf('div[class$="--text"]', NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult.text)
 
     finalFaceImg.src = CDN_URL + Data.images.faces[`${person}_nichosi`]
     finalFaceImg.srcset = CDN_URL + Data.images.faces_2x[`${person}_nichosi`]
 
     this.showScreen('final')
+  }
+
+  restart() {
+    this.qIndex = 0
+    this.qLevel = 0
+    this.score = 0
+
+    clearNode(NODES.E.chat, [`${CSS.main}__chat--bottom`])
+
+    this.newQuestion()
+
+    this.showAnswers()
+
+    this.showScreen('quiz')
   }
 
   cacheImages() {
@@ -595,8 +653,6 @@ class Special extends BaseSpecial {
 
     this.createTemplates()
     this.createElements()
-
-    this.cacheImages()
 
     this.newQuestion()
 

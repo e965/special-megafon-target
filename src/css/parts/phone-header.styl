@@ -1,0 +1,62 @@
+&__header
+  background-color var(--mgfn__header-bg-color)
+  border-radius 30px 30px 0 0
+
+  position relative
+
+  color var(--mgfn__header-text-color)
+
+  transition var(--mgfn__switch-theme-transilion)
+
+  cursor default
+  user-select none
+
+  & > *
+    position absolute
+
+  &--counter, &--operator
+    line-height 1.3
+
+  &--counter
+    top 5px; left 30px
+    font-size .7em
+
+  &--operator
+    top 6px; right 20px
+    font-size .5em
+
+  &--sender, &--typing
+    right 0; left 0
+
+    text-align center
+    line-height 1
+
+  &--sender
+    bottom 13px
+
+    font-size .85em
+
+  &--typing
+    bottom 2px
+
+    opacity .7
+
+    animation mgfn__typing-blink 1s ease-in-out infinite
+
+    font-size .6em
+
+    &::before
+      content '···'
+
+      vertical-align middle
+      margin-right 5px
+
+      font-weight 700
+
+  &--avatar
+    right 5px; bottom 7px
+
+    width 25px; height 25px
+
+    background-image var(--mggn__img-anon_x1)
+    background-size cover
