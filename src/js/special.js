@@ -573,8 +573,8 @@ class Special extends BaseSpecial {
         }
 
         /*
-         * В норме, this.showResult() может отработать и для перехода на соелующий этап
-         * Здесь эта возможность убрана, но убрав if-else, её иожно вернуть
+         * В норме, this.showResult() может отработать и для перехода на следующий этап
+         * Здесь эта возможность убрана, но убрав if-else, её можно вернуть
          */
 
         if (nextEvent === 'q' || nextEvent === 'end') {
@@ -599,11 +599,6 @@ class Special extends BaseSpecial {
         //   if (!isRight) {
         //     e.target.disabled = true
         //   }
-
-        //   /*
-        //    * В норме, this.showResult() может отработать и для перехода на соелующий этап
-        //    * Здесь эта возможность убрана, но убрав if-else, её иожно вернуть
-        //    */
 
         //   if (nextEvent === 'q' || nextEvent === 'end') {
         //     this.showResult(
