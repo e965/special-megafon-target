@@ -22,11 +22,29 @@
   font-size 18px
   line-height 1.5em
 
+  overflow-x hidden
+  overflow-y auto
+
   &[data-is-feed]
     max-width 640px
 
   button
     font-size inherit
+
+  &, *
+    &::-webkit-scrollbar
+      width 4px
+
+      &-thumb
+        background-color #ccc
+
+        &:hover
+          background-color #999
+
+    @supports (-moz-appearance: none) {
+      scrollbar-width thin
+      scrollbar-color #ccc #fff
+    }
 
   --mgfn__svg-vc_logo: $svg.vc_logo
   --mgfn__svg-megafon_logo: $svg.megafon_logo
@@ -78,7 +96,7 @@
     'score sms face' w1 'share sms face' w2 'btn sms face' w3 \/ w4 auto auto
 
   &__screens
-    width 100%; height 100%;
+    width 100%; height 100%
 
   &__screen
     position relative
@@ -89,6 +107,7 @@
     overflow: hidden
 
     &:not([data-show])
+      width 0; height 0
       position absolute
       overflow hidden
       clip rect(0 0 0 0)
@@ -117,6 +136,7 @@
   @import 'parts/final'
 
   &__cache
+    width 0; height 0
     position absolute
     overflow hidden
     clip rect(0 0 0 0)

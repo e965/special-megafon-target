@@ -18,49 +18,51 @@
   <link rel="stylesheet" href="https://static-osnova.gcdn.co/static/build/vc.ru/all.min.css">
 
   <style>
-    html, body, body > .wrapper {
-      width: 100%; height: 100%;
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+        padding-top: 50px;
+        overflow: hidden;
+    }
+    .wrapper > header {
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 50px;
+        background-color: #feebef;
+    }
+    .toggle {
+        position: fixed;
+        z-index: 9999;
+        top: 10px;
+        left: 10px;
+        user-select: none;
     }
 
-    body > .wrapper {
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 50px 1fr;
-
-      overflow: hidden;
-    }
-
-    body > .wrapper > header {
-      background-color: #feebef;
-      padding: 15px
-    }
-
-    body > .wrapper > main {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding: 10px 0;
-    }
-
-    #cmtt-special {
+    /* #cmtt-special {
       box-shadow: 0 0 4px rgba(0, 0, 0, .2);
-    }
+    } */
   </style>
 </head>
 
 <body>
 
   <div class="wrapper">
-    <header>
-      <label class="toggle" for="feed-toggle">
-        <input type="checkbox" id="feed-toggle">
-        feed
-      </label>
-    </header>
-    <main>
+    <header></header>
+    <label class="toggle" for="feed-toggle">
+      <input type="checkbox" id="feed-toggle">
+      feed
+    </label>
+    <div style="width: 1060px; max-width: 100%;">
       <div id="cmtt-special" class="mgfn-trgt"></div>
-    </main>
+    </div>
   </div>
 
   <script>

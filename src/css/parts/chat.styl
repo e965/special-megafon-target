@@ -1,5 +1,5 @@
 &__chat
-  height calc(100% - 130px)
+  height calc(100% - 100px)
   padding 0 15px 0 10px
 
   position relative
@@ -15,20 +15,6 @@
   overflow-x hidden
 
   scroll-behavior smooth
-
-  &::-webkit-scrollbar
-    width 4px
-
-    &-thumb
-      background-color #ccc
-
-      &:hover
-        background-color #999
-
-  @supports (-moz-appearance: none) {
-    scrollbar-width thin
-    scrollbar-color #ccc #fff
-  }
 
   &--bottom
     height 20px
