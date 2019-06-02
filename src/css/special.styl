@@ -112,15 +112,17 @@
       overflow hidden
       clip rect(0 0 0 0)
 
-    &--quiz
-      //
-
-    &--final
+    &--quiz, &--final
       display flex
 
       flex-direction column
 
       align-items center
+
+    &--quiz
+      justify-content flex-end
+
+    &--final
       justify-content center
 
   @import 'parts/phone'
