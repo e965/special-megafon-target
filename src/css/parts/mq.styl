@@ -1,6 +1,8 @@
 @media $mq.notDesktop
   width calc(100% - 20px)
 
+  margin 0 auto
+
   &__final
     font-size .5em
 
@@ -44,7 +46,7 @@
         margin-top 10px
 
 @media $mq.mobile
-  height 580px
+  height 610px
 
   &__phone
     bottom -195px
@@ -57,27 +59,29 @@
       margin-top 70px
 
   &__answers
-    height 200px !important
+    height 230px !important
 
-    grid-template-rows 55px 1fr
+    grid-template-rows 65px 1fr
 
     &--header
       display grid
-      grid-template 'ts' 30px 'phrase' 25px / 1fr
+      grid-template 'ts' 35px 'phrase' 30px / 1fr
 
     &[data-show='result']
-      grid-template-rows 30px 1fr
+      grid-template-rows 35px 1fr
 
       & ^[-1]--header
-        grid-template 'ts' 30px / 1fr
+        grid-template 'ts' 35px / 1fr
 
       & ^[-1]-result
         justify-content flex-start
 
+        padding 10px
+
         font-size .8em  !important
 
         &--text
-          margin-top 5px
+          font-size 1em
 
         &--text
           line-height 1.5
@@ -108,10 +112,6 @@
 
         &--face
           height 70px
-
-    &-result
-      &--next-btn
-        bottom 5px; right 5px
 
   &__final
     &-result
@@ -145,7 +145,7 @@
       width auto; height 30px
 
 @media $mq.iphone5
-  width 100%; height 510px
+  width 100%; height 550px
 
   &__phone
     bottom -250px
@@ -154,7 +154,9 @@
     height calc(100% - 235px)
 
   &__answers
-    height 190px !important
+    height 220px !important
+
+    border-radius 0
 
     &--phrase
       font-size .8em
