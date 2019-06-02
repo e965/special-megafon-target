@@ -49,17 +49,17 @@
   height 610px
 
   &__phone
-    bottom -195px
+    bottom -200px
 
   &__chat
-    height calc(100% - 180px)
+    height calc(100% - 185px)
 
   &__sms
     &[data-solo]
       margin-top 70px
 
   &__answers
-    height 230px !important
+    height 250px !important
 
     grid-template-rows 65px 1fr
 
@@ -80,11 +80,12 @@
 
         font-size .8em  !important
 
-        &--text
-          font-size 1em
+        &--status
+          line-height 1
 
         &--text
-          line-height 1.5
+          font-size .99em
+          line-height 1.4
 
     &--phrase, &--theme-switcher
       display flex
@@ -115,7 +116,7 @@
 
   &__final
     &-result
-      grid-template resultGrid(120px, 50px, 50px, 150px) !important
+      grid-template resultGrid(130px, 35px, 65px, 150px) !important
 
     &--restart-btn
       font-size: .9em
@@ -125,8 +126,9 @@
       font-size: .8em
 
       & ^[0]__sms
-        &-text--content
-          padding 5px
+        &, ^[0][data-is-feed] ^[-1] ^[0]__sms // :0
+          &-text--content
+            padding 5px
 
         &--sender
           margin-bottom 0
@@ -135,10 +137,22 @@
       padding 5px
 
       img
-        height 80px !important
+        height 50px !important
 
     &-megafon
       margin-top 5px
+
+      &--logo
+        img
+          display block
+          height 25px
+
+      &--text
+        font-size .8em
+
+      &--link
+        padding 5px 20px
+        font-size .8em
 
   .likely
     &__widget
@@ -213,8 +227,7 @@
 
       &--logo
         img
-          display block
-          height 25px
+          height 20px
 
       &--text
         font-size .7em
