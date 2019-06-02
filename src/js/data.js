@@ -88,7 +88,7 @@ export default {
         answers: {
           vrach: {
             who: 'Александр Жаров',
-            company: 'Роскомнадзор',
+            company: 'Роском&shy;надзор',
             right: true
           },
 
@@ -177,7 +177,7 @@ export default {
 
           buck: {
             who: 'Питер Бак',
-            company: 'сооснователь Subway'
+            company: 'соосно&shy;ватель Subway'
           },
 
           spiegel: {
@@ -412,7 +412,7 @@ export default {
 
           max: {
             who: 'Максим Гришаков',
-            company: 'Яндекс.Маркет'
+            company: 'Яндекс.&shy;Маркет'
           }
         },
 
@@ -475,7 +475,7 @@ export default {
         answers: {
           goncharov: {
             who: 'Михаил Гончаров',
-            company: 'основатель «Теремка»',
+            company: 'основа&shy;тель «Теремка»',
             right: true
           },
 
@@ -486,7 +486,7 @@ export default {
 
           tatulova: {
             who: 'Анастасия Татулова',
-            company: 'основательница сети «Андерсон»'
+            company: 'основа&shy;тельница сети «Андерсон»'
           },
 
           tinkov: {

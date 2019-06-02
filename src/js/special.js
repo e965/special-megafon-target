@@ -460,7 +460,7 @@ class Special extends BaseSpecial {
       faceImg.srcset = CDN_URL + Data.images.faces_2x[answerData.id] + ' 2x'
 
       U.qsf('p[class$="name"]', answerItemBtn).textContent = answerData.who
-      U.qsf('p[class$="company"]', answerItemBtn).textContent = answerData.company
+      U.qsf('p[class$="company"]', answerItemBtn).innerHTML = answerData.company
 
       answerItemBtn.addEventListener('click', e => {
         if (!this.btnsClickAbility) { return }

@@ -1,0 +1,235 @@
+@media $mq.notDesktop
+  width calc(100% - 20px)
+
+  &__final
+    font-size .5em
+
+    &-result
+      padding 0 20px
+      grid-template resultGrid(140px, 80px, 60px, 200px)
+
+    &--score
+      padding-top 20px
+
+    &--sms
+      & ^[0]__sms
+        &-text--content
+          padding 10px
+
+        &--sender, &--text
+          font-size .9em
+
+    &--face
+      img
+        height 120px
+
+    &-megafon
+      padding 20px
+
+      &--logo
+        img
+          height 30px
+
+      &--text
+        margin-top 10px
+
+        font-size .8em
+        line-height 1.5
+
+        p
+          &:not(:first-child)
+            margin-top: 5px
+
+      &--link
+        margin-top 10px
+
+@media $mq.mobile
+  height 570px
+
+  &__phone
+    bottom 5px
+
+  &__chat
+    height calc(100% - 210px)
+
+  &__sms
+    &[data-solo]
+      margin-top 70px
+
+  &__answers
+    height 200px !important
+
+    grid-template-rows 55px 1fr
+
+    &--header
+      display grid
+      grid-template 'ts' 30px 'phrase' 25px / 1fr
+
+    &[data-show='result']
+      grid-template-rows 30px 1fr
+
+      & ^[-1]--header
+        grid-template 'ts' 30px / 1fr
+
+      & ^[-1]-result
+        justify-content flex-start
+
+        font-size .8em  !important
+
+        &--text
+          margin-top 5px
+
+        &--text
+          line-height 1.5
+
+    &--phrase, &--theme-switcher
+      display flex
+      align-items center
+      justify-content center
+
+      position static
+      padding 0
+
+      font-size .8em
+
+    &--theme-switcher
+      span
+        transform scale(.7)
+        margin-left: 0
+
+    &-list
+      &-item
+        align-items baseline
+        padding 10px 0
+
+    &-item
+      &-btn
+        font-size .65em !important
+
+        &--face
+          height 70px
+
+    &-result
+      &--next-btn
+        bottom 5px; right 5px
+
+  &__final
+    &-result
+      grid-template resultGrid(120px, 50px, 50px, 150px) !important
+
+    &--restart-btn
+      font-size: .9em
+
+    &--sms
+      padding 5px
+      font-size: .8em
+
+      & ^[0]__sms
+        &-text--content
+          padding 5px
+
+        &--sender
+          margin-bottom 0
+
+    &--face
+      padding 5px
+
+      img
+        height 80px !important
+
+    &-megafon
+      margin-top 5px
+
+  .likely
+    &__widget
+      width auto; height 30px
+
+@media $mq.iphone5
+  width 100%; height 510px
+
+  &__phone
+    bottom -60px
+
+  &__chat
+    height calc(100% - 265px)
+
+  &__answers
+    height 190px !important
+
+    &--phrase
+      font-size .8em
+
+    &[data-show='result']
+      & ^[-1]-result
+        &--status
+          margin-top 10px
+
+        &--text
+          margin-top 5px
+
+    &-list
+      &-item
+        padding 5px 0
+
+    &-item
+      &-btn
+        &--face
+          height 40px
+
+  &__sms
+    &[data-solo]
+      margin-top 30px
+
+  &__final
+    &-result
+      padding 5px !important
+      grid-template resultGrid(80px, 40px, 60px, 150px) !important
+
+    &--score
+      font-size .8em
+      line-height 1.5
+
+    &--face
+      img
+        height 50px !important
+
+    &--sms
+      & ^[0]__sms
+        font-size: .9em
+
+        &-text--content
+          padding 5px !important
+
+    &--restart-btn
+      font-size .7em
+
+      button
+        margin-top 0
+
+    &-megafon
+      padding 10px
+
+      &--logo
+        img
+          display block
+          height 25px
+
+      &--text
+        font-size .7em
+
+      &--link
+        padding 5px 20px
+        font-size .7em
+
+  // for Retina displays
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  ^[0]__phone
+    &::before
+      background-image var(--mggn__img-phone_borders_x1)
+
+  ^[0]__header
+    &--avatar
+      background-image var(--mggn__img-anon_x2)
+
+  ^[0]__chat
+    background-image var(--mggn__img-chat_bg_x2)

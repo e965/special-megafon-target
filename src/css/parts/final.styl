@@ -1,8 +1,4 @@
 &__final
-  ^[-1][data-is-feed]
-    & ^[-1]
-      font-size .5em
-
   &-result, &-megafon
     max-width 700px
 
@@ -14,13 +10,7 @@
 
     padding 0 40px
 
-    grid-template 'score sms face' 120px 'share sms face' 50px 'btn sms face' 80px / 300px auto auto
-
-    ^[0][data-is-feed]
-      & ^[-1]
-        padding 0 20px
-
-        grid-template 'score sms face' 140px 'share sms face' 80px 'btn sms face' 60px / 200px auto auto
+    grid-template resultGrid(120px, 50px, 80px, 300px)
 
   &--score
     grid-area score
@@ -30,10 +20,6 @@
     font-size 1.2em
     font-weight 500
     color #00B956
-
-    ^[0][data-is-feed]
-      & ^[-1]
-        padding-top 20px
 
   &--share
     grid-area share
@@ -52,8 +38,6 @@
 
       cursor pointer
       user-select none
-
-      font-size 1em
 
       transition var(--mgfn__standard-transilion)
 
@@ -88,14 +72,6 @@
     & ^[0]__sms
       margin 0
 
-      ^[0][data-is-feed]
-        & ^[-1]
-          &-text--content
-            padding 10px
-
-          &--sender, &--text
-            font-size .9em
-
       &-text--content
         background-color #00B956
         padding 10px 20px
@@ -126,10 +102,6 @@
 
     img
       height 150px
-
-      ^[0][data-is-feed]
-        & ^[-1]
-          height 120px
 
   &-megafon
     margin-top 20px
@@ -167,3 +139,27 @@
 
       &:hover
         background-color lighten(@background-color, 10)
+
+  ^[-1][data-is-feed]
+    & ^[-1]
+      font-size .5em
+
+      &-result
+        padding 0 20px
+
+        grid-template resultGrid(140px, 80px, 60px, 200px)
+
+      &--score
+        padding-top 20px
+
+      &--sms
+        & ^[0]__sms
+          &-text--content
+            padding 10px
+
+          &--sender, &--text
+            font-size .9em
+
+      &--face
+        img
+          height 120px
