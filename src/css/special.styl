@@ -64,30 +64,24 @@
   &[data-theme='green']
     --mgfn__header-bg-color #00B956
     --mgfn__header-text-color #fff
-    --mgtn__chat-bg-color #e8e8e8
+    --mgtn__chat-bg-color #ede5f0
     --mgtn__chat-scroll-color #00B956
     --mgtn__chat-text-color #00B956
 
   &[data-theme='pink']
     --mgfn__header-bg-color #fbeaee
     --mgfn__header-text-color #000
-    --mgtn__chat-bg-color #ede5f0
+    --mgtn__chat-bg-color  #e8e8e8
     --mgtn__chat-scroll-color #807678
     --mgtn__chat-text-color #FB9DB3
 
   $IMAGE_CDN = 'img/'
-
-  --mggn__img-phone_borders_x1 url($IMAGE_CDN + 'phone-borders.png')
-  --mggn__img-phone_borders_x2 url($IMAGE_CDN + 'phone-borders@2x.png')
 
   --mggn__img-chat_bg_x1 url($IMAGE_CDN + 'chat-bg.png')
   --mggn__img-chat_bg_x2 url($IMAGE_CDN + 'chat-bg@2x.png')
 
   --mggn__img-anon_x1 url($IMAGE_CDN + 'anon.png')
   --mggn__img-anon_x2 url($IMAGE_CDN + 'anon@2x.png')
-
-  --mggn__img-target_logo_x1 url($IMAGE_CDN + 'target-logo.png')
-  --mggn__img-target_logo_x2 url($IMAGE_CDN + 'target-logo@2x.png')
 
   --mgfn__switch-theme-transilion all .5s ease-in-out
   --mgfn__standard-transilion all .3s ease-in-out
@@ -125,9 +119,9 @@
     &--final
       justify-content center
 
-  @import 'parts/phone'
+  @import 'parts/iphone-x'
 
-  @import 'parts/phone-header'
+  @import 'parts/phone'
 
   @import 'parts/chat'
 

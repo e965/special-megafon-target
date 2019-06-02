@@ -8,6 +8,8 @@ import { shuffleArray, toArray } from './lib/array'
 import { createElement, clearNode } from './lib/dom'
 import { U } from './lib/u'
 
+import scrollIntoView from 'scroll-into-view-if-needed'
+
 const CSS = {
   main: 'mgfn-trgt',
 }
@@ -178,31 +180,47 @@ class Special extends BaseSpecial {
 
     /* Элементы */
 
-    NODES.E.phone = createElement('div', `${CSS.main}__phone`)
+    // NODES.E.phone = createElement('div', `${CSS.main}__phone`)
+    // NODES.S.quiz.appendChild(NODES.E.phone)
+
+    // NODES.E.phoneNotch = createElement('div', `${CSS.main}__phone--notch`)
+    // NODES.E.phone.appendChild(NODES.E.phoneNotch)
+
+    // NODES.E.phoneContent = createElement('div', `${CSS.main}__phone--content`)
+    // NODES.E.phone.appendChild(NODES.E.phoneContent)
+
+    NODES.E.phone = createElement('div', [`${CSS.main}__phone`, `${CSS.main}__device`, `${CSS.main}__device-iphone-x`])
+
+    NODES.E.phoneFrame = createElement('div', `${CSS.main}__device-frame`)
+
+    NODES.E.phoneContent = createElement('div', [`${CSS.main}__phone--content`, `${CSS.main}__device-content`])
+    NODES.E.phoneFrame.appendChild(NODES.E.phoneContent)
+
+    NODES.E.phone.appendChild(NODES.E.phoneFrame)
+
+    NODES.E.phone.appendChild(createElement('div', `${CSS.main}__device-header`))
+    NODES.E.phone.appendChild(createElement('div', `${CSS.main}__device-sensors`))
+    NODES.E.phone.appendChild(createElement('div', `${CSS.main}__device-btns`))
+    NODES.E.phone.appendChild(createElement('div', `${CSS.main}__device-power`))
+
     NODES.S.quiz.appendChild(NODES.E.phone)
 
-    NODES.E.phoneNotch = createElement('div', `${CSS.main}__phone--notch`)
-    NODES.E.phone.appendChild(NODES.E.phoneNotch)
-
-    NODES.E.phoneContent = createElement('div', `${CSS.main}__phone--content`)
-    NODES.E.phone.appendChild(NODES.E.phoneContent)
-
-    NODES.E.header = createElement('div', `${CSS.main}__header`)
+    NODES.E.header = createElement('div', `${CSS.main}__chat-header`)
     NODES.E.phoneContent.appendChild(NODES.E.header)
 
-    NODES.E.headerCounter = createElement('div', `${CSS.main}__header--counter`, { innerText: '0/0' })
+    NODES.E.headerCounter = createElement('div', `${CSS.main}__chat-header--counter`, { innerText: '0/0' })
     NODES.E.header.appendChild(NODES.E.headerCounter)
 
-    NODES.E.headerOperator = createElement('div', `${CSS.main}__header--operator`, { innerText: 'MegaFon' })
+    NODES.E.headerOperator = createElement('div', `${CSS.main}__chat-header--operator`, { innerText: 'MegaFon' })
     NODES.E.header.appendChild(NODES.E.headerOperator)
 
-    NODES.E.headerSender = createElement('div', `${CSS.main}__header--sender`, { innerText: 'Неизвестный номер' })
+    NODES.E.headerSender = createElement('div', `${CSS.main}__chat-header--sender`, { innerText: 'Неизвестный номер' })
     NODES.E.header.appendChild(NODES.E.headerSender)
 
-    NODES.E.headerTyping = createElement('div', `${CSS.main}__header--typing`, { innerText: 'отправка', style: { display: 'none' } })
+    NODES.E.headerTyping = createElement('div', `${CSS.main}__chat-header--typing`, { innerText: 'отправка', style: { display: 'none' } })
     NODES.E.header.appendChild(NODES.E.headerTyping)
 
-    NODES.E.headerAvatar = createElement('div', `${CSS.main}__header--avatar`)
+    NODES.E.headerAvatar = createElement('div', `${CSS.main}__chat-header--avatar`)
     NODES.E.header.appendChild(NODES.E.headerAvatar)
 
     NODES.E.chat = createElement('div', `${CSS.main}__chat`)
@@ -365,8 +383,8 @@ class Special extends BaseSpecial {
 
     NODES.E.chat.insertBefore(sms, NODES.E.chatBottom)
 
-    NODES.E.chatBottom.scrollIntoView({
-      block: 'end',
+    scrollIntoView(NODES.E.chatBottom, {
+      block: 'nearest',
       behavior: 'smooth'
     })
   }
