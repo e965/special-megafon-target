@@ -8,7 +8,7 @@ import { shuffleArray, toArray } from './lib/array'
 import { createElement, clearNode } from './lib/dom'
 import { U } from './lib/u'
 
-import scrollIntoView from 'scroll-into-view-if-needed'
+import { scrollIntoView } from 'scroll-js'
 
 const CSS = {
   main: 'mgfn-trgt',
@@ -217,17 +217,13 @@ class Special extends BaseSpecial {
     NODES.E.headerSender = createElement('div', `${CSS.main}__chat-header--sender`, { innerText: 'Неизвестный номер' })
     NODES.E.header.appendChild(NODES.E.headerSender)
 
-    NODES.E.headerTyping = createElement('div', `${CSS.main}__chat-header--typing`, { innerText: 'отправка', style: { display: 'none' } })
-    NODES.E.header.appendChild(NODES.E.headerTyping)
+    // NODES.E.headerTyping = createElement('div', `${CSS.main}__chat-header--typing`, { innerText: 'отправка', style: { display: 'none' } })
+    // NODES.E.header.appendChild(NODES.E.headerTyping)
 
     NODES.E.headerAvatar = createElement('div', `${CSS.main}__chat-header--avatar`)
     NODES.E.header.appendChild(NODES.E.headerAvatar)
 
     NODES.E.chat = createElement('div', `${CSS.main}__chat`)
-
-    NODES.E.chatBottom = createElement('div', `${CSS.main}__chat--bottom`)
-
-    NODES.E.chat.appendChild(NODES.E.chatBottom)
 
     NODES.E.phoneContent.appendChild(NODES.E.chat)
 
@@ -342,27 +338,55 @@ class Special extends BaseSpecial {
     NODES.S[screen].dataset.show = ''
   }
 
-  spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', tail = 'left', images = {}, success = true }) {
+  spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', typing = false, tail = 'left', images = {}, success = true, scroll = true }) {
     let sms = document.createElement('div')
+
+    let scrollToSMS = () => scroll
+      ? scrollIntoView(sms, NODES.E.chat, {
+        block: 'end',
+        behavior: 'smooth',
+        duration: 1000
+      })
+      : () => {}
 
     if (type === 'text') {
       sms = NODES.T.textSMS.cloneNode('true')
 
+      let senderField = U.qsf('div[class$="sender"]', sms)
+
+      let textField = U.qsf('div[class$="text"]', sms)
+
+      let _time = typing ? TIME : 0
+
       sms.dataset.tail = tail
 
-      U.qsf('div[class$="sender"]', sms).textContent = sender
-      U.qsf('div[class$="text"]', sms).textContent = text
+      if (typing) {
+        textField.textContent = 'Печатает'
+
+        sms.dataset.typing = ''
+      }
+
+      setTimeout(() => {
+        senderField.textContent = sender
+        textField.textContent = text
+
+        if (typing) {
+          delete sms.dataset.typing
+        }
+
+        scrollToSMS()
+      }, _time)
 
     } else if (type === 'face') {
       sms = NODES.T.faceSMS.cloneNode('true')
 
-      setTimeout(() => {
+      //setTimeout(() => {
         if (success) {
           sms.dataset.success = ''
         } else {
           sms.dataset.failure = ''
         }
-      }, TIME)
+      //}, TIME)
 
       let faceImg = U.qsf('img[class$="face"]', sms)
 
@@ -381,12 +405,9 @@ class Special extends BaseSpecial {
       delete U.qsf(`.${CSS.main}__sms[data-solo]`, NODES.E.chat).dataset.solo
     }
 
-    NODES.E.chat.insertBefore(sms, NODES.E.chatBottom)
+    NODES.E.chat.appendChild(sms)
 
-    scrollIntoView(NODES.E.chatBottom, {
-      block: 'nearest',
-      behavior: 'smooth'
-    })
+    scrollToSMS()
   }
 
   showResult(success, text = false, next) {
@@ -520,7 +541,8 @@ class Special extends BaseSpecial {
             x1: CDN_URL + Data.images.faces[answerData.id],
             x2: CDN_URL + Data.images.faces_2x[answerData.id]
           },
-          success: isRight
+          success: isRight,
+          scroll: !isRight
         })
 
         let nextEvent =
@@ -535,46 +557,72 @@ class Special extends BaseSpecial {
           nextEvent = 'end'
         }
 
-        NODES.E.headerTyping.style.display = 'block'
+        // NODES.E.headerTyping.style.display = 'block'
 
-        setTimeout(() => {
-          if (!isRight) {
-            e.target.disabled = true
+        if ('chat' in cat) {
+          this.spawnSMS({
+            sender: answerData.who,
+            text: cat.chat,
+            tail: 'right',
+            typing: true
+          })
+        }
+
+        if (!isRight) {
+          e.target.disabled = true
+        }
+
+        /*
+         * В норме, this.showResult() может отработать и для перехода на соелующий этап
+         * Здесь эта возможность убрана, но убрав if-else, её иожно вернуть
+         */
+
+        if (nextEvent === 'q' || nextEvent === 'end') {
+          this.showResult(
+            isRight,
+
+            ('result' in cat)
+              ? cat.result
+              : false,
+
+            nextEvent
+          )
+        } else {
+          this.nextLevel()
+
+          if (!this.btnsClickAbility) {
+            this.btnsClickAbility = true
           }
+        }
 
-          /*
-           * В норме, this.showResult() может отработать и для перехода на соелующий этап
-           * Здесь эта возможность убрана, но убрав if-else, её иожно вернуть
-           */
+        // setTimeout(() => {
+        //   if (!isRight) {
+        //     e.target.disabled = true
+        //   }
 
-          if (nextEvent === 'q' || nextEvent === 'end') {
-            this.showResult(
-              isRight,
+        //   /*
+        //    * В норме, this.showResult() может отработать и для перехода на соелующий этап
+        //    * Здесь эта возможность убрана, но убрав if-else, её иожно вернуть
+        //    */
 
-              ('result' in cat)
-                ? cat.result
-                : false,
+        //   if (nextEvent === 'q' || nextEvent === 'end') {
+        //     this.showResult(
+        //       isRight,
 
-              nextEvent
-            )
-          } else {
-            this.nextLevel()
+        //       ('result' in cat)
+        //         ? cat.result
+        //         : false,
 
-            if (!this.btnsClickAbility) {
-              this.btnsClickAbility = true
-            }
-          }
+        //       nextEvent
+        //     )
+        //   } else {
+        //     this.nextLevel()
 
-          if ('chat' in cat) {
-            this.spawnSMS({
-              sender: answerData.who,
-              text: cat.chat,
-              tail: 'right'
-            })
-          }
-
-          NODES.E.headerTyping.style.display = 'none'
-        }, TIME)
+        //     if (!this.btnsClickAbility) {
+        //       this.btnsClickAbility = true
+        //     }
+        //   }
+        // }, TIME)
       })
 
       answerItem.appendChild(answerItemBtn)

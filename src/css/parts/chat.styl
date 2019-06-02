@@ -1,23 +1,21 @@
 &__chat
   height calc(100% - 215px)
+
   padding 0 15px 0 10px
 
-  position relative
-
   background-image var(--mggn__img-chat_bg_x1)
-  background-color var(--mgtn__chat-bg-color)
-
   background-size cover
+
+  background-color var(--mgtn__chat-bg-color)
 
   transition var(--mgfn__switch-theme-transilion)
 
-  overflow-y scroll
-  overflow-x hidden
+  overflow hidden
 
   scroll-behavior smooth
 
-  &--bottom
-    height 20px
+  overflow-y scroll
+  overflow-x hidden
 
   &-header
     background-color var(--mgfn__header-bg-color)
@@ -55,23 +53,6 @@
 
       text-align center
       line-height 1
-
-    // &--typing
-    //   bottom 2px
-
-    //   opacity .7
-
-    //   animation mgfn__typing-blink 1s ease-in-out infinite
-
-    //   font-size .6em
-
-    //   &::before
-    //     content '···'
-
-    //     vertical-align middle
-    //     margin-right 5px
-
-    //     font-weight 700
 
     &--avatar
       right 15px; bottom 7px
