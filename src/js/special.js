@@ -16,7 +16,7 @@ const CSS = {
 
 const NODES = {}
 
-const TIME = 2000
+const TIME = 1000
 
 const CDN_URL = Data.imagesCDN
 
@@ -353,7 +353,7 @@ class Special extends BaseSpecial {
       ? scrollIntoView(sms, NODES.E.chat, {
         block: 'end',
         behavior: 'smooth',
-        duration: 1000
+        duration: 1500
       })
       : () => {}
 
@@ -484,7 +484,7 @@ class Special extends BaseSpecial {
   newQuestion() {
     let currQ = this.getCurrentQuestion()
 
-    NODES.E.headerCounter.textContent = `${this.qIndex + 1}/${this.quizLength}`
+    NODES.E.headerCounter.textContent = `${this.qIndex + 1} / ${this.quizLength}`
 
     clearNode(NODES.E.answersList)
 

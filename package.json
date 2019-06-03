@@ -2,7 +2,7 @@
 	"name": "special-megafon-target",
 	"description": "Спецпроект для «Мегафона»",
 	"private": true,
-	"version": "1.0.17",
+	"version": "1.0.17a",
 	"author": "Dmitry <dmitry@cojam.ru> (https://e965.ru)",
 	"repository": "github:tehcojam/special-megafon-target",
 	"scripts": {
