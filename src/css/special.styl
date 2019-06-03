@@ -67,6 +67,7 @@
     --mgtn__chat-bg-color #ede5f0
     --mgtn__chat-scroll-color #00B956
     --mgtn__chat-text-color #00B956
+    --mgtn__chat-link-border rgba(#00B956, .5)
 
   &[data-theme='pink']
     --mgfn__header-bg-color #fbeaee
@@ -74,14 +75,15 @@
     --mgtn__chat-bg-color  #e8e8e8
     --mgtn__chat-scroll-color #807678
     --mgtn__chat-text-color #FB9DB3
+    --mgtn__chat-link-border rgba(#FB9DB3, .5)
 
-  $IMAGE_CDN = 'img/'
+  $IMAGE_CDN = 'https://leonardo-direct.osnova.io/'
 
-  --mggn__img-chat_bg_x1 url($IMAGE_CDN + 'chat-bg.png')
-  --mggn__img-chat_bg_x2 url($IMAGE_CDN + 'chat-bg@2x.png')
+  --mggn__img-chat_bg_x1 url($IMAGE_CDN + 'c24f94e5-726a-fd6e-b0ef-b3268c46dbbf')
+  --mggn__img-chat_bg_x2 url($IMAGE_CDN + '5ecdb63a-da5b-bf17-f6c4-178cb2b4a920')
 
-  --mggn__img-anon_x1 url($IMAGE_CDN + 'anon.png')
-  --mggn__img-anon_x2 url($IMAGE_CDN + 'anon@2x.png')
+  --mggn__img-anon_x1 url($IMAGE_CDN + 'a0ee6cd2-d95c-f43e-ac74-0eaf166ad3b7')
+  --mggn__img-anon_x2 url($IMAGE_CDN + '8f3645aa-bcc2-aa81-feac-191dc465bb24')
 
   --mgfn__switch-theme-transilion all .5s ease-in-out
   --mgfn__standard-transilion all .3s ease-in-out
@@ -119,17 +121,113 @@
     &--final
       justify-content center
 
-  @import 'parts/iphone-x'
+  @import './parts/iphone-x'
 
-  @import 'parts/phone'
+  @import './parts/phone'
 
-  @import 'parts/chat'
+  @import './parts/chat'
 
-  @import 'parts/answers'
+  @import './parts/answers'
 
-  @import 'parts/sms'
+  @import './parts/sms'
 
-  @import 'parts/final'
+  @import './parts/final'
+
+  &[data-is-feed]
+    height 610px
+
+    & ^[0]__phone
+      bottom -390px
+
+    & ^[0]__chat
+      height calc(100% - 345px)
+
+    & ^[0]__sms
+      &[data-solo]
+        margin-top 70px
+
+    & ^[0]__answers
+      width calc(100% - 40px)
+      height 250px !important
+
+      grid-template-rows 65px 1fr
+
+      &--header
+        display grid
+        grid-template 'ts' 35px 'phrase' 30px / 1fr
+
+      &[data-show='result']
+        grid-template-rows 35px 1fr
+
+        & ^[-1]--header
+          grid-template 'ts' 35px / 1fr
+
+        & ^[-1]-result
+          justify-content flex-start
+
+          padding 10px
+
+          font-size .8em  !important
+
+          &--status
+            line-height 1
+
+          &--text
+            font-size .99em
+            line-height 1.4
+
+      &--phrase, &--theme-switcher
+        display flex
+        align-items center
+        justify-content center
+
+        position static
+        padding 0
+
+        font-size .8em
+
+      &--theme-switcher
+        span
+          transform scale(.7)
+          margin-left: 0
+
+      &-list
+        &-item
+          align-items baseline
+          padding 10px 0
+
+      &-item
+        &-btn
+          font-size .65em !important
+
+          &--face
+            height 70px
+
+    & ^[0]__final
+      &-result
+        grid-template resultGrid(130px, 35px, 65px, 150px) !important
+
+      &--restart-btn
+        font-size: .9em
+
+      &-megafon
+        margin-top 5px
+
+        &--logo
+          img
+            display block
+            height 25px
+
+        &--text
+          font-size .8em
+
+        &--link
+          padding 5px 20px
+          font-size .8em
+
+    .likely
+      &__widget
+        width auto; height 30px
 
   &__cache
     width 0; height 0

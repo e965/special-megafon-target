@@ -17,29 +17,28 @@ export const init = () => {
  * @param {Element} parentContainer - likely container will be placed here
  * @param {Object} set - object with optional params (title, url, twitter)
  */
-export const make = (parentContainer, set = {}) => {
-    let likelyContainer = createElement('div', [CSS.likely, CSS.likelyCustom]);
-    let socials = ['vkontakte', 'facebook', 'twitter'];
 
-    socials.forEach(social => {
-        let button = createElement('div', social);
+export const make = (parentContainer, set = {}, typeShowing) => {
+  const likelyContainer = createElement('div', [CSS.likely, CSS.likelyCustom]);
+  const socials = ['facebook', 'vkontakte', 'twitter'];
 
-        //if (social === 'facebook') button.innerHTML = 'Поделиться';
+  socials.forEach((social) => {
+    const button = createElement('div', social);
 
-        button.addEventListener('click', () => {
-            Analytics.sendEvent(`Share ${social}`);
-        });
+    //if (social === 'facebook') button.innerHTML = 'Поделиться';
 
-        if (social === 'twitter') button.dataset.via = 'vcru'
-
-        likelyContainer.appendChild(button);
+    button.addEventListener('click', () => {
+      Analytics.sendEvent(typeShowing ? `${typeShowing} — Share ${social}` : `Share ${social}`);
     });
 
-    parentContainer.appendChild(likelyContainer);
+    likelyContainer.appendChild(button);
+  });
 
-    if (set.url) likelyContainer.dataset.url = set.url;
-    if (set.twitter) likelyContainer.dataset.twitter = set.twitter;
-    if (set.title) likelyContainer.dataset.title = set.title;
+  parentContainer.appendChild(likelyContainer);
 
-    init();
+  if (set.url) likelyContainer.dataset.url = set.url;
+  if (set.twitter) likelyContainer.dataset.twitter = set.twitter;
+  if (set.title) likelyContainer.dataset.title = set.title;
+
+  init();
 };

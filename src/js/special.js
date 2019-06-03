@@ -57,6 +57,14 @@ class Special extends BaseSpecial {
 
     this.typeShowing = this.isFeed() ? 'in Feed' : 'in Page'
 
+    if (this.isFeed()) {
+      this.container.dataset.isFeed = ''
+    }
+
+    if (!this.container.classList.contains(CSS.main)) {
+      this.container.classList.add(CSS.main)
+    }
+
     this.container.dataset.theme = 'green'
   }
 
@@ -315,7 +323,7 @@ class Special extends BaseSpecial {
 
     NODES.E.finalMegaText = createElement('div', `${CSS.main}__final-megafon--text`)
     Data.mega_text.forEach(paragraph => {
-      NODES.E.finalMegaText.appendChild(createElement('p', '', { innerText: paragraph }))
+      NODES.E.finalMegaText.appendChild(createElement('div', '', { innerText: paragraph }))
     })
     NODES.E.finalMegafon.appendChild(NODES.E.finalMegaText)
 
@@ -515,6 +523,7 @@ class Special extends BaseSpecial {
         }
 
         // Кэширование изображений только в случае первого клика
+
         if (this.qIndex === 0 && this.qLevel === 0) {
           this.cacheImages()
         }
@@ -635,8 +644,6 @@ class Special extends BaseSpecial {
 
     let scoreKey = -1
 
-    this.score = U.random({ max: this.quizLength })
-
     Object.keys(results).forEach(key => {
       if (this.score >= Number(key)) { scoreKey++ }
     })
@@ -651,7 +658,7 @@ class Special extends BaseSpecial {
       url: this.params.share.url + '/' + person + '/' + (scoreKey + 1),
       title: this.params.share.title,
       twitter: this.params.share.title,
-    })
+    }, this.typeShowing)
 
     let finalFaceImg = U.qsf('img', NODES.E.finalResultFace)
 
@@ -715,9 +722,10 @@ class Special extends BaseSpecial {
 
     this.newQuestion()
 
-    NODES.E.headerCounter.addEventListener('dblclick', () => {
-      this.final()
-    })
+    // NODES.E.headerCounter.addEventListener('dblclick', () => {
+    //   this.score = U.random({ max: this.quizLength })
+    //   this.final()
+    // })
 
     this.showScreen('quiz')
 
