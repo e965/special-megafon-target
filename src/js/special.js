@@ -641,14 +641,14 @@ class Special extends BaseSpecial {
       if (this.score >= Number(key)) { scoreKey++ }
     })
 
-    let ourResult = Object.values(results)[scoreKey]
+    let ourResult = Object.entries(results)[scoreKey]
 
     NODES.E.finalResultScore.textContent = `${this.score} из ${this.quizLength} правильных ответов`
 
     clearNode(NODES.E.finalResultShare)
 
     Share.make(NODES.E.finalResultShare, {
-      url: this.params.share.url,
+      url: this.params.share.url + '/' + person + '/' + ourResult[0],
       title: this.params.share.title,
       twitter: this.params.share.title,
     })
@@ -661,8 +661,8 @@ class Special extends BaseSpecial {
 
     NODES.E.finalResultSMS.firstChild.dataset.tail = 'left'
 
-    U.qsf('div[class$="--sender"]', NODES.E.finalResultSMS).textContent = ourResult.sender
-    U.qsf('div[class$="--text"]', NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult.text)
+    U.qsf('div[class$="--sender"]', NODES.E.finalResultSMS).textContent = ourResult[1].sender
+    U.qsf('div[class$="--text"]', NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult[1].text)
 
     finalFaceImg.src = CDN_URL + Data.images.faces[`${person}_nichosi`]
     finalFaceImg.srcset = CDN_URL + Data.images.faces_2x[`${person}_nichosi`]
