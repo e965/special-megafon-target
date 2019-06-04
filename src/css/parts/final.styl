@@ -102,6 +102,7 @@
 
     img
       height 140px
+      object-fit contain
 
   &-megafon
     margin-top 20px
@@ -144,26 +145,24 @@
       &:hover
         background-color lighten(@background-color, 10)
 
-  ^[-1][data-is-feed]
-    & ^[-1]
-      font-size .5em
+  // ^[-1][data-is-feed]
+  //   & ^[-1]
+  //     font-size .5em
 
-      &-result
-        padding 0 20px
+  //     &-result
+  //       padding 0 20px
 
-        grid-template resultGrid(150px, 80px, 60px, 200px)
+  //     &--score
+  //       padding-top 20px
 
-      &--score
-        padding-top 20px
+  //     &--sms
+  //       & ^[0]__sms
+  //         &-text--content
+  //           padding 10px
 
-      &--sms
-        & ^[0]__sms
-          &-text--content
-            padding 10px
+  //         &--sender, &--text
+  //           font-size .9em
 
-          &--sender, &--text
-            font-size .9em
-
-      &--face
-        img
-          height 120px
+  //     &--face
+  //       img
+  //         height 120px

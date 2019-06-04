@@ -412,7 +412,7 @@ export default {
 
           max: {
             who: 'Максим Гришаков',
-            company: 'Яндекс.&shy;Маркет'
+            company: 'Яндекс.&#8203;Маркет'
           }
         },
 
@@ -617,7 +617,7 @@ export default {
         answersCommonTexts: {
           milner: {
             chat: 'Поехали!',
-            result: 'В 2015 Юрий Мильнер [link|https://vc.ru/future/47247|запустил] программу Breakthrough Initiatives, которая состоит из двух проектов: Breakthrough Listen ищет разумную жизнь во вселенной, а Breakthrough Starshot разрабатывает межзвёздный космический корабль с солнечным парусом.'
+            result: 'В 2015 Юрий Мильнер [link|https://vc.ru/future/47247|запустил] программу Breakthrough Initiatives. Её участники ищут разумную жизнь во вселенной и разрабатывают межзвёздный космический корабль с солнечным парусом.'
           }
         }
       }

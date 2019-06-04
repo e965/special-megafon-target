@@ -20,7 +20,7 @@ const CONFIG = (env, options) => {
   return {
     devServer: {
       contentBase: path.join(__dirname, 'public'),
-      //compress: true,
+      compress: true,
       hot: true,
       port: 3000,
       open: true
@@ -30,25 +30,25 @@ const CONFIG = (env, options) => {
 
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: 'all.js',
+      filename: `all${inProd ? '.min' : ''}.js`,
       library: projectConfig.name
     },
 
-    devtool: inProd ? 'source-map' : false,
+    devtool: false,
 
     optimization: {
       minimizer: [
         new TerserPlugin({
           cache: true,
           parallel: true,
-          sourceMap: true
+          sourceMap: false
         }),
 
         new OptimizeCSSAssetsPlugin({
           cssProcessorOptions: {
-            map: {
-              inline: false
-            }
+            // map: {
+            //   inline: false
+            // }
           }
         })
       ]
@@ -56,7 +56,7 @@ const CONFIG = (env, options) => {
 
     plugins: inProd
       ? [
-          new MiniCssExtractPlugin({ filename: 'all.css' }),
+          new MiniCssExtractPlugin({ filename: `all${inProd ? '.min' : ''}.css` }),
           new webpack.DefinePlugin({ IS_PRODUCTION: JSON.stringify(inProd) })
         ]
       : [
@@ -88,20 +88,20 @@ const CONFIG = (env, options) => {
                 loader: 'css-loader',
                 options: {
                   url: false,
-                  sourceMap: true
+                  sourceMap: false
                 }
               },
               {
                 loader: 'postcss-loader',
                 options: {
                   plugins: [autoprefixer()],
-                  sourceMap: true
+                  sourceMap: false
                 }
               },
               {
                 loader: 'stylus-loader',
                 options: {
-                  sourceMap: true
+                  sourceMap: false
                 }
               }
             ]

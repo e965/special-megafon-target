@@ -16,7 +16,7 @@ const CSS = {
 
 const NODES = {}
 
-const TIME = 1000
+const TIME = 2000
 
 const CDN_URL = Data.imagesCDN
 
@@ -52,8 +52,6 @@ class Special extends BaseSpecial {
     this.results = Data.quiz.results
 
     this.quizLength = this.questions.length
-
-    this.btnsClickAbility = true
 
     this.typeShowing = this.isFeed() ? 'in Feed' : 'in Page'
 
@@ -266,7 +264,7 @@ class Special extends BaseSpecial {
 
     NODES.E.answersMain = createElement('div', `${CSS.main}__answers--main`)
 
-    NODES.E.answersList = createElement('ul', `${CSS.main}__answers-list`)
+    NODES.E.answersList = createElement('div', `${CSS.main}__answers-list`, { role: 'list' })
     NODES.E.answersMain.appendChild(NODES.E.answersList)
 
     NODES.E.answersResult = createElement('div', `${CSS.main}__answers-result`)
@@ -453,10 +451,6 @@ class Special extends BaseSpecial {
         }
         NODES.E.answersResultBtn.textContent = 'Завершить тест'; break
     }
-
-    if (!this.btnsClickAbility) {
-      this.btnsClickAbility = true
-    }
   }
 
   showAnswers() {
@@ -493,7 +487,7 @@ class Special extends BaseSpecial {
     })
 
     currQ.answers.forEach(answerData => {
-      let answerItem = createElement('li', `${CSS.main}__answers-list-item`)
+      let answerItem = createElement('div', `${CSS.main}__answers-list-item`, { role: 'listitem' })
 
       let answerItemBtn = NODES.T.answerItemBtn.cloneNode('true')
 
@@ -510,8 +504,6 @@ class Special extends BaseSpecial {
       U.qsf('p[class$="company"]', answerItemBtn).innerHTML = answerData.company
 
       answerItemBtn.addEventListener('click', e => {
-        if (!this.btnsClickAbility) { return }
-
         if ('clicked' in answerData) {
           this.spawnSMS({
             sender: 'vc.ru',
@@ -538,9 +530,15 @@ class Special extends BaseSpecial {
 
         if (isRight) {
           this.increaseScore()
-        }
 
-        this.btnsClickAbility = false
+          NODES.E.answers.dataset.disallowNext = ''
+
+          setTimeout(() => {
+            delete NODES.E.answers.dataset.disallowNext
+          }, TIME)
+        } else {
+          e.target.disabled = true
+        }
 
         Analytics.sendEvent(`${this.typeShowing} — Answer — Question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'}`, 'Click')
 
@@ -577,10 +575,6 @@ class Special extends BaseSpecial {
           })
         }
 
-        if (!isRight) {
-          e.target.disabled = true
-        }
-
         /*
          * В норме, this.showResult() может отработать и для перехода на следующий этап
          * Здесь эта возможность убрана, но убрав if-else, её можно вернуть
@@ -598,35 +592,7 @@ class Special extends BaseSpecial {
           )
         } else {
           this.nextLevel()
-
-          if (!this.btnsClickAbility) {
-            this.btnsClickAbility = true
-          }
         }
-
-        // setTimeout(() => {
-        //   if (!isRight) {
-        //     e.target.disabled = true
-        //   }
-
-        //   if (nextEvent === 'q' || nextEvent === 'end') {
-        //     this.showResult(
-        //       isRight,
-
-        //       ('result' in cat)
-        //         ? cat.result
-        //         : false,
-
-        //       nextEvent
-        //     )
-        //   } else {
-        //     this.nextLevel()
-
-        //     if (!this.btnsClickAbility) {
-        //       this.btnsClickAbility = true
-        //     }
-        //   }
-        // }, TIME)
       })
 
       answerItem.appendChild(answerItemBtn)
@@ -722,10 +688,10 @@ class Special extends BaseSpecial {
 
     this.newQuestion()
 
-    // NODES.E.headerCounter.addEventListener('dblclick', () => {
-    //   this.score = U.random({ max: this.quizLength })
-    //   this.final()
-    // })
+    NODES.E.headerCounter.addEventListener('dblclick', () => {
+      this.score = U.random({ max: this.quizLength })
+      this.final()
+    })
 
     this.showScreen('quiz')
 
