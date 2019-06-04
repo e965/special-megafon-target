@@ -68,7 +68,7 @@
   <script>
     (function(d, ver) {
       var s = d.createElement('script');
-      s.src = './all.js?' + ver;
+      s.src = './all.min.js?' + ver;
       s.async = true;
 
       var container = d.getElementById('cmtt-special');
@@ -76,7 +76,7 @@
       if (container) {
         s.onload = function() {
           new MegafonTarget.Special({
-            css: './all.css?' + ver,
+            css: './all.min.css?' + ver,
             container: container,
             isFeed: document.querySelector('[air-module="module.feed"], [air-module="module.page_search"]') ? true : false,
             share: {
