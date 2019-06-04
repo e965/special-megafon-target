@@ -9,6 +9,7 @@ import { createElement, clearNode } from './lib/dom'
 import { U } from './lib/u'
 
 import { scrollIntoView } from 'scroll-js'
+import ElementQueries from 'css-element-queries/src/ElementQueries'
 
 const CSS = {
   main: 'mgfn-trgt',
@@ -430,7 +431,7 @@ class Special extends BaseSpecial {
         NODES.E.answersResultBtn.onclick = () => {
           this.nextQuestion()
 
-          Analytics.sendEvent(`${this.typeShowing} — Next question — To question №${this.qIndex + 1}, score is ${this.score}`, 'Click')
+          Analytics.sendEvent(`${this.typeShowing} — Next question (to question №${this.qIndex + 1}, score is ${this.score})`, 'Click')
         }
         NODES.E.answersResultBtn.textContent = 'Далее'; break
 
@@ -447,7 +448,7 @@ class Special extends BaseSpecial {
         NODES.E.answersResultBtn.onclick = () => {
           this.final()
 
-          Analytics.sendEvent(`${this.typeShowing} — End — Score is ${this.score}`, 'Click')
+          Analytics.sendEvent(`${this.typeShowing} — End (score is ${this.score})`, 'Click')
         }
         NODES.E.answersResultBtn.textContent = 'Завершить тест'; break
     }
@@ -540,7 +541,7 @@ class Special extends BaseSpecial {
           e.target.disabled = true
         }
 
-        Analytics.sendEvent(`${this.typeShowing} — Answer — Question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'}`, 'Click')
+        Analytics.sendEvent(`${this.typeShowing} — Answer (question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'})`, 'Click')
 
         this.spawnSMS({
           type: 'face',
@@ -692,6 +693,9 @@ class Special extends BaseSpecial {
       this.score = U.random({ max: this.quizLength })
       this.final()
     })
+
+    ElementQueries.init()
+    ElementQueries.listen()
 
     this.showScreen('quiz')
 

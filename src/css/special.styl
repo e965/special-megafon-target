@@ -25,13 +25,18 @@
   overflow-x hidden
   overflow-y auto
 
+  z-index 99
+
   &[data-is-feed]
     max-width 640px
+    height 610px
 
   button
     font-size inherit
 
   &, *
+    transition .1s ease-in-out
+
     &::-webkit-scrollbar
       width 4px
 
@@ -88,9 +93,6 @@
   --mgfn__switch-theme-transilion all .5s ease-in-out
   --mgfn__standard-transilion all .3s ease-in-out
 
-  resultGrid(w1, w2, w3, w4)
-    'score sms face' w1 'share sms face' w2 'btn sms face' w3 \/ w4 auto auto
-
   &__screens
     width 100%; height 100%
 
@@ -100,13 +102,12 @@
 
     background-color #f0f0f0
 
+    transition none
+
     overflow: hidden
 
     &:not([data-show])
-      width 0; height 0
-      position absolute
-      overflow hidden
-      clip rect(0 0 0 0)
+      visibility-hidden()
 
     &--quiz, &--final
       display flex
@@ -133,111 +134,8 @@
 
   @import './parts/final'
 
-  &[data-is-feed]
-    height 610px
-
-    & ^[0]__phone
-      bottom -390px
-
-    & ^[0]__chat
-      height calc(100% - 345px)
-
-    & ^[0]__sms
-      &[data-solo]
-        margin-top 70px
-
-    & ^[0]__answers
-      width calc(100% - 40px)
-      min-height 250px !important
-
-      grid-template-rows 65px 1fr
-
-      &--header
-        display grid
-        grid-template 'ts' 35px 'phrase' 30px / 1fr
-
-      &[data-show='result']
-        grid-template-rows 35px 1fr
-
-        & ^[-1]--header
-          grid-template 'ts' 35px / 1fr
-
-        & ^[-1]-result
-          justify-content flex-start
-
-          padding 10px
-
-          font-size .8em  !important
-
-          &--status
-            line-height 1
-
-          &--text
-            font-size .99em
-            line-height 1.4
-
-      &--phrase, &--theme-switcher
-        display flex
-        align-items center
-        justify-content center
-
-        position static
-        padding 0
-
-        font-size .8em
-
-      &--theme-switcher
-        span
-          transform scale(.7)
-          margin-left: 0
-
-      &-list
-        &-item
-          align-items baseline
-          padding 10px 0
-
-      &-item
-        &-btn
-          font-size .65em !important
-
-          &--face
-            height 70px
-
-    & ^[0]__final
-      &-result
-        grid-template resultGrid(140px, 35px, 65px, 150px) !important
-
-      &--restart-btn
-        font-size: .9em
-
-      &-megafon
-        margin-top 5px
-
-        &--logo
-          img
-            display block
-            height 25px
-
-        &--text
-          font-size .8em
-
-        &--link
-          padding 5px 20px
-          font-size .8em
-
-    .likely
-      &__widget
-        width auto; height 30px
-
-      &__icon
-        svg
-          width .9em; height .9em
-
   &__cache
-    width 0; height 0
-    position absolute
-    overflow hidden
-    clip rect(0 0 0 0)
+    visibility-hidden()
 
   .likely
     display flex
@@ -259,8 +157,6 @@
       color inherit
 
       cursor pointer
-
-      transition var(--mgfn__standard-transilion)
 
       &:not(:first-child)
         margin-left: 10px
@@ -291,6 +187,4 @@
         display block
         width 1.2em; height 1.2em
 
-        transition var(--mgfn__standard-transilion)
-
-  @import 'parts/mq'
+@import 'parts/eq'

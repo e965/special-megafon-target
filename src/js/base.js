@@ -44,7 +44,7 @@ class BaseSpecial {
             link.onload = () => resolve();
             link.onerror = () => reject();
 
-            document.body.appendChild(link);
+            document.head.appendChild(link);
         });
     }
 

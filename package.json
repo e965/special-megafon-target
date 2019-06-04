@@ -2,7 +2,7 @@
 	"name": "special-megafon-target",
 	"description": "Спецпроект для «Мегафона»",
 	"private": true,
-	"version": "1.0.18",
+	"version": "1.0.19",
 	"author": "Dmitry <dmitry@cojam.ru> (https://e965.ru)",
 	"repository": "github:tehcojam/special-megafon-target",
 	"scripts": {
@@ -16,13 +16,14 @@
 	],
 	"dependencies": {
 		"cmtt-likely": "^1.2.2",
+		"css-element-queries": "^1.2.0",
 		"scroll-js": "^2.2.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.4.5",
 		"@babel/preset-env": "^7.4.5",
 		"@babel/register": "^7.4.4",
-		"autoprefixer": "^9.1.0",
+		"autoprefixer": "^9.6.0",
 		"babel-loader": "^8.0.6",
 		"css-loader": "^2.1.1",
 		"eslint": "^5.9.0",

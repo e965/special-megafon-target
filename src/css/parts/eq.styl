@@ -1,0 +1,241 @@
+@media screen and (max-width 1059px)
+  .mgfn-trgt
+    width calc(100% - 20px)
+
+.mgfn-trgt
+  &[max-width~='1026px'] // {$mq.notDesktop
+    margin 0 auto
+
+    & ^[-1]__final
+      font-size .5em
+
+      &-result
+        padding 0 20px
+        grid-template resultGrid(140px, 80px, 60px, 200px)
+
+      &--score
+        padding-top 20px
+
+      &--sms
+        padding 10px 30px
+
+        & ^[0]__sms
+          &-text--content
+            padding 10px
+
+          &--sender, &--text
+            font-size .9em
+
+      &--face
+        img
+          height 120px
+
+  &[max-width~='679px'] // $mq.mobile
+    height 610px
+
+    & ^[-1]__phone
+      bottom -360px
+
+    & ^[-1]__chat
+      height calc(100% - 300px)
+
+    & ^[-1]__sms
+      &[data-solo]
+        margin-top 70px
+
+    & ^[-1]__answers
+      width 100% !important
+      min-height 220px !important
+
+      grid-template-rows 65px 1fr
+
+      &--header
+        display grid
+        grid-template 'ts' 35px 'phrase' 30px / 1fr
+
+      &[data-show='result']
+        grid-template-rows 35px 1fr
+
+        & ^[-1]--header
+          grid-template 'ts' 35px / 1fr
+
+        & ^[-1]-result
+          justify-content flex-start
+
+          padding 10px
+
+          font-size .8em !important
+
+          &--status
+            line-height 1
+
+          &--text
+            font-size .99em
+            line-height 1.4
+
+      &--phrase, &--theme-switcher
+        display flex
+        align-items center
+        justify-content center
+
+        position static
+        padding 0
+
+        font-size .8em
+
+      &--theme-switcher
+        span
+          transform scale(.7)
+          margin-left: 0
+
+      &-list
+        &-item
+          align-items baseline
+          padding 10px 0
+
+      &-item
+        &-btn
+          font-size .65em !important
+
+          &--face
+            height 70px
+
+    & ^[-1]__final
+      &-result
+        grid-template resultGrid(130px, 35px, 65px, 150px)
+
+      &--restart-btn
+        font-size: .9em
+
+      &--sms
+        padding 10px 20px
+
+        & ^[0]__sms
+          font-size .95em
+
+          // &, ^[0][data-is-feed] ^[-1] ^[0]__sms // :0
+          //   &-text--content
+          //     padding 5px
+
+          &--sender
+            margin-bottom 0
+
+      &--face
+        padding 5px
+
+        img
+          height 80px !important
+
+      &-megafon
+        padding 20px
+
+        &--logo
+          img
+            display block
+            height 25px
+
+        &--text
+          margin-top 10px
+
+          font-size .8em
+          line-height 1.5
+
+          div
+            &:not(:first-child)
+              margin-top: 5px
+
+        &--link
+          margin-top 10px
+          padding 5px 20px
+          font-size .8em
+
+    .likely
+      &__widget
+        width auto; height 30px
+
+      &__icon
+        svg
+          width .9em; height .9em
+
+  &[max-width~='374px'] // $mq.iphone5
+    width 100%; height 550px
+
+    & ^[-1]__phone
+      bottom -420px
+
+    & ^[-1]__chat
+      height calc(100% - 385px)
+
+    & ^[-1]__answers
+      height 220px !important
+
+      border-radius 0
+
+      &--phrase
+        font-size .8em
+
+      &[data-show='result']
+        & ^[-1]-result
+          &--status
+            //margin-top 10px
+
+          &--text
+            margin-top 5px
+
+          &--next-btn
+            bottom 10px; right 10px
+
+      &-list
+        &-item
+          padding 5px 0
+
+      &-item
+        &-btn
+          &--face
+            height 40px
+
+    & ^[-1]__sms
+      &[data-solo]
+        margin-top 30px
+
+    & ^[-1]__final
+      &-result
+        padding 5px !important
+        grid-template resultGrid(100px, 40px, 40px, 150px)
+
+      &--score
+        font-size .8em
+        line-height 1.5
+
+      &--face
+        img
+          height 50px !important
+
+      &--sms
+        padding 5px 10px !important
+
+        & ^[0]__sms
+          font-size: .9em
+
+          &-text--content
+            padding 5px !important
+
+      &--restart-btn
+        font-size .7em
+
+        button
+          margin-top 0
+
+      &-megafon
+        padding 10px
+
+        &--logo
+          img
+            height 20px
+
+        &--text
+          font-size .7em
+
+        &--link
+          padding 5px 20px
+          font-size .7em
