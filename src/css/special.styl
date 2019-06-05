@@ -5,6 +5,7 @@
 @import './inc/keyframes'
 
 @import './svg'
+@import './images'
 
 // base.styl подключается только в том случае, когда спецпроект расположен на отдельной странице
 // @import 'base'
@@ -17,9 +18,11 @@
 
 .mgfn-trgt
   position relative
-  width 1060px; height 750px
+  width 1060px; height 720px
 
-  font-size 18px
+  background-color #f0f0f0
+
+  //font-size 18px
   line-height 1.5em
 
   overflow-x hidden
@@ -33,6 +36,34 @@
 
   button
     font-size inherit
+
+  // SVG-иконки и картинки (двоеточия ОБЯЗАТЕЛЬНЫ)
+
+  --mgfn__svg-mark_success: $svg.mark_success
+  --mgfn__svg-mark_failure: $svg.mark_failure
+  --mgfn__svg-arrow: $svg.arrow
+  --mgfn__svg-refresh: $svg.refresh
+
+  --mgfn__img-chat-bg: $images.chat_bg_x1
+  --mgfn__img-anon: $images.anon_x1
+
+  // Различные параметры для медиа-запросов
+
+  --mgfn__offset-chat 215px
+  --mgfn__offset-phone -300px
+  --mgfn__answers-height 270px
+  --mgfn__solo-sms-offset 150px
+
+  --mgfn__switch-theme-transilion all .3s ease-in-out
+  --mgfn__standard-transilion all .3s ease-in-out
+
+  @keyframes mgfn__typing-blink
+    0%
+      opacity .7
+    50%
+      opacity .5
+    100%
+      opacity .7
 
   &, *
     transition .1s ease-in-out
@@ -48,23 +79,8 @@
 
     @supports (-moz-appearance: none) {
       scrollbar-width thin
-      scrollbar-color #ccc #fff
+      scrollbar-color #ccc transparent
     }
-
-  --mgfn__svg-vc_logo: $svg.vc_logo
-  --mgfn__svg-megafon_logo: $svg.megafon_logo
-  --mgfn__svg-mark_success: $svg.mark_success
-  --mgfn__svg-mark_failure: $svg.mark_failure
-  --mgfn__svg-arrow: $svg.arrow
-  --mgfn__svg-refresh: $svg.refresh
-
-  @keyframes mgfn__typing-blink
-    0%
-      opacity .7
-    50%
-      opacity .5
-    100%
-      opacity .7
 
   &[data-theme='green']
     --mgfn__header-bg-color #00B956
@@ -82,17 +98,6 @@
     --mgtn__chat-text-color #FB9DB3
     --mgtn__chat-link-border rgba(#FB9DB3, .5)
 
-  $IMAGE_CDN = 'https://leonardo-direct.osnova.io/'
-
-  --mggn__img-chat_bg_x1 url($IMAGE_CDN + 'c24f94e5-726a-fd6e-b0ef-b3268c46dbbf')
-  --mggn__img-chat_bg_x2 url($IMAGE_CDN + '5ecdb63a-da5b-bf17-f6c4-178cb2b4a920')
-
-  --mggn__img-anon_x1 url($IMAGE_CDN + 'a0ee6cd2-d95c-f43e-ac74-0eaf166ad3b7')
-  --mggn__img-anon_x2 url($IMAGE_CDN + '8f3645aa-bcc2-aa81-feac-191dc465bb24')
-
-  --mgfn__switch-theme-transilion all .5s ease-in-out
-  --mgfn__standard-transilion all .3s ease-in-out
-
   &__screens
     width 100%; height 100%
 
@@ -100,21 +105,19 @@
     position relative
     width 100%; height 100%
 
-    background-color #f0f0f0
+    display flex
+    flex-direction column
+
+    align-items center
+
+    font-size 18px
 
     transition none
 
-    overflow: hidden
+    overflow hidden
 
     &:not([data-show])
       visibility-hidden()
-
-    &--quiz, &--final
-      display flex
-
-      flex-direction column
-
-      align-items center
 
     &--quiz
       justify-content flex-end
@@ -187,4 +190,4 @@
         display block
         width 1.2em; height 1.2em
 
-@import 'parts/eq'
+  @import 'parts/eq'

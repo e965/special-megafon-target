@@ -10,8 +10,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const autoprefixer = require('autoprefixer')
 
-//const Config = require('./src/config.js')
-
 import { projectConfig } from './src/config'
 
 const CONFIG = (env, options) => {
@@ -41,7 +39,12 @@ const CONFIG = (env, options) => {
         new TerserPlugin({
           cache: true,
           parallel: true,
-          sourceMap: false
+          sourceMap: false,
+          terserOptions: {
+            output: {
+              comments: false
+            }
+          }
         }),
 
         new OptimizeCSSAssetsPlugin({
@@ -65,12 +68,7 @@ const CONFIG = (env, options) => {
         ],
 
     module: {
-      rules: [/*{
-        test: /\.m?js$/,
-        enforce: 'pre',
-        exclude: /(node_modules|bower_components)/,
-        loader: 'eslint-loader'
-      },*/{
+      rules: [{
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',

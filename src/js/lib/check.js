@@ -17,3 +17,10 @@ export const isMobile = () => {
 export const isLargeDesktop = () => {
     return window.matchMedia(`(min-width: ${BREAKPOINTS.largeDesktop}px)`).matches;
 };
+
+/**
+ * Check for Retina display
+ */
+export const isRetinaDisplay = () => {
+    return window.matchMedia('(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)').matches;
+};

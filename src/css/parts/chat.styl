@@ -1,9 +1,9 @@
 &__chat
-  height calc(100% - 215px)
+  height calc(100% - var(--mgfn__offset-chat))
 
   padding 0 15px 0 10px
 
-  background-image var(--mggn__img-chat_bg_x1)
+  background-image var(--mgfn__img-chat-bg)
   background-size cover
 
   background-color var(--mgtn__chat-bg-color)
@@ -32,6 +32,11 @@
     & > *
       position absolute
 
+    &--counter, &--operator, &--sender
+      @supports (-webkit-appearance none) {
+        -webkit-transition-delay -.1s
+      } // по какой-то причине хром анимирует текст немного позже
+
     &--counter, &--operator
       top 7px
 
@@ -58,13 +63,10 @@
 
       width 30px; height 30px
 
-      background-image var(--mggn__img-anon_x1)
+      background-image var(--mgfn__img-anon)
       background-size cover
 
   // for Retina displays
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
-    background-image var(--mggn__img-chat_bg_x2)
-
-    &-header
-      &--avatar
-        background-image var(--mggn__img-chat_bg_x2)
+    --mgfn__img-chat-bg: $images.chat_bg_x2
+    --mgfn__img-anon: $images.anon_x2

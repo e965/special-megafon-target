@@ -1,6 +1,6 @@
 &__answers
   position relative
-  width 100%; min-height 270px
+  width 100%; min-height var(--mgfn__answers-height)
   max-width 900px;
 
   display grid
@@ -20,17 +20,17 @@
 
   &--phrase, &--theme-switcher
     position absolute
-    padding 15px
+    padding 15px 15px 0
     color #A6A6A6
 
   &--phrase
-    left 10px
+    left 5px
     cursor default
 
     grid-area phrase
 
   &--theme-switcher
-    right 10px
+    right 5px
 
     display block
 
@@ -190,6 +190,10 @@
 
     & ^[-1]-result
       display flex
+
+  &:not([data-show='result'])
+    & ^[-1]-result
+      display none
 
   &-result
     position relative

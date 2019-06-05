@@ -43,6 +43,10 @@ class Special extends BaseSpecial {
     return this.params.isFeed
   }
 
+  isStart() {
+    return (this.qIndex === 0 && this.qLevel === 0)
+  }
+
   setInitialParams() {
     this.qIndex = 0
     this.qLevel = 0
@@ -55,6 +59,8 @@ class Special extends BaseSpecial {
     this.quizLength = this.questions.length
 
     this.typeShowing = this.isFeed() ? 'in Feed' : 'in Page'
+
+    this.btnsClickAbility = true
 
     if (this.isFeed()) {
       this.container.dataset.isFeed = ''
@@ -177,7 +183,7 @@ class Special extends BaseSpecial {
 
     NODES.S.ALL = createElement('div', `${CSS.main}__screens`)
 
-    NODES.S.quiz = createElement('div', [`${CSS.main}__screen`, `${CSS.main}__screen--quiz`], { data: { show: '' } })
+    NODES.S.quiz = createElement('div', [`${CSS.main}__screen`, `${CSS.main}__screen--quiz`])
     NODES.S.ALL.appendChild(NODES.S.quiz)
 
     NODES.S.final = createElement('div', [`${CSS.main}__screen`, `${CSS.main}__screen--final`])
@@ -186,15 +192,6 @@ class Special extends BaseSpecial {
     this.container.appendChild(NODES.S.ALL)
 
     /* Элементы */
-
-    // NODES.E.phone = createElement('div', `${CSS.main}__phone`)
-    // NODES.S.quiz.appendChild(NODES.E.phone)
-
-    // NODES.E.phoneNotch = createElement('div', `${CSS.main}__phone--notch`)
-    // NODES.E.phone.appendChild(NODES.E.phoneNotch)
-
-    // NODES.E.phoneContent = createElement('div', `${CSS.main}__phone--content`)
-    // NODES.E.phone.appendChild(NODES.E.phoneContent)
 
     NODES.E.phone = createElement('div', [`${CSS.main}__phone`, `${CSS.main}__device`, `${CSS.main}__device-iphone-x`])
 
@@ -322,7 +319,7 @@ class Special extends BaseSpecial {
 
     NODES.E.finalMegaText = createElement('div', `${CSS.main}__final-megafon--text`)
     Data.mega_text.forEach(paragraph => {
-      NODES.E.finalMegaText.appendChild(createElement('div', '', { innerText: paragraph }))
+      NODES.E.finalMegaText.appendChild(createElement('div', '', { innerText: paragraph, role: 'paragraph' }))
     })
     NODES.E.finalMegafon.appendChild(NODES.E.finalMegaText)
 
@@ -345,7 +342,7 @@ class Special extends BaseSpecial {
     NODES.S[screen].dataset.show = ''
   }
 
-  spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', typing = false, tail = 'left', images = {}, success = true, scroll = true }) {
+  spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', typing = false, typingTime = 0, tail = 'left', images = {}, success = true, scroll = true }) {
     let sms = document.createElement('div')
 
     let scrollToSMS = () => scroll
@@ -356,14 +353,14 @@ class Special extends BaseSpecial {
       })
       : () => {}
 
+    if (!typing) typingTime = 0
+
     if (type === 'text') {
       sms = NODES.T.textSMS.cloneNode('true')
 
       let senderField = U.qsf('div[class$="sender"]', sms)
 
       let textField = U.qsf('div[class$="text"]', sms)
-
-      let _time = typing ? TIME : 0
 
       sms.dataset.tail = tail
 
@@ -382,7 +379,7 @@ class Special extends BaseSpecial {
         }
 
         scrollToSMS()
-      }, _time)
+      }, typingTime)
 
     } else if (type === 'face') {
       sms = NODES.T.faceSMS.cloneNode('true')
@@ -398,7 +395,7 @@ class Special extends BaseSpecial {
       let faceImg = U.qsf('img[class$="face"]', sms)
 
       faceImg.src = images.x1
-      faceImg.srcset = images.x2
+      faceImg.srcset = images.x2 + ' 2x'
     }
 
     if (
@@ -458,12 +455,23 @@ class Special extends BaseSpecial {
     NODES.E.answers.dataset.show = 'answers'
   }
 
+  spawnNextLevelSMS() {
+    this.btnsClickAbility = false
+
+    this.spawnSMS({
+      text: this.getCurrentLevel().text,
+      typing: true, typingTime: TIME
+    })
+
+    setTimeout(() => {
+      this.btnsClickAbility = true
+    }, TIME)
+  }
+
   nextLevel() {
     ++this.qLevel
 
-    this.spawnSMS({
-      text: this.getCurrentLevel().text
-    })
+    this.spawnNextLevelSMS()
   }
 
   nextQuestion() {
@@ -483,9 +491,13 @@ class Special extends BaseSpecial {
 
     clearNode(NODES.E.answersList)
 
-    this.spawnSMS({
-      text: this.getCurrentLevel().text
-    })
+    if (this.isStart()) {
+      this.spawnSMS({
+        text: this.getCurrentLevel().text
+      })
+    } else {
+      this.spawnNextLevelSMS()
+    }
 
     currQ.answers.forEach(answerData => {
       let answerItem = createElement('div', `${CSS.main}__answers-list-item`, { role: 'listitem' })
@@ -505,6 +517,8 @@ class Special extends BaseSpecial {
       U.qsf('p[class$="company"]', answerItemBtn).innerHTML = answerData.company
 
       answerItemBtn.addEventListener('click', e => {
+        if (!this.btnsClickAbility) { return }
+
         if ('clicked' in answerData) {
           this.spawnSMS({
             sender: 'vc.ru',
@@ -536,7 +550,7 @@ class Special extends BaseSpecial {
 
           setTimeout(() => {
             delete NODES.E.answers.dataset.disallowNext
-          }, TIME)
+          }, TIME / 2)
         } else {
           e.target.disabled = true
         }
@@ -572,7 +586,8 @@ class Special extends BaseSpecial {
             sender: answerData.who,
             text: cat.chat,
             tail: 'right',
-            typing: true
+            typing: true,
+            typingTime: TIME / 2
           })
         }
 
@@ -659,24 +674,29 @@ class Special extends BaseSpecial {
   }
 
   cacheImages() {
-    let images = []
+    let images = {
+      x1: [], x2: []
+    }
 
     this.imagesIsCached = true
 
     Object.keys(Data.images.faces).forEach(key => {
-      images.push(CDN_URL + Data.images.faces[key])
-      images.push(CDN_URL + Data.images.faces_2x[key])
+      images.x1.push(CDN_URL + Data.images.faces[key])
+      images.x2.push(CDN_URL + Data.images.faces_2x[key])
     })
 
-    Object.keys(Data.images.target_logo).forEach(key => {
-      images.push(CDN_URL + Data.images.target_logo[key])
-    })
+    images.x1.push(Data.images.target_logo.x1)
+    images.x2.push(Data.images.target_logo.x2)
 
-    images.forEach(image => {
+    for (let i = 0; i < images.x1.length -1; i++) {
       NODES.E.cache.appendChild(
-        createElement('img', '', { src: image, alt: 'cached image' })
+        createElement('img', '', {
+          src: images.x1[i],
+          srcset: images.x2[i] + ' 2x',
+          alt: 'cached image'
+        })
       )
-    })
+    }
   }
 
   init() {
