@@ -18,9 +18,10 @@
   overflow-x hidden
 
   &-header
-    background-color var(--mgfn__header-bg-color)
-
     position relative
+    width 100%; max-width 100%
+
+    background-color var(--mgfn__header-bg-color)
 
     color var(--mgfn__header-text-color)
 
@@ -33,9 +34,7 @@
       position absolute
 
     &--counter, &--operator, &--sender
-      @supports (-webkit-appearance none) {
-        -webkit-transition-delay -.1s
-      } // по какой-то причине хром анимирует текст немного позже
+      webkit-anim-delay()
 
     &--counter, &--operator
       top 7px

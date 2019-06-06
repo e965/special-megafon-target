@@ -166,7 +166,7 @@ class Special extends BaseSpecial {
 
     /* Кнопка ответа на вопрос */
 
-    NODES.T.answerItemBtn = createElement('button', `${CSS.main}__answers-item-btn`)
+    NODES.T.answerItemBtn = createElement('div', `${CSS.main}__answers-item-btn`, { role: 'button' })
 
     NODES.T.answerItemBtn.appendChild(createElement('picture', `${CSS.main}__answers-item-btn--face`, { innerHTML: '<img>' }))
     NODES.T.answerItemBtn.appendChild(createElement('p', `${CSS.main}__answers-item-btn--name`))
@@ -327,9 +327,6 @@ class Special extends BaseSpecial {
     NODES.E.finalMegafon.appendChild(NODES.E.finalMegaButton)
 
     NODES.S.final.appendChild(NODES.E.finalMegafon)
-
-    NODES.E.cache = createElement('div', `${CSS.main}__cache`)
-    this.container.appendChild(NODES.E.cache)
   }
 
   showScreen(screen) {
@@ -342,7 +339,7 @@ class Special extends BaseSpecial {
     NODES.S[screen].dataset.show = ''
   }
 
-  spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', typing = false, typingTime = 0, tail = 'left', images = {}, success = true, scroll = true }) {
+  spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', user = false, typing = false, typingTime = 0, tail = 'left', images = {}, success = true, scroll = true }) {
     let sms = document.createElement('div')
 
     let scrollToSMS = () => scroll
@@ -351,9 +348,9 @@ class Special extends BaseSpecial {
         behavior: 'smooth',
         duration: 1500
       })
-      : () => {}
+      : () => void(0)
 
-    if (!typing) typingTime = 0
+    if (typing === false) typingTime = 0
 
     if (type === 'text') {
       sms = NODES.T.textSMS.cloneNode('true')
@@ -363,6 +360,8 @@ class Special extends BaseSpecial {
       let textField = U.qsf('div[class$="text"]', sms)
 
       sms.dataset.tail = tail
+
+      if (user) sms.dataset.user = ''
 
       if (typing) {
         textField.textContent = 'Печатает'
@@ -456,16 +455,21 @@ class Special extends BaseSpecial {
   }
 
   spawnNextLevelSMS() {
-    this.btnsClickAbility = false
-
     this.spawnSMS({
       text: this.getCurrentLevel().text,
-      typing: true, typingTime: TIME
+      typing: !(this.qLevel === 0),
+      typingTime: TIME
     })
 
-    setTimeout(() => {
-      this.btnsClickAbility = true
-    }, TIME)
+    if (!(this.qLevel === 0)) {
+      this.btnsClickAbility = false
+      NODES.E.answers.dataset.disallowClicks = ''
+
+      setTimeout(() => {
+        this.btnsClickAbility = true
+        delete NODES.E.answers.dataset.disallowClicks
+      }, TIME)
+    }
   }
 
   nextLevel() {
@@ -478,6 +482,8 @@ class Special extends BaseSpecial {
     ++this.qIndex
 
     this.qLevel = 0
+
+    clearNode(NODES.E.chat)
 
     this.newQuestion()
 
@@ -517,7 +523,10 @@ class Special extends BaseSpecial {
       U.qsf('p[class$="company"]', answerItemBtn).innerHTML = answerData.company
 
       answerItemBtn.addEventListener('click', e => {
-        if (!this.btnsClickAbility) { return }
+        if (
+          !this.btnsClickAbility ||
+          'disabled' in e.target.dataset
+        ) { return }
 
         if ('clicked' in answerData) {
           this.spawnSMS({
@@ -552,7 +561,7 @@ class Special extends BaseSpecial {
             delete NODES.E.answers.dataset.disallowNext
           }, TIME / 2)
         } else {
-          e.target.disabled = true
+          e.target.dataset.disabled = ''
         }
 
         Analytics.sendEvent(`${this.typeShowing} — Answer (question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'})`, 'Click')
@@ -586,8 +595,9 @@ class Special extends BaseSpecial {
             sender: answerData.who,
             text: cat.chat,
             tail: 'right',
-            typing: true,
-            typingTime: TIME / 2
+            user: true
+            // typing: true,
+            // typingTime: TIME / 2
           })
         }
 
@@ -624,20 +634,20 @@ class Special extends BaseSpecial {
 
     let results = this.results[person]
 
-    let scoreKey = -1
+    let scoreIndex = -1
 
     Object.keys(results).forEach(key => {
-      if (this.score >= Number(key)) { scoreKey++ }
+      if (this.score >= Number(key)) { scoreIndex++ }
     })
 
-    let ourResult = Object.values(results)[scoreKey]
+    let ourResult = Object.values(results)[scoreIndex]
 
-    NODES.E.finalResultScore.textContent = `${this.score} из ${this.quizLength} правильных ответов`
+    NODES.E.finalResultScore.textContent = `${this.score} из ${this.quizLength} адресатов разгадано`
 
     clearNode(NODES.E.finalResultShare)
 
     Share.make(NODES.E.finalResultShare, {
-      url: this.params.share.url + '/' + person + '/' + (scoreKey + 1),
+      url: this.params.share.url + '/' + person + '/' + (scoreIndex + 1),
       title: this.params.share.title,
       twitter: this.params.share.title,
     }, this.typeShowing)
@@ -689,13 +699,11 @@ class Special extends BaseSpecial {
     images.x2.push(Data.images.target_logo.x2)
 
     for (let i = 0; i < images.x1.length -1; i++) {
-      NODES.E.cache.appendChild(
-        createElement('img', '', {
-          src: images.x1[i],
-          srcset: images.x2[i] + ' 2x',
-          alt: 'cached image'
-        })
-      )
+      createElement('img', '', {
+        src: images.x1[i],
+        srcset: images.x2[i] + ' 2x',
+        alt: 'cached image'
+      })
     }
   }
 

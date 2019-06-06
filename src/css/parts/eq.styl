@@ -50,32 +50,28 @@
     --mgfn__offset-chat 300px
     --mgfn__offset-phone -360px
     --mgfn__answers-height 220px
-
-    & ^[-1]__sms
-      &[data-solo]
-        margin-top 70px
+    --mgfn__solo-sms-offset 100px
 
     & ^[-1]__answers
       width 100%
       border-radius 0
 
-      &[data-show='result']
-        & ^[-1]-result
-          justify-content flex-start
-          padding 10px 5px 5px
+      &-result
+        justify-content flex-start
+        padding 10px 5px 5px
 
-          font-size .8em
+        font-size .8em
 
-          &--status
-            line-height 1
+        &--status
+          line-height 1
 
-          &--text
-            font-size .99em
-            line-height 1.4
+        &--text
+          font-size .99em
+          line-height 1.4
 
-          &--next-btn
-            bottom 10px; right 10px
-            font-size .9em
+        &--next-btn
+          bottom 10px; right 10px
+          font-size .9em
 
       &--phrase, &--theme-switcher
         padding 10px 5px 0
@@ -98,7 +94,7 @@
 
       &-item
         &-btn
-          font-size .65em !important
+          font-size .65em
 
           &--face
             height 70px
@@ -111,7 +107,7 @@
         font-size: .9em
 
       &--sms
-        padding 10px 20px
+        padding 10px 5px
 
         & ^[0]__sms
           font-size .95em
@@ -121,9 +117,6 @@
 
       &--face
         padding 5px
-
-        img
-          height 80px !important
 
       &-megafon
         padding 20px
@@ -159,33 +152,26 @@
   &[max-width~='374px'] // $mq.iphone5
     width 100%; height 530px
 
-    --mgfn__offset-chat 385px
-    --mgfn__offset-phone -420px
-    --mgfn__answers-height 200px
-    --mgfn__solo-sms-offset 30px
-
-    & ^[-1]__phone
-      bottom -420px
-
-    & ^[-1]__chat
-      height calc(100% - 385px)
+    --mgfn__offset-chat 395px
+    --mgfn__offset-phone -425px
+    --mgfn__answers-height 210px
+    --mgfn__solo-sms-offset 60px
 
     & ^[-1]__answers
       grid-template-rows 55px 1fr
 
       &--header
-        display grid
-        grid-template 'ts' 30px 'phrase' 25px / 1fr
+        display flex
+        flex-flow column-reverse
 
       &--phrase
         font-size .8em
 
       &-result
         position static
-        display block
-        padding 5px 10px 10px
+        padding 10px
 
-        text-align center
+        justify-content center
 
         &--text
           margin-top 5px
@@ -193,13 +179,12 @@
 
         &--next-btn
           height 30px
-          top -30px; left 5px
-
-          padding-left 10px
+          top -28px; bottom unset
+          right 5px
 
           opacity .5
 
-          font-size .8em
+          font-size 1em
 
       &[data-show='result']
         grid-template-rows 30px 1fr
@@ -225,8 +210,8 @@
         justify-content center
 
       &--theme-switcher
-        padding-right 5px
-        justify-content flex-end
+        justify-content flex-start
+        padding-left 5px
 
       &-list
         &-item
@@ -239,25 +224,25 @@
 
     & ^[-1]__final
       &-result
-        padding 5px 10px
-        grid-template resultGrid(100px, 40px, 40px, 110px)
+        padding 10px
+        grid-template resultGrid(100px, 40px, 40px, 115px)
 
       &--score
         font-size .8em
         line-height 1.5
 
-      &--face
-        img
-          height 50px !important
-
       &--sms
-        padding 5px 10px !important
+        padding 5px
 
         & ^[0]__sms
-          font-size: .9em
+          font-size: .8em
 
           &-text--content
-            padding 5px !important
+            padding 5px
+
+      &--face
+        img
+          height 70px
 
       &--restart-btn
         font-size .65em
@@ -266,6 +251,7 @@
           margin-top 0
 
       &-megafon
+        margin-top 10px
         padding 10px
 
         &--logo
