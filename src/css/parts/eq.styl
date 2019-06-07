@@ -2,15 +2,18 @@
   @media screen and (max-width 1059px)
     width 100%
 
+  @media $mq.desktop
+    &__answers
+      &-item
+        &-btn
+          transition var(--mgfn__standard-transilion)
+
   @media screen and (max-height 770px)
     &:not([data-is-feed])
       height 650px
 
-      &__phone
-        bottom -370px
-
-      &__chat
-        height calc(100% - 315px)
+      --mgfn__offset-chat 315px
+      --mgfn__offset-phone -370px
 
       &__sms
         &[data-solo]
@@ -31,7 +34,10 @@
         padding-top 20px
 
       &--sms
-        padding 10px 30px
+        display flex
+        padding 10px 20px
+
+        justify-content flex-end
 
         & ^[0]__sms
           &-text--content
@@ -41,8 +47,10 @@
             font-size .9em
 
       &--face
+        max-width 100px
+
         img
-          height 120px
+          width 90px
 
   &[max-width~='679px'] // $mq.mobile
     height 610px
@@ -58,7 +66,7 @@
 
       &-result
         justify-content flex-start
-        padding 10px 5px 5px
+        padding 20px 5px 5px
 
         font-size .8em
 
@@ -71,7 +79,6 @@
 
         &--next-btn
           bottom 10px; right 10px
-          font-size .9em
 
       &--phrase, &--theme-switcher
         padding 10px 5px 0
@@ -90,7 +97,7 @@
       &-list
         &-item
           align-items baseline
-          padding 10px 0
+          padding-top 15px
 
       &-item
         &-btn
@@ -110,7 +117,8 @@
         padding 10px 5px
 
         & ^[0]__sms
-          font-size .95em
+          max-width 300px
+          font-size .9em
 
           &--sender
             margin-bottom 0
@@ -213,10 +221,6 @@
         justify-content flex-start
         padding-left 5px
 
-      &-list
-        &-item
-          padding 10px 0 5px
-
       &-item
         &-btn
           &--face
@@ -242,7 +246,7 @@
 
       &--face
         img
-          height 70px
+          width 60px
 
       &--restart-btn
         font-size .65em

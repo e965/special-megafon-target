@@ -8,16 +8,17 @@
 
     box-shadow 0px -1px 10px rgba(#000, .1)
 
+    &--phrase, &--theme-switcher
+      font-size .75em
+
     &--phrase
       left 10px
-      font-size .85em
 
     &--theme-switcher
       right 15px
-      font-size .7em
 
       span
-        transform scale(.45)
+        transform scale(.5)
         width 20px
 
   // сброс значений для маленьких экранов
@@ -28,6 +29,15 @@
       max-width 100%
       border-radius 0
 
+      &--theme-switcher
+        font-size .8em
+
+        span
+          transform scale(.7)
+          width 46px
+
+  @media $mq.desktop
+    & ^[0]__answers
       &--theme-switcher
         font-size .8em
 

@@ -345,8 +345,7 @@ class Special extends BaseSpecial {
     let scrollToSMS = () => scroll
       ? scrollIntoView(sms, NODES.E.chat, {
         block: 'end',
-        behavior: 'smooth',
-        duration: 1500
+        behavior: 'smooth'
       })
       : () => void(0)
 
@@ -375,10 +374,17 @@ class Special extends BaseSpecial {
 
         if (typing) {
           delete sms.dataset.typing
+          sms.dataset.hide = ''
+        } else {
+          scrollToSMS()
         }
+      }, typingTime)
+
+      setTimeout(() => {
+        delete sms.dataset.hide
 
         scrollToSMS()
-      }, typingTime)
+      }, typingTime + 150)
 
     } else if (type === 'face') {
       sms = NODES.T.faceSMS.cloneNode('true')
