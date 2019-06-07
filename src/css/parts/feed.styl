@@ -21,6 +21,10 @@
         transform scale(.5)
         width 20px
 
+    &-item
+      &-btn
+        transition var(--mgfn__standard-transilion)
+
   // сброс значений для маленьких экранов
   &[max-width~='374px']
     height 530px
@@ -35,6 +39,10 @@
         span
           transform scale(.7)
           width 46px
+
+      &-item
+        &-btn
+          transition none
 
   @media $mq.desktop
     & ^[0]__answers

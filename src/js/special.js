@@ -17,7 +17,7 @@ const CSS = {
 
 const NODES = {}
 
-const TIME = 2000
+const TIME = 1500
 
 const CDN_URL = Data.imagesCDN
 
@@ -369,12 +369,17 @@ class Special extends BaseSpecial {
       }
 
       setTimeout(() => {
+        if (typing) {
+          sms.dataset.hide = ''
+        }
+      }, typingTime - 200) // должно соответствовать значению в ../styl/parts/sms.styl > &[data-hide]
+
+      setTimeout(() => {
         senderField.textContent = sender
         textField.textContent = text
 
         if (typing) {
           delete sms.dataset.typing
-          sms.dataset.hide = ''
         } else {
           scrollToSMS()
         }
@@ -384,7 +389,7 @@ class Special extends BaseSpecial {
         delete sms.dataset.hide
 
         scrollToSMS()
-      }, typingTime + 150)
+      }, typingTime + 500)
 
     } else if (type === 'face') {
       sms = NODES.T.faceSMS.cloneNode('true')
@@ -670,7 +675,7 @@ class Special extends BaseSpecial {
     U.qsf('div[class$="--text"]', NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult.text)
 
     finalFaceImg.src = CDN_URL + Data.images.faces[`${person}_nichosi`]
-    finalFaceImg.srcset = CDN_URL + Data.images.faces_2x[`${person}_nichosi`]
+    finalFaceImg.srcset = CDN_URL + Data.images.faces_2x[`${person}_nichosi`] + ' 2x'
 
     this.showScreen('final')
   }
@@ -723,10 +728,12 @@ class Special extends BaseSpecial {
 
     this.newQuestion()
 
-    NODES.E.headerCounter.addEventListener('dblclick', () => {
-      this.score = U.random({ max: this.quizLength })
-      this.final()
-    })
+    if ('allowSkip' in this.params) {
+      NODES.E.headerCounter.addEventListener('dblclick', () => {
+        this.score = U.random({ max: this.quizLength })
+        this.final()
+      })
+    }
 
     ElementQueries.init()
     ElementQueries.listen()
