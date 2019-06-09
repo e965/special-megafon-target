@@ -2,7 +2,7 @@
   position relative
   margin-top 20px
 
-  transition all .5s ease-in-out
+  //transition all .5s ease-in-out
 
   user-select none
 
@@ -15,9 +15,8 @@
   &[data-solo]
     margin-top var(--mgfn__solo-sms-offset)
 
-  &[data-hide]
-    transition all .2s ease-in-out
-    opacity 0
+  &[data-typing]
+    transition all .5s ease-in-out
 
   &-text, &-face
     display flex

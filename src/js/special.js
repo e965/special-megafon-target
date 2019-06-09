@@ -342,12 +342,16 @@ class Special extends BaseSpecial {
   spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', user = false, typing = false, typingTime = 0, tail = 'left', images = {}, success = true, scroll = true }) {
     let sms = document.createElement('div')
 
-    let scrollToSMS = () => scroll
-      ? scrollIntoView(sms, NODES.E.chat, {
-        block: 'end',
-        behavior: 'smooth'
-      })
-      : () => void(0)
+    // let scrollToSMS = () => scroll
+    //   ? scrollIntoView(sms, NODES.E.chat, {
+    //     block: 'end',
+    //     behavior: 'smooth'
+    //   })
+    //   : () => void(0)
+
+    let scrollToBottom = () => {
+      scroll ? NODES.E.chat.scrollTop = NODES.E.chat.scrollHeight : null
+    }
 
     if (typing === false) typingTime = 0
 
@@ -368,11 +372,11 @@ class Special extends BaseSpecial {
         sms.dataset.typing = ''
       }
 
-      setTimeout(() => {
-        if (typing) {
-          sms.dataset.hide = ''
-        }
-      }, typingTime - 200) // должно соответствовать значению в ../styl/parts/sms.styl > &[data-hide]
+      // setTimeout(() => {
+      //   if (typing) {
+      //     sms.dataset.hide = ''
+      //   }
+      // }, typingTime - 200) // должно соответствовать значению в ../styl/parts/sms.styl > &[data-hide]
 
       setTimeout(() => {
         senderField.textContent = sender
@@ -381,15 +385,15 @@ class Special extends BaseSpecial {
         if (typing) {
           delete sms.dataset.typing
         } else {
-          scrollToSMS()
+          scrollToBottom()
         }
       }, typingTime)
 
       setTimeout(() => {
         delete sms.dataset.hide
 
-        scrollToSMS()
-      }, typingTime + 500)
+        scrollToBottom()
+      }, typingTime)
 
     } else if (type === 'face') {
       sms = NODES.T.faceSMS.cloneNode('true')
@@ -421,7 +425,7 @@ class Special extends BaseSpecial {
 
     NODES.E.chat.appendChild(sms)
 
-    scrollToSMS()
+    scrollToBottom()
   }
 
   showResult(success, text = false, next) {
@@ -466,11 +470,15 @@ class Special extends BaseSpecial {
   }
 
   spawnNextLevelSMS() {
-    this.spawnSMS({
-      text: this.getCurrentLevel().text,
-      typing: !(this.qLevel === 0),
-      typingTime: TIME
-    })
+    setTimeout(() => {
+      this.spawnSMS({
+        text: this.getCurrentLevel().text,
+        typing: !(this.qLevel === 0),
+        typingTime: TIME
+      })
+    }, 400)
+
+    console.log(this.getCurrentLevel().text.length)
 
     if (!(this.qLevel === 0)) {
       this.btnsClickAbility = false
