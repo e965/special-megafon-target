@@ -169,8 +169,8 @@ class Special extends BaseSpecial {
     NODES.T.answerItemBtn = createElement('div', `${CSS.main}__answers-item-btn`, { role: 'button' })
 
     NODES.T.answerItemBtn.appendChild(createElement('picture', `${CSS.main}__answers-item-btn--face`, { innerHTML: '<img>' }))
-    NODES.T.answerItemBtn.appendChild(createElement('p', `${CSS.main}__answers-item-btn--name`))
-    NODES.T.answerItemBtn.appendChild(createElement('p', `${CSS.main}__answers-item-btn--company`))
+    NODES.T.answerItemBtn.appendChild(createElement('div', `${CSS.main}__answers-item-btn--name`))
+    NODES.T.answerItemBtn.appendChild(createElement('div', `${CSS.main}__answers-item-btn--company`))
 
     delete NODES.T._temp
   }
@@ -538,8 +538,8 @@ class Special extends BaseSpecial {
       faceImg.src = CDN_URL + Data.images.faces[answerData.id]
       faceImg.srcset = CDN_URL + Data.images.faces_2x[answerData.id] + ' 2x'
 
-      U.qsf('p[class$="name"]', answerItemBtn).textContent = answerData.who
-      U.qsf('p[class$="company"]', answerItemBtn).innerHTML = answerData.company
+      U.qsf('[class$="name"]', answerItemBtn).textContent = answerData.who
+      U.qsf('[class$="company"]', answerItemBtn).innerHTML = answerData.company
 
       answerItemBtn.addEventListener('click', e => {
         if (
