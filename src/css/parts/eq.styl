@@ -9,9 +9,8 @@
           transition var(--mgfn__standard-transilion)
 
   @media screen and (max-height 770px)
-    &:not([data-is-feed])
-      height 650px
 
+    &:not([data-is-feed])
       --mgfn__offset-chat 315px
       --mgfn__offset-phone -370px
 
@@ -19,9 +18,15 @@
         &[data-solo]
           margin-top 100px
 
+  @media $mq.desktop
+
+    &:not([data-is-feed])
+      display: flex
+      align-items: flex-end
+      width: 100%
+      min-height: calc(100vh - 50px)
+
   &[max-width~='1026px'] // {$mq.notDesktop
-    & ^[-1]__answers
-      width calc(100% - 40px)
 
     & ^[-1]__final
       font-size .5em
@@ -53,16 +58,12 @@
           width 90px
 
   &[max-width~='679px'] // $mq.mobile
-    height 610px
-
     --mgfn__offset-chat 300px
     --mgfn__offset-phone -360px
     --mgfn__answers-height 220px
     --mgfn__solo-sms-offset 100px
 
     & ^[-1]__answers
-      width 100%
-      border-radius 0
 
       &-result
         justify-content flex-start
@@ -80,19 +81,12 @@
         &--next-btn
           bottom 10px; right 10px
 
-      &--phrase, &--theme-switcher
+      &--phrase
         padding 10px 5px 0
         font-size .8em
 
       &--phrase
         left 7.5px
-
-      &--theme-switcher
-        right 2.5px
-
-        span
-          transform scale(.7)
-          margin-left 0
 
       &-list
         &-item
@@ -159,7 +153,7 @@
           width .9em; height .9em
 
   &[max-width~='374px'] // $mq.iphone5
-    width 100%; height 530px
+    width 100%
 
     --mgfn__offset-chat 395px
     --mgfn__offset-phone -425px
@@ -208,7 +202,7 @@
         [class$='-result']
           display none
 
-      &--phrase, &--theme-switcher
+      &--phrase
         display flex
         align-items center
 
@@ -217,10 +211,6 @@
 
       &--phrase
         justify-content center
-
-      &--theme-switcher
-        justify-content flex-start
-        padding-left 5px
 
       &-item
         &-btn

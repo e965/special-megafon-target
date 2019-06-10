@@ -1,4 +1,3 @@
-// Если спецпроект интегрирован в сайт, из media queries обычно хватает только двух: mobile и not_mobile
 @import './inc/mq'
 
 @import './inc/functions'
@@ -7,18 +6,9 @@
 @import './svg'
 @import './images'
 
-// base.styl подключается только в том случае, когда спецпроект расположен на отдельной странице
-// @import 'base'
-
-// FYI: на десктопе на странице статьи максимальная ширина контейнера — 1060px. В ленте сайта — 640px.
-// Мобильная версия начинается с 679px, и там ограничений по ширине нет
-
-// Название класса рекомендуется выбирать так, чтобы точно не было конфликтов с существующими спецпроектами.
-// Обычно имени проекта достаточно
-
 .mgfn-trgt
   position relative
-  width 1060px; height 720px
+  width 1060px
 
   background-color #f0f0f0
 
@@ -123,11 +113,11 @@
     &--final
       justify-content center
 
-  @import './parts/iphone-x'
+  @import './parts/iphoneX'
 
   @import './parts/phone'
 
-  @import './parts/chat'
+  @import './parts/im'
 
   @import './parts/answers'
 

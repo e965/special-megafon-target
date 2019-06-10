@@ -1,6 +1,5 @@
 &[data-is-feed]
   max-width 640px
-  height 610px
 
   & ^[0]__answers
     max-width calc(100% - 20px)
@@ -8,18 +7,11 @@
 
     box-shadow 0px -1px 10px rgba(#000, .1)
 
-    &--phrase, &--theme-switcher
+    &--phrase
       font-size .75em
 
     &--phrase
       left 10px
-
-    &--theme-switcher
-      right 15px
-
-      span
-        transform scale(.5)
-        width 20px
 
     &-item
       &-btn
@@ -27,28 +19,11 @@
 
   // сброс значений для маленьких экранов
   &[max-width~='374px']
-    height 530px
 
     & ^[0]__answers
       max-width 100%
       border-radius 0
 
-      &--theme-switcher
-        font-size .8em
-
-        span
-          transform scale(.7)
-          width 46px
-
       &-item
         &-btn
           transition none
-
-  @media $mq.desktop
-    & ^[0]__answers
-      &--theme-switcher
-        font-size .8em
-
-        span
-          transform scale(.7)
-          width 46px

@@ -13,6 +13,8 @@ import ElementQueries from 'css-element-queries/src/ElementQueries'
 
 const CSS = {
   main: 'mgfn-trgt',
+  iphone: 'mgfn-trgt-iphone-x',
+  im: 'mgfn-trgt-im',
 }
 
 const NODES = {}
@@ -193,43 +195,45 @@ class Special extends BaseSpecial {
 
     /* Элементы */
 
-    NODES.E.phone = createElement('div', [`${CSS.main}__phone`, `${CSS.main}__device`, `${CSS.main}__device-iphone-x`])
+    // iPhone
 
-    NODES.E.phoneFrame = createElement('div', `${CSS.main}__device-frame`)
+    NODES.E.iphone = createElement('div', `${CSS.iphone}`, {
+      innerHTML: `<div class="${CSS.iphone}__buttons"><div class="${CSS.iphone}__sound"></div><div class="${CSS.iphone}__power"></div></div><div class="${CSS.iphone}__notch"><div class="${CSS.iphone}__notch-sensors"></div></div>`,
+    })
+    NODES.E.iphoneScreen = createElement('div', `${CSS.iphone}__screen`)
 
-    NODES.E.phoneContent = createElement('div', [`${CSS.main}__phone--content`, `${CSS.main}__device-content`])
-    NODES.E.phoneFrame.appendChild(NODES.E.phoneContent)
+    NODES.E.iphone.appendChild(NODES.E.iphoneScreen)
 
-    NODES.E.phone.appendChild(NODES.E.phoneFrame)
+    NODES.S.quiz.appendChild(NODES.E.iphone)
 
-    NODES.E.phone.appendChild(createElement('div', `${CSS.main}__device-header`))
-    NODES.E.phone.appendChild(createElement('div', `${CSS.main}__device-sensors`))
-    NODES.E.phone.appendChild(createElement('div', `${CSS.main}__device-btns`))
-    NODES.E.phone.appendChild(createElement('div', `${CSS.main}__device-power`))
 
-    NODES.S.quiz.appendChild(NODES.E.phone)
+    // IM
 
-    NODES.E.header = createElement('div', `${CSS.main}__chat-header`)
-    NODES.E.phoneContent.appendChild(NODES.E.header)
+    NODES.E.im = createElement('div', `${CSS.im}`);
+    NODES.E.imHeader = createElement('div', `${CSS.im}__header`);
+    NODES.E.imCounter = createElement('div', `${CSS.im}__counter`);
+    NODES.E.imOperator = createElement('div', `${CSS.im}__operator`, { innerText: 'MegaFon' });
+    NODES.E.imSender = createElement('div', `${CSS.im}__sender`, {
+      innerHTML: `<div class="${CSS.im}__sender-name">Неизвестный номер</div><div class="${CSS.im}__sender-avatar"></div>`,
+    });
 
-    NODES.E.headerCounter = createElement('div', `${CSS.main}__chat-header--counter`, { innerText: '0/0' })
-    NODES.E.header.appendChild(NODES.E.headerCounter)
+    NODES.E.imMessages = createElement('div', `${CSS.im}__messages`);
+    NODES.E.imMessagesWrapper = createElement('div', `${CSS.im}__messages-wrapper`);
+    NODES.E.imMessagesInner = createElement('div', `${CSS.im}__messages-inner`);
+    NODES.E.imMessagesList = createElement('div', `${CSS.im}__messages-list`);
 
-    NODES.E.headerOperator = createElement('div', `${CSS.main}__chat-header--operator`, { innerText: 'MegaFon' })
-    NODES.E.header.appendChild(NODES.E.headerOperator)
+    NODES.E.imHeader.appendChild(NODES.E.imCounter)
+    NODES.E.imHeader.appendChild(NODES.E.imOperator)
+    NODES.E.imHeader.appendChild(NODES.E.imSender)
 
-    NODES.E.headerSender = createElement('div', `${CSS.main}__chat-header--sender`, { innerText: 'Неизвестный номер' })
-    NODES.E.header.appendChild(NODES.E.headerSender)
+    NODES.E.imMessagesInner.appendChild(NODES.E.imMessagesList)
+    NODES.E.imMessagesWrapper.appendChild(NODES.E.imMessagesInner)
+    NODES.E.imMessages.appendChild(NODES.E.imMessagesWrapper)
 
-    // NODES.E.headerTyping = createElement('div', `${CSS.main}__chat-header--typing`, { innerText: 'отправка', style: { display: 'none' } })
-    // NODES.E.header.appendChild(NODES.E.headerTyping)
+    NODES.E.im.appendChild(NODES.E.imHeader)
+    NODES.E.im.appendChild(NODES.E.imMessages)
 
-    NODES.E.headerAvatar = createElement('div', `${CSS.main}__chat-header--avatar`)
-    NODES.E.header.appendChild(NODES.E.headerAvatar)
-
-    NODES.E.chat = createElement('div', `${CSS.main}__chat`)
-
-    NODES.E.phoneContent.appendChild(NODES.E.chat)
+    NODES.E.iphoneScreen.appendChild(NODES.E.im)
 
     NODES.E.answers = createElement('div', `${CSS.main}__answers`, { data: { show: 'answers' } })
 
@@ -339,6 +343,57 @@ class Special extends BaseSpecial {
     NODES.S[screen].dataset.show = ''
   }
 
+  show() {
+    NODES.E.imMessagesInner.style.transition = 'transform 0.25s linear'
+
+    if (NODES.E.imMessagesWrapper.offsetHeight > NODES.E.imMessages.offsetHeight) {
+      NODES.E.imMessages.scrollTop = NODES.E.imMessagesWrapper.offsetHeight - NODES.E.imMessages.offsetHeight;
+
+      this.timer = setTimeout(() => {
+        NODES.E.imMessagesInner.style.transform = `translate3d(0, calc(100% - ${NODES.E.imMessagesList.offsetHeight}px), 0)`
+      }, 100);
+    } else {
+      NODES.E.imMessagesInner.style.transform = `translate3d(0, calc(100% - ${NODES.E.imMessagesList.offsetHeight}px), 0)`
+    }
+  }
+
+  send({ sender, content, type = 'text', typing = false, author = 'Неизвестный номер', success = true }) {
+    const msg = createElement('div', `${CSS.im}__msg`, {
+      data: {
+        sender: sender
+      }
+    })
+
+    if (type === 'face') {
+      msg.classList.add(`${CSS.im}__msg--face`);
+      msg.innerHTML = `<img src="${content.images.x1}" srcset="${content.images.x2} 2x">`
+
+      msg.dataset.correct = success.toString()
+
+    } else {
+      msg.classList.add(`${CSS.im}__msg--text`);
+      msg.innerHTML = `<div class="${CSS.im}__msg-author">${author}</div><div class="${CSS.im}__msg-text">${content}</div>`
+
+      if (typing) {
+        const tmp = msg.innerHTML;
+
+        msg.dataset.typing = true;
+        msg.innerHTML = '<span>.</span><span>.</span><span>.</span> печатает'
+
+        setTimeout(() => {
+          msg.removeAttribute('data-typing')
+          msg.innerHTML = tmp
+
+          this.show()
+        }, content.length * 15)
+      }
+    }
+
+    NODES.E.imMessagesList.appendChild(msg);
+
+    this.show()
+  }
+
   spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', user = false, typing = false, typingTime = 0, tail = 'left', images = {}, success = true, scroll = true }) {
     let sms = document.createElement('div')
 
@@ -350,7 +405,7 @@ class Special extends BaseSpecial {
     //   : () => void(0)
 
     let scrollToBottom = () => {
-      scroll ? NODES.E.chat.scrollTop = NODES.E.chat.scrollHeight : null
+      // scroll ? NODES.E.chat.scrollTop = NODES.E.chat.scrollHeight : null
     }
 
     if (typing === false) typingTime = 0
@@ -423,7 +478,8 @@ class Special extends BaseSpecial {
       delete U.qsf(`.${CSS.main}__sms[data-solo]`, NODES.E.chat).dataset.solo
     }
 
-    NODES.E.chat.appendChild(sms)
+    // NODES.E.chat.appendChild(sms)
+    NODES.E.chatInner.appendChild(sms)
 
     scrollToBottom()
   }
@@ -459,6 +515,11 @@ class Special extends BaseSpecial {
         NODES.E.answersResultBtn.onclick = () => {
           this.final()
 
+          NODES.E.imMessages.scrollTop = 0
+          NODES.E.imMessagesInner.style.transition = ''
+          NODES.E.imMessagesInner.style.transform = 'translate3d(0, 100%, 0)'
+          clearNode(NODES.E.imMessagesList)
+
           Analytics.sendEvent(`${this.typeShowing} — End (score is ${this.score})`, 'Click')
         }
         NODES.E.answersResultBtn.textContent = 'Завершить тест'; break
@@ -469,16 +530,27 @@ class Special extends BaseSpecial {
     NODES.E.answers.dataset.show = 'answers'
   }
 
-  spawnNextLevelSMS() {
-    setTimeout(() => {
-      this.spawnSMS({
-        text: this.getCurrentLevel().text,
-        typing: !(this.qLevel === 0),
-        typingTime: TIME
-      })
-    }, 400)
+  spawnNextLevelSMS(typing = false) {
+    // setTimeout(() => {
+    //   this.spawnSMS({
+    //     text: this.getCurrentLevel().text,
+    //     typing: !(this.qLevel === 0),
+    //     typingTime: TIME
+    //   })
+    // }, 400)
 
-    console.log(this.getCurrentLevel().text.length)
+    const text = this.getCurrentLevel().text;
+
+    setTimeout(() => {
+      this.send({
+        sender: 'from',
+        content: text,
+        type: 'text',
+        typing: typing,
+      })
+    }, typing ? 400 : 100)
+
+    // console.log(this.getCurrentLevel().text.length)
 
     if (!(this.qLevel === 0)) {
       this.btnsClickAbility = false
@@ -487,14 +559,14 @@ class Special extends BaseSpecial {
       setTimeout(() => {
         this.btnsClickAbility = true
         delete NODES.E.answers.dataset.disallowClicks
-      }, TIME)
+      }, typing ? text.length * 15 + 100 : 100)
     }
   }
 
   nextLevel() {
     ++this.qLevel
 
-    this.spawnNextLevelSMS()
+    this.spawnNextLevelSMS(true)
   }
 
   nextQuestion() {
@@ -502,7 +574,11 @@ class Special extends BaseSpecial {
 
     this.qLevel = 0
 
-    clearNode(NODES.E.chat)
+
+    NODES.E.imMessages.scrollTop = 0
+    NODES.E.imMessagesInner.style.transition = ''
+    NODES.E.imMessagesInner.style.transform = 'translate3d(0, 100%, 0)'
+    clearNode(NODES.E.imMessagesList)
 
     this.newQuestion()
 
@@ -512,14 +588,15 @@ class Special extends BaseSpecial {
   newQuestion() {
     let currQ = this.getCurrentQuestion()
 
-    NODES.E.headerCounter.textContent = `${this.qIndex + 1} / ${this.quizLength}`
+    NODES.E.imCounter.textContent = `${this.qIndex + 1} / ${this.quizLength}`
 
     clearNode(NODES.E.answersList)
 
     if (this.isStart()) {
-      this.spawnSMS({
-        text: this.getCurrentLevel().text
-      })
+      this.send({
+        sender: 'from',
+        content: this.getCurrentLevel().text,
+      });
     } else {
       this.spawnNextLevelSMS()
     }
@@ -547,15 +624,15 @@ class Special extends BaseSpecial {
           'disabled' in e.target.dataset
         ) { return }
 
-        if ('clicked' in answerData) {
-          this.spawnSMS({
-            sender: 'vc.ru',
-            text: ':)',
-            tail: 'right'
-          })
-
-          return
-        }
+        // if ('clicked' in answerData) {
+        //   this.spawnSMS({
+        //     sender: 'vc.ru',
+        //     text: ':)',
+        //     tail: 'right'
+        //   })
+        //
+        //   return
+        // }
 
         // Кэширование изображений только в случае первого клика
 
@@ -585,15 +662,27 @@ class Special extends BaseSpecial {
 
         Analytics.sendEvent(`${this.typeShowing} — Answer (question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'})`, 'Click')
 
-        this.spawnSMS({
-          type: 'face',
-          images: {
-            x1: CDN_URL + Data.images.faces[answerData.id],
-            x2: CDN_URL + Data.images.faces_2x[answerData.id]
+        this.send({
+          sender: 'to',
+          content: {
+            images: {
+              x1: CDN_URL + Data.images.faces[answerData.id],
+              x2: CDN_URL + Data.images.faces_2x[answerData.id],
+            },
           },
+          type: 'face',
           success: isRight,
-          scroll: !isRight
         })
+
+        // this.spawnSMS({
+        //   type: 'face',
+        //   images: {
+        //     x1: CDN_URL + Data.images.faces[answerData.id],
+        //     x2: CDN_URL + Data.images.faces_2x[answerData.id]
+        //   },
+        //   success: isRight,
+        //   scroll: !isRight
+        // })
 
         let nextEvent =
           (typeof currQ.levels[this.qLevel + 1] === 'undefined' || isRight)
@@ -610,14 +699,22 @@ class Special extends BaseSpecial {
         // NODES.E.headerTyping.style.display = 'block'
 
         if ('chat' in cat) {
-          this.spawnSMS({
-            sender: answerData.who,
-            text: cat.chat,
-            tail: 'right',
-            user: true
-            // typing: true,
-            // typingTime: TIME / 2
-          })
+          // this.spawnSMS({
+          //   sender: answerData.who,
+          //   text: cat.chat,
+          //   tail: 'right',
+          //   user: true
+          //   // typing: true,
+          //   // typingTime: TIME / 2
+          // })
+
+          setTimeout(() => {
+            this.send({
+              sender: 'to',
+              content: cat.chat,
+              author: answerData.who,
+            })
+          }, 400)
         }
 
         /*
@@ -693,8 +790,6 @@ class Special extends BaseSpecial {
     this.qLevel = 0
     this.score = 0
 
-    clearNode(NODES.E.chat, [`${CSS.main}__chat--bottom`])
-
     this.newQuestion()
 
     this.showAnswers()
@@ -736,12 +831,12 @@ class Special extends BaseSpecial {
 
     this.newQuestion()
 
-    if ('allowSkip' in this.params) {
-      NODES.E.headerCounter.addEventListener('dblclick', () => {
-        this.score = U.random({ max: this.quizLength })
-        this.final()
-      })
-    }
+    // if ('allowSkip' in this.params) {
+    //   NODES.E.headerCounter.addEventListener('dblclick', () => {
+    //     this.score = U.random({ max: this.quizLength })
+    //     this.final()
+    //   })
+    // }
 
     ElementQueries.init()
     ElementQueries.listen()

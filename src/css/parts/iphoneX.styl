@@ -1,0 +1,115 @@
+&-iphone-x
+  position relative
+  width 300px
+  padding 16px 16px 0 16px
+  border-radius 48px 48px 0 0
+  border-width 4px 4px 0 4px
+  border-style solid
+  border-color #c0c0c0
+  background-color: #fff
+
+  @media $mq.mobile
+    margin-top: 20px
+
+  ^[0][data-is-feed] &
+    margin-top: 20px
+
+  &__buttons
+    position absolute
+    top 0
+    left 0
+    right 0
+
+  &__sound
+    position absolute
+    top 80px
+    left -6px
+    width 2px
+    height 22px
+    background-color #c0c0c0
+
+    &::before
+    &::after
+      content ''
+      position absolute
+      left 0
+      width 2px
+      height 42px
+      background-color #c0c0c0
+
+    &::before
+      top 42px
+
+    &::after
+      top 98px
+
+  &__power
+    position absolute
+    z-index: 1
+    top 140px
+    right -6px
+    width 2px
+    height 70px
+    background-color #c0c0c0
+
+  &__notch
+    position absolute
+    z-index: 1
+    top 16px
+    left 0
+    right 0
+    margin 0 auto
+    width 140px
+    height 20px
+    background-color #fff
+    border-radius 0 0 12px 12px
+
+    &::before
+    &::after
+      content ''
+      position absolute
+      top 0
+      width 6px
+      height 6px
+
+    &::before
+      right -6px
+      background radial-gradient(circle at bottom right, transparent 0, transparent 75%, #fff 75%, #fff 100%);
+
+    &::after
+      left -6px
+      background radial-gradient(circle at bottom left, transparent 0, transparent 75%, #fff 75%, #fff 100%);
+
+    &-sensors
+      position absolute
+      top 0
+      left 0
+      right 0
+
+      &::before
+      &::after
+        content ''
+        position absolute
+        background-color #e3e3e3
+
+      &::before
+        top 2px
+        left 0
+        right 0
+        width 34px
+        height 4px
+        margin 0 auto
+        border-radius 4px
+
+      &::after
+        top 0
+        right 32px
+        width 9px
+        height 9px
+        border-radius 100%
+
+  &__screen
+    position: relative
+    border-radius 30px 30px 0 0
+    background-color #dedede
+    overflow hidden
