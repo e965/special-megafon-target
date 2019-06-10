@@ -26,7 +26,7 @@
       width: 100%
       min-height: calc(100vh - 50px)
 
-  &[max-width~='1026px'] // {$mq.notDesktop
+  &[max-width~='1026px'] // $mq.notDesktop
 
     & ^[-1]__final
       font-size .5em
@@ -44,11 +44,10 @@
 
         justify-content flex-end
 
-        & ^[0]__sms
-          &-text--content
-            padding 10px
+        & ^[0]-im__msg
+          padding 10px
 
-          &--sender, &--text
+          &-author, &-text
             font-size .9em
 
       &--face
@@ -81,12 +80,15 @@
         &--next-btn
           bottom 10px; right 10px
 
-      &--phrase
+      &--phrase, &--theme-switcher
         padding 10px 5px 0
         font-size .8em
 
       &--phrase
         left 7.5px
+
+      &--theme-switcher
+        right 2.5px
 
       &-list
         &-item
@@ -111,11 +113,11 @@
         padding 10px 5px
         padding-right 10px
 
-        & ^[0]__sms
+        & ^[0]-im__msg
           max-width 230px
-          font-size .85em
+          font-size .75em
 
-          &--sender
+          &-author
             margin-bottom 0
 
       &--face
@@ -167,8 +169,12 @@
         display flex
         flex-flow column-reverse
 
-      &--phrase
+      &--phrase, &--theme-switcher
         font-size .8em
+
+      &--theme-switcher
+        top 0; left 0
+        padding-top 5px
 
       &-result
         position static
@@ -229,11 +235,9 @@
       &--sms
         padding 5px
 
-        & ^[0]__sms
-          font-size .8em
-
-          &-text--content
-            padding 5px
+        & ^[0]-im__msg
+          font-size .65em
+          padding 5px
 
       &--face
         img
