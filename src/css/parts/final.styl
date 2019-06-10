@@ -70,23 +70,22 @@
 
     padding 10px
 
-    & ^[0]__sms
+    & ^[0]-im__msg
       margin 0
 
-      &-text--content
-        background-color #00B956
-        padding 10px 20px
+      background-color #00B956
+      padding 10px 20px
 
-        &::after
-          border-bottom 10px solid #00B956 !important
+      &::after
+        border-bottom 10px solid #00B956 !important
 
-      &--sender, &--text
+      &-author, &-text
         color #fff
 
-      &--sender
+      &-author
         font-weight 700
 
-      &--text
+      &-text
         line-height 1.5
 
         b

@@ -8,7 +8,6 @@ import { shuffleArray, toArray } from './lib/array'
 import { createElement, clearNode } from './lib/dom'
 import { U } from './lib/u'
 
-import { scrollIntoView } from 'scroll-js'
 import ElementQueries from 'css-element-queries/src/ElementQueries'
 
 const CSS = {
@@ -114,8 +113,6 @@ class Special extends BaseSpecial {
       question.answers = qaTmpArray
 
       question.levels.forEach(level => {
-        //level.text = U.prepareText(level.text)
-
         let answersTexts = level.answersTexts
 
         let answersTextsKeys = Object.keys(answersTexts)
@@ -151,20 +148,10 @@ class Special extends BaseSpecial {
 
     /* Текстовая СМС */
 
-    NODES.T.textSMS = createElement('div', [`${CSS.main}__sms`, `${CSS.main}__sms-text`])
+    NODES.T.textSMS = createElement('div', [`${CSS.main}-im__msg`, `${CSS.main}-im__msg--text`])
 
-    NODES.T._temp.smsContent = createElement('div', `${CSS.main}__sms-text--content`)
-
-    NODES.T._temp.smsContent.appendChild(createElement('div', `${CSS.main}__sms--sender`))
-    NODES.T._temp.smsContent.appendChild(createElement('div', `${CSS.main}__sms--text`))
-
-    NODES.T.textSMS.appendChild(NODES.T._temp.smsContent)
-
-    /* СМС-лицо */
-
-    NODES.T.faceSMS = createElement('picture', [`${CSS.main}__sms`, `${CSS.main}__sms-face`])
-
-    NODES.T.faceSMS.appendChild(createElement('img', `${CSS.main}__sms--face`))
+    NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}-im__msg-author`))
+    NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}-im__msg-text`))
 
     /* Кнопка ответа на вопрос */
 
@@ -206,21 +193,20 @@ class Special extends BaseSpecial {
 
     NODES.S.quiz.appendChild(NODES.E.iphone)
 
-
     // IM
 
-    NODES.E.im = createElement('div', `${CSS.im}`);
-    NODES.E.imHeader = createElement('div', `${CSS.im}__header`);
-    NODES.E.imCounter = createElement('div', `${CSS.im}__counter`);
-    NODES.E.imOperator = createElement('div', `${CSS.im}__operator`, { innerText: 'MegaFon' });
+    NODES.E.im = createElement('div', `${CSS.im}`)
+    NODES.E.imHeader = createElement('div', `${CSS.im}__header`)
+    NODES.E.imCounter = createElement('div', `${CSS.im}__counter`)
+    NODES.E.imOperator = createElement('div', `${CSS.im}__operator`, { innerText: 'MegaFon' })
     NODES.E.imSender = createElement('div', `${CSS.im}__sender`, {
       innerHTML: `<div class="${CSS.im}__sender-name">Неизвестный номер</div><div class="${CSS.im}__sender-avatar"></div>`,
-    });
+    })
 
-    NODES.E.imMessages = createElement('div', `${CSS.im}__messages`);
-    NODES.E.imMessagesWrapper = createElement('div', `${CSS.im}__messages-wrapper`);
-    NODES.E.imMessagesInner = createElement('div', `${CSS.im}__messages-inner`);
-    NODES.E.imMessagesList = createElement('div', `${CSS.im}__messages-list`);
+    NODES.E.imMessages = createElement('div', `${CSS.im}__messages`)
+    NODES.E.imMessagesWrapper = createElement('div', `${CSS.im}__messages-wrapper`)
+    NODES.E.imMessagesInner = createElement('div', `${CSS.im}__messages-inner`)
+    NODES.E.imMessagesList = createElement('div', `${CSS.im}__messages-list`)
 
     NODES.E.imHeader.appendChild(NODES.E.imCounter)
     NODES.E.imHeader.appendChild(NODES.E.imOperator)
@@ -347,11 +333,11 @@ class Special extends BaseSpecial {
     NODES.E.imMessagesInner.style.transition = 'transform 0.25s linear'
 
     if (NODES.E.imMessagesWrapper.offsetHeight > NODES.E.imMessages.offsetHeight) {
-      NODES.E.imMessages.scrollTop = NODES.E.imMessagesWrapper.offsetHeight - NODES.E.imMessages.offsetHeight;
+      NODES.E.imMessages.scrollTop = NODES.E.imMessagesWrapper.offsetHeight - NODES.E.imMessages.offsetHeight
 
-      this.timer = setTimeout(() => {
+      setTimeout(() => {
         NODES.E.imMessagesInner.style.transform = `translate3d(0, calc(100% - ${NODES.E.imMessagesList.offsetHeight}px), 0)`
-      }, 100);
+      }, 100)
     } else {
       NODES.E.imMessagesInner.style.transform = `translate3d(0, calc(100% - ${NODES.E.imMessagesList.offsetHeight}px), 0)`
     }
@@ -365,19 +351,19 @@ class Special extends BaseSpecial {
     })
 
     if (type === 'face') {
-      msg.classList.add(`${CSS.im}__msg--face`);
+      msg.classList.add(`${CSS.im}__msg--face`)
       msg.innerHTML = `<img src="${content.images.x1}" srcset="${content.images.x2} 2x">`
 
       msg.dataset.correct = success.toString()
 
     } else {
-      msg.classList.add(`${CSS.im}__msg--text`);
-      msg.innerHTML = `<div class="${CSS.im}__msg-author">${author}</div><div class="${CSS.im}__msg-text">${content}</div>`
+      msg.classList.add(`${CSS.im}__msg--text`)
+      msg.innerHTML = `<div class="${CSS.im}__msg-author">${author}</div><div class="${CSS.im}__msg-text">${content.text}</div>`
 
       if (typing) {
-        const tmp = msg.innerHTML;
+        const tmp = msg.innerHTML
 
-        msg.dataset.typing = true;
+        msg.dataset.typing = true
         msg.innerHTML = '<span>.</span><span>.</span><span>.</span> печатает'
 
         setTimeout(() => {
@@ -385,103 +371,13 @@ class Special extends BaseSpecial {
           msg.innerHTML = tmp
 
           this.show()
-        }, content.length * 15)
+        }, content.text.length * 15)
       }
     }
 
-    NODES.E.imMessagesList.appendChild(msg);
+    NODES.E.imMessagesList.appendChild(msg)
 
     this.show()
-  }
-
-  spawnSMS({ type = 'text', sender = 'Неизвестный номер', text = '', user = false, typing = false, typingTime = 0, tail = 'left', images = {}, success = true, scroll = true }) {
-    let sms = document.createElement('div')
-
-    // let scrollToSMS = () => scroll
-    //   ? scrollIntoView(sms, NODES.E.chat, {
-    //     block: 'end',
-    //     behavior: 'smooth'
-    //   })
-    //   : () => void(0)
-
-    let scrollToBottom = () => {
-      // scroll ? NODES.E.chat.scrollTop = NODES.E.chat.scrollHeight : null
-    }
-
-    if (typing === false) typingTime = 0
-
-    if (type === 'text') {
-      sms = NODES.T.textSMS.cloneNode('true')
-
-      let senderField = U.qsf('div[class$="sender"]', sms)
-
-      let textField = U.qsf('div[class$="text"]', sms)
-
-      sms.dataset.tail = tail
-
-      if (user) sms.dataset.user = ''
-
-      if (typing) {
-        textField.textContent = 'Печатает'
-
-        sms.dataset.typing = ''
-      }
-
-      // setTimeout(() => {
-      //   if (typing) {
-      //     sms.dataset.hide = ''
-      //   }
-      // }, typingTime - 200) // должно соответствовать значению в ../styl/parts/sms.styl > &[data-hide]
-
-      setTimeout(() => {
-        senderField.textContent = sender
-        textField.textContent = text
-
-        if (typing) {
-          delete sms.dataset.typing
-        } else {
-          scrollToBottom()
-        }
-      }, typingTime)
-
-      setTimeout(() => {
-        delete sms.dataset.hide
-
-        scrollToBottom()
-      }, typingTime)
-
-    } else if (type === 'face') {
-      sms = NODES.T.faceSMS.cloneNode('true')
-
-      //setTimeout(() => {
-        if (success) {
-          sms.dataset.success = ''
-        } else {
-          sms.dataset.failure = ''
-        }
-      //}, TIME)
-
-      let faceImg = U.qsf('img[class$="face"]', sms)
-
-      faceImg.src = images.x1
-      faceImg.srcset = images.x2 + ' 2x'
-    }
-
-    if (
-      !U.qsf(`.${CSS.main}__sms`, NODES.E.chat) &&
-      !U.qsf(`.${CSS.main}__sms[data-solo]`, NODES.E.chat)
-    ) {
-      sms.dataset.solo = ''
-    }
-
-    if (U.qsf(`.${CSS.main}__sms[data-solo]`, NODES.E.chat)) {
-      delete U.qsf(`.${CSS.main}__sms[data-solo]`, NODES.E.chat).dataset.solo
-    }
-
-    // NODES.E.chat.appendChild(sms)
-    NODES.E.chatInner.appendChild(sms)
-
-    scrollToBottom()
   }
 
   showResult(success, text = false, next) {
@@ -531,26 +427,17 @@ class Special extends BaseSpecial {
   }
 
   spawnNextLevelSMS(typing = false) {
-    // setTimeout(() => {
-    //   this.spawnSMS({
-    //     text: this.getCurrentLevel().text,
-    //     typing: !(this.qLevel === 0),
-    //     typingTime: TIME
-    //   })
-    // }, 400)
-
-    const text = this.getCurrentLevel().text;
+    const text = this.getCurrentLevel().text
 
     setTimeout(() => {
       this.send({
         sender: 'from',
-        content: text,
-        type: 'text',
-        typing: typing,
+        content: {
+          text: text
+        },
+        type: 'text'
       })
     }, typing ? 400 : 100)
-
-    // console.log(this.getCurrentLevel().text.length)
 
     if (!(this.qLevel === 0)) {
       this.btnsClickAbility = false
@@ -595,8 +482,10 @@ class Special extends BaseSpecial {
     if (this.isStart()) {
       this.send({
         sender: 'from',
-        content: this.getCurrentLevel().text,
-      });
+        content: {
+          text: this.getCurrentLevel().text
+        },
+      })
     } else {
       this.spawnNextLevelSMS()
     }
@@ -624,15 +513,17 @@ class Special extends BaseSpecial {
           'disabled' in e.target.dataset
         ) { return }
 
-        // if ('clicked' in answerData) {
-        //   this.spawnSMS({
-        //     sender: 'vc.ru',
-        //     text: ':)',
-        //     tail: 'right'
-        //   })
-        //
-        //   return
-        // }
+        if ('clicked' in answerData) {
+          this.send({
+            sender: 'from',
+            author: 'vc.ru',
+            content: {
+              text: ':)'
+            }
+          })
+
+          return
+        }
 
         // Кэширование изображений только в случае первого клика
 
@@ -674,16 +565,6 @@ class Special extends BaseSpecial {
           success: isRight,
         })
 
-        // this.spawnSMS({
-        //   type: 'face',
-        //   images: {
-        //     x1: CDN_URL + Data.images.faces[answerData.id],
-        //     x2: CDN_URL + Data.images.faces_2x[answerData.id]
-        //   },
-        //   success: isRight,
-        //   scroll: !isRight
-        // })
-
         let nextEvent =
           (typeof currQ.levels[this.qLevel + 1] === 'undefined' || isRight)
             ? 'q'
@@ -696,22 +577,13 @@ class Special extends BaseSpecial {
           nextEvent = 'end'
         }
 
-        // NODES.E.headerTyping.style.display = 'block'
-
         if ('chat' in cat) {
-          // this.spawnSMS({
-          //   sender: answerData.who,
-          //   text: cat.chat,
-          //   tail: 'right',
-          //   user: true
-          //   // typing: true,
-          //   // typingTime: TIME / 2
-          // })
-
           setTimeout(() => {
             this.send({
               sender: 'to',
-              content: cat.chat,
+              content: {
+                text: cat.chat
+              },
               author: answerData.who,
             })
           }, 400)
@@ -774,10 +646,10 @@ class Special extends BaseSpecial {
 
     NODES.E.finalResultSMS.appendChild(NODES.T.textSMS.cloneNode(true))
 
-    NODES.E.finalResultSMS.firstChild.dataset.tail = 'left'
+    NODES.E.finalResultSMS.firstChild.dataset.sender = 'from'
 
-    U.qsf('div[class$="--sender"]', NODES.E.finalResultSMS).textContent = ourResult.sender
-    U.qsf('div[class$="--text"]', NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult.text)
+    U.qsf(`.${CSS.im}__msg-author`, NODES.E.finalResultSMS).textContent = ourResult.sender
+    U.qsf(`.${CSS.im}__msg-text`, NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult.text)
 
     finalFaceImg.src = CDN_URL + Data.images.faces[`${person}_nichosi`]
     finalFaceImg.srcset = CDN_URL + Data.images.faces_2x[`${person}_nichosi`] + ' 2x'
@@ -831,12 +703,12 @@ class Special extends BaseSpecial {
 
     this.newQuestion()
 
-    // if ('allowSkip' in this.params) {
-    //   NODES.E.headerCounter.addEventListener('dblclick', () => {
-    //     this.score = U.random({ max: this.quizLength })
-    //     this.final()
-    //   })
-    // }
+    if ('allowSkip' in this.params) {
+      NODES.E.imSender.addEventListener('dblclick', () => {
+        this.score = U.random({ max: this.quizLength })
+        this.final()
+      })
+    }
 
     ElementQueries.init()
     ElementQueries.listen()

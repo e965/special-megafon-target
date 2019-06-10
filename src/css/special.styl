@@ -1,7 +1,6 @@
 @import './inc/mq'
 
 @import './inc/functions'
-@import './inc/keyframes'
 
 @import './svg'
 @import './images'
@@ -43,13 +42,7 @@
   --mgfn__switch-theme-transilion all .5s ease-in-out
   --mgfn__standard-transilion all .3s ease-in-out
 
-  @keyframes mgfn__typing-blink
-    0%
-      opacity .7
-    50%
-      opacity .5
-    100%
-      opacity .7
+  @import './inc/keyframes'
 
   &, *
     box-sizing border-box
@@ -120,8 +113,6 @@
   @import './parts/im'
 
   @import './parts/answers'
-
-  @import './parts/sms'
 
   @import './parts/final'
 
