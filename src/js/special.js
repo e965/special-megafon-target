@@ -190,9 +190,19 @@ class Special extends BaseSpecial {
 
     // iPhone
 
-    NODES.E.iphone = createElement('div', `${CSS.iphone}`, {
-      innerHTML: `<div class="${CSS.iphone}__buttons"><div class="${CSS.iphone}__sound"></div><div class="${CSS.iphone}__power"></div></div><div class="${CSS.iphone}__notch"><div class="${CSS.iphone}__notch-sensors"></div></div>`,
-    })
+    NODES.E.iphone = createElement('div', `${CSS.iphone}`)
+
+    NODES.E.iphoneButtons = createElement('div', `${CSS.iphone}__buttons`)
+
+    new Array('sound', 'power')
+      .forEach(_btn => NODES.E.iphoneButtons.appendChild(createElement('div', `${CSS.iphone}__${_btn}`)))
+
+    NODES.E.iphone.appendChild(NODES.E.iphoneButtons)
+
+    NODES.E.iphoneNotch = createElement('div', `${CSS.iphone}__notch`, { innerHTML: createElement('div', `${CSS.iphone}__notch-sensors`).outerHTML })
+
+    NODES.E.iphone.appendChild(NODES.E.iphoneNotch)
+
     NODES.E.iphoneScreen = createElement('div', `${CSS.iphone}__screen`)
 
     NODES.E.iphone.appendChild(NODES.E.iphoneScreen)
@@ -437,6 +447,7 @@ class Special extends BaseSpecial {
     setTimeout(() => {
       this.send({
         sender: 'from',
+        author: this.getCurrentLevel().author,
         content: {
           text: text
         },
@@ -467,10 +478,10 @@ class Special extends BaseSpecial {
 
     this.qLevel = 0
 
-
     NODES.E.imMessages.scrollTop = 0
     NODES.E.imMessagesInner.style.transition = ''
     NODES.E.imMessagesInner.style.transform = 'translate3d(0, 100%, 0)'
+
     clearNode(NODES.E.imMessagesList)
 
     this.newQuestion()
@@ -488,6 +499,7 @@ class Special extends BaseSpecial {
     if (this.isStart()) {
       this.send({
         sender: 'from',
+        author: this.getCurrentLevel().author,
         content: {
           text: this.getCurrentLevel().text
         },
@@ -523,9 +535,7 @@ class Special extends BaseSpecial {
           this.send({
             sender: 'from',
             author: 'vc.ru',
-            content: {
-              text: ':)'
-            }
+            content: { text: ':)' }
           })
 
           return
@@ -654,7 +664,7 @@ class Special extends BaseSpecial {
 
     NODES.E.finalResultSMS.firstChild.dataset.sender = 'from'
 
-    U.qsf(`.${CSS.im}__msg-author`, NODES.E.finalResultSMS).textContent = ourResult.sender
+    U.qsf(`.${CSS.im}__msg-author`, NODES.E.finalResultSMS).textContent = ourResult.author
     U.qsf(`.${CSS.im}__msg-text`, NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult.text)
 
     finalFaceImg.src = CDN_URL + Data.images.faces[`${person}_nichosi`]
@@ -667,6 +677,8 @@ class Special extends BaseSpecial {
     this.qIndex = 0
     this.qLevel = 0
     this.score = 0
+
+    clearNode(NODES.E.imMessagesList)
 
     this.newQuestion()
 

@@ -32,7 +32,7 @@ export default {
 
         levels: [
           {
-            sender: 'РобоРобо',
+            author: 'РобоРобо',
             text: 'Работники устали и хотят домой! Наши роботы рассортируют товар, упакуют, отправят. Пожизненная поддержка в подарок [fakelink|https://ro.bots]',
             answersTexts: {
               bezos: {
@@ -43,7 +43,7 @@ export default {
           },
 
           {
-            sender: 'РобоРобо',
+            author: 'РобоРобо',
             text: 'И на складе, и на доставке! Предложение для лояльных клиентов: протестируй робота до того, как он поступит в продажу [fakelink|https://ro.bots]',
             answersTexts: {
               bezos: {
@@ -54,7 +54,7 @@ export default {
           },
 
           {
-            sender: 'РобоРобо',
+            author: 'РобоРобо',
             text: 'Акция до 1 июля! При покупке 10 складских роботов дрон для перевозки небольших грузов в подарок. [fakelink|https://ro.bots]',
             answersTexts: {
               bezos: {
@@ -111,7 +111,7 @@ export default {
 
         levels: [
           {
-            sender: 'CloudBox',
+            author: 'CloudBox',
             text: 'Только для премиум-клиентов: высокий объём облачного хранилища и количество запросов. Серверы по всей России [fakelink|https://cloud.box]',
             answersTexts: {
               vrach: {
@@ -122,7 +122,7 @@ export default {
           },
 
           {
-            sender: 'CloudBox',
+            author: 'CloudBox',
             text: 'Только для премиум-клиентов: высокий объём облачного хранилища и количество запросов. Серверы по всей России, интеграция с операторами связи [fakelink|https://cloud.box]',
             answersTexts: {
               vrach: {
@@ -133,7 +133,7 @@ export default {
           },
 
           {
-            sender: 'CloudBox',
+            author: 'CloudBox',
             text: 'Клиентам CloudBox скидки на системы Pack Filter: заблокируем всё, что нужно! [fakelink|https://cloud.box]',
             answersTexts: {
               vrach: {
@@ -189,7 +189,7 @@ export default {
 
         levels: [
           {
-            sender: 'Одежда Оптом',
+            author: 'Одежда Оптом',
             text: '',
             answersTexts: {
               volozh: {
@@ -200,7 +200,7 @@ export default {
           },
 
           {
-            sender: 'Одежда Оптом',
+            author: 'Одежда Оптом',
             text: 'Пошив одежды жёлтого цвета. Скидка 20% за оптовую покупку. Рюкзаки-холодильники в подарок [fakelink|https://cloth.es]',
             answersTexts: {
               volozh: {
@@ -211,7 +211,7 @@ export default {
           },
 
           {
-            sender: 'Одежда Оптом',
+            author: 'Одежда Оптом',
             text: 'Пошив одежды жёлтого цвета. Скидка 20% за оптовую покупку. Рюкзаки-холодильники и самокаты в цвет одежды в подарок [fakelink|https://cloth.es]',
             answersTexts: {
               volozh: {
@@ -268,7 +268,7 @@ export default {
 
         levels: [
           {
-            sender: 'TeslaClub',
+            author: 'TeslaClub',
             text: 'Всем владельцам Model S — возможность купить Model Y без предзаказа! Закрытый старт продаж — в январе 2021 года. [fakelink|https://musk.see]',
             answersTexts: {
               grishin: {
@@ -279,7 +279,7 @@ export default {
           },
 
           {
-            sender: 'TeslaClub',
+            author: 'TeslaClub',
             text: 'Матчбол! Предъявите карту любого теннисного клуба и сэкономьте на обслуживании электрокара [fakelink|https://musk.see]',
             answersTexts: {
               grishin: {
@@ -290,7 +290,7 @@ export default {
           },
 
           {
-            sender: 'TeslaClub',
+            author: 'TeslaClub',
             text: 'Предложение для лояльных клиентов: посетите фабрику Tesla и посмотрите на сборку электрокаров. Стартуем из Стэнфорда. [fakelink|https://musk.see]',
             answersTexts: {
               grishin: {
@@ -340,7 +340,7 @@ export default {
 
         levels: [
           {
-            sender: 'MetalStuff',
+            author: 'MetalStuff',
             text: 'Металлические изделия из армированной стали, от 200 штук — скидка 5% [fakelink|https://metal.stff]',
             answersTexts: {
               nikolay: {
@@ -351,7 +351,7 @@ export default {
           },
 
           {
-            sender: 'MetalStuff',
+            author: 'MetalStuff',
             text: 'Металлические изделия из армированной стали, от 200 штук — скидка 5%. Карты, кардхолдеры, металлические визитки, ярлыки. [fakelink|https://metal.stff]',
             answersTexts: {
               nikolay: {
@@ -362,7 +362,7 @@ export default {
           },
 
           {
-            sender: 'MetalStuff',
+            author: 'MetalStuff',
             text: 'Металлические изделия из армированной стали, от 200 штук — скидка 5%. Отчеканим имена владельцев, доставим в Лондон, Осло, Копенгаген, Хельсинки и другие города [fakelink|https://metal.stff]',
             answersTexts: {
               nikolay: {
@@ -419,7 +419,7 @@ export default {
 
         levels: [
           {
-            sender: 'Агентство Коммерческой Недвижимости',
+            author: 'Агентство Коммерческой Недвижимости',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Покажите эту SMS и получите скидку на отделку [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
@@ -430,7 +430,7 @@ export default {
           },
 
           {
-            sender: 'Агентство Коммерческой Недвижимости',
+            author: 'Агентство Коммерческой Недвижимости',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Оборудуем примерочные внутри [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
@@ -441,7 +441,7 @@ export default {
           },
 
           {
-            sender: 'Агентство Коммерческой Недвижимости',
+            author: 'Агентство Коммерческой Недвижимости',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Оборудуем примерочные внутри, скидка на отделку по промокоду «МОДА» [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
@@ -498,7 +498,7 @@ export default {
 
         levels: [
           {
-            sender: 'ПродуктОптТорг',
+            author: 'ПродуктОптТорг',
             text: 'К клубнике, маскарпоне и фуа-гра — маршмеллоу в подарок! При покупке до десяти килограммов любого продукта [fakelink|https://fo.od]',
             answersTexts: {
               goncharov: {
@@ -509,7 +509,7 @@ export default {
           },
 
           {
-            sender: 'ПродуктОптТорг',
+            author: 'ПродуктОптТорг',
             text: 'К клубнике, маскарпоне и фуа-гра — маршмеллоу в подарок! При покупке до десяти килограммов любого продукта. Доставка до «Депо» [fakelink|https://fo.od]',
             answersTexts: {
               goncharov: {
@@ -520,7 +520,7 @@ export default {
           },
 
           {
-            sender: 'ПродуктОптТорг',
+            author: 'ПродуктОптТорг',
             text: 'Не хватает чего-то русского? Купи 10 кг красной икры и получи кокошники от нашего партнера [fakelink|https://fo.od]',
             answersTexts: {
               goncharov: {
@@ -570,7 +570,7 @@ export default {
 
         levels: [
           {
-            sender: 'SpaceY',
+            author: 'SpaceY',
             text: 'На Марс как на другой континент! Запускаем межпланетные перелеты. Записаться в лист ожидания [fakelink|https://spa.ce.y]',
             answersTexts: {
               milner: {
@@ -581,7 +581,7 @@ export default {
           },
 
           {
-            sender: 'SpaceX',
+            author: 'SpaceX',
             text: 'Оборудуем вам лабораторию для фиксации иноземных сигналов [fakelink|https://spa.ce.y]',
             answersTexts: {
               milner: {
@@ -592,7 +592,7 @@ export default {
           },
 
           {
-            sender: 'SpaceX',
+            author: 'SpaceX',
             text: 'Запускаем межпланетные перелеты на корабле с новейшими локаторами и системами поиска инопланетной жизни. Записаться в лист ожидания: [fakelink|https://spa.ce.y]',
             answersTexts: {
               milner: {
@@ -627,51 +627,51 @@ export default {
     results: {
       zuck: {
         0: {
-          sender: 'Aloha!',
+          author: 'Aloha!',
           text: '[b|Марк Ц.], до 20.07 вам гарантирована персональная скидка 25% на гавайские рубашки и другую одежду ярких цветов!'
         },
 
         4: {
-          sender: 'YourCab',
+          author: 'YourCab',
           text: '[b|Марк Ц.], скидка 15% на такси для постоянных клиентов маршрута Аэропорт Рональда Рейгана — Конгресс'
         },
 
         7: {
-          sender: 'SiliconClothes',
+          author: 'SiliconClothes',
           text: '[b|Марк Ц.], вам гарантирована пожизненная скидка 10% на одежду серых цветов'
         }
       },
 
       tinkov: {
         0: {
-          sender: 'Ракета-банк',
+          author: 'Ракета-банк',
           text: '[b|Олег Т.], закажите дебетовую карту «Ракета-банка» до 25.07.2019 и получите бесплатное обслуживание на два года'
         },
 
         4: {
-          sender: '«Волна»',
+          author: '«Волна»',
           text: '[b|Олег Т.], только для вас — скидка 25% на проживание в трёхзвездочном отеле «Волна» в г. Куршавель'
         },
 
         7: {
-          sender: 'Planes4Brains',
+          author: 'Planes4Brains',
           text: '[b|Олег Т.], мы скупаем подержанные самолёты! Отдайте свой Falcon нам и получите 50% скидку на новый с доплатой.'
         }
       },
 
       cook: {
         0: {
-          sender: 'iStore',
+          author: 'iStore',
           text: '[b|Тим К.], вам гарантирована скидка 15% на смартфоны и сервисное обслуживание'
         },
 
         4: {
-          sender: 'CONF4YOU',
+          author: 'CONF4YOU',
           text: '[b|Тим К.], ваша компания часто проводит конференции? Наймите нашего ведущего: скидка 15% по промокоду CONF4WIN'
         },
 
         7: {
-          sender: 'SecDiscuss',
+          author: 'SecDiscuss',
           text: '[b|Тим К.], вступайте в закрытый дискуссионный клуб для технологических лидеров: +1 502 449 9564'
         }
       }
