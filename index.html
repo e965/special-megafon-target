@@ -27,13 +27,30 @@
 
   <style>
     .wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        min-height: 100vh;
-        padding-top: 50px;
-        overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+      min-height: 100vh;
+      padding-top: 50px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    @media (min-width: 680px) {
+      .wrapper {
+        width: 640px;
+      }
+    }
+    @media (min-width: 1025px) {
+      .wrapper:not([air-module="module.feed"]) {
+        width: 1020px;
+      }
+    }
+    @media (min-width: 1340px) {
+      .wrapper:not([air-module="module.feed"]) {
+        width: 1060px;
+      }
     }
     .wrapper > header {
         position: fixed;
@@ -106,8 +123,10 @@
       toggle.addEventListener('change', function () {
         if (this.checked) {
           specialContainer.dataset.isFeed = ''
+          wrapper.setAttribute('air-module', 'module.feed')
         } else {
           delete specialContainer.dataset.isFeed
+          wrapper.removeAttribute('air-module')
         }
       });
     })(document, window);
