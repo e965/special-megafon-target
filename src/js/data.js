@@ -190,10 +190,10 @@ export default {
         levels: [
           {
             author: 'Одежда Оптом',
-            text: '',
+            text: 'Пошив одежды жёлтого цвета. Скидка 20% за оптовую покупку [fakelink|https://cloth.es]',
             answersTexts: {
               volozh: {
-                chat: 'Пошив одежды жёлтого цвета. Скидка 20% за оптовую покупку [fakelink|https://cloth.es]',
+                chat: '',
                 result: ''
               }
             }
@@ -419,7 +419,7 @@ export default {
 
         levels: [
           {
-            author: 'Агентство Коммерческой Недвижимости',
+            author: 'Коммерческая недвижимость',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Покажите эту SMS и получите скидку на отделку [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
@@ -430,7 +430,7 @@ export default {
           },
 
           {
-            author: 'Агентство Коммерческой Недвижимости',
+            author: 'Коммерческая недвижимость',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Оборудуем примерочные внутри [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
@@ -441,7 +441,7 @@ export default {
           },
 
           {
-            author: 'Агентство Коммерческой Недвижимости',
+            author: 'Коммерческая недвижимость',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Оборудуем примерочные внутри, скидка на отделку по промокоду «МОДА» [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
@@ -582,7 +582,7 @@ export default {
 
           {
             author: 'SpaceX',
-            text: 'Оборудуем вам лабораторию для фиксации иноземных сигналов [fakelink|https://spa.ce.y]',
+            text: 'Оборудуем вам лабораторию для фиксации инопланетных сигналов [fakelink|https://spa.ce.y]',
             answersTexts: {
               milner: {
                 chat: '',

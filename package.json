@@ -2,7 +2,7 @@
 	"name": "special-megafon-target",
 	"description": "Спецпроект для «Мегафона»",
 	"private": true,
-	"version": "1.0.26b",
+	"version": "1.0.26c",
 	"author": "Dmitry <dmitry@cojam.ru> (https://e965.ru)",
   "contributors": [
     "Evgeny Bykov (https://github.com/ebykov)"
