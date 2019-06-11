@@ -419,7 +419,7 @@ export default {
 
         levels: [
           {
-            author: 'Коммерческая недвижимость',
+            author: 'RealRealty',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Покажите эту SMS и получите скидку на отделку [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
@@ -430,7 +430,7 @@ export default {
           },
 
           {
-            author: 'Коммерческая недвижимость',
+            author: 'RealRealty',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Оборудуем примерочные внутри [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
@@ -441,7 +441,7 @@ export default {
           },
 
           {
-            author: 'Коммерческая недвижимость',
+            author: 'RealRealty',
             text: 'Небольшие помещения в аренду. В торговых центрах, у метро. Оборудуем примерочные внутри, скидка на отделку по промокоду «МОДА» [fakelink|https://real.ty]',
             answersTexts: {
               bakalchuk: {
