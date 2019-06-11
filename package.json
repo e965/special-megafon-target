@@ -2,8 +2,11 @@
 	"name": "special-megafon-target",
 	"description": "Спецпроект для «Мегафона»",
 	"private": true,
-	"version": "1.0.26a",
+	"version": "1.0.26b",
 	"author": "Dmitry <dmitry@cojam.ru> (https://e965.ru)",
+  "contributors": [
+    "Evgeny Bykov (https://github.com/ebykov)"
+  ],
 	"repository": "github:tehcojam/special-megafon-target",
 	"scripts": {
 		"start": "webpack-dev-server --mode development",

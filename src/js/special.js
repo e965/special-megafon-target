@@ -215,9 +215,14 @@ class Special extends BaseSpecial {
     NODES.E.imHeader = createElement('div', `${CSS.im}__header`)
     NODES.E.imCounter = createElement('div', `${CSS.im}__counter`)
     NODES.E.imOperator = createElement('div', `${CSS.im}__operator`, { innerText: 'MegaFon' })
-    NODES.E.imSender = createElement('div', `${CSS.im}__sender`, {
-      innerHTML: `<div class="${CSS.im}__sender-name">Неизвестный номер</div><div class="${CSS.im}__sender-avatar"></div>`,
-    })
+
+    NODES.E.imSender = createElement('div', `${CSS.im}__sender`)
+
+    NODES.E.imSenderName = createElement('div', `${CSS.im}__sender-name`, { textContent: 'Неизвестный номер' })
+    NODES.E.imSenderAvatar = createElement('div', `${CSS.im}__sender-avatar`)
+
+    NODES.E.imSender.appendChild(NODES.E.imSenderName)
+    NODES.E.imSender.appendChild(NODES.E.imSenderAvatar)
 
     NODES.E.imMessages = createElement('div', `${CSS.im}__messages`)
     NODES.E.imMessagesWrapper = createElement('div', `${CSS.im}__messages-wrapper`)
@@ -367,19 +372,33 @@ class Special extends BaseSpecial {
 
     if (type === 'face') {
       msg.classList.add(`${CSS.im}__msg--face`)
-      msg.innerHTML = `<img src="${content.images.x1}" srcset="${content.images.x2} 2x">`
+      msg.appendChild(createElement('img', '', { src: content.images.x1, srcset: content.images.x2 + ' 2x' }))
 
       msg.dataset.correct = success.toString()
 
     } else {
       msg.classList.add(`${CSS.im}__msg--text`)
-      msg.innerHTML = `<div class="${CSS.im}__msg-author">${author}</div><div class="${CSS.im}__msg-text">${content.text}</div>`
+
+      let msgAuthorNode = createElement('div', `${CSS.im}__msg-author`, { textContent: author })
+      let msgTextNode = createElement('div', `${CSS.im}__msg-text`, { innerHTML: content.text })
+
+      msg.appendChild(msgAuthorNode)
+      msg.appendChild(msgTextNode)
+
+      if (sender === 'from') {
+        NODES.E.imSenderName.textContent = author
+      }
 
       if (typing) {
         const tmp = msg.innerHTML
 
         msg.dataset.typing = true
-        msg.innerHTML = '<span>.</span><span>.</span><span>.</span> печатает'
+        msg.textContent = ''
+
+        for (let i = 0; i < 3; i++) {
+          msg.appendChild(createElement('span', '', { innerText: '.' }))
+        }
+        msg.appendChild(U.createText(' печатает'))
 
         setTimeout(() => {
           msg.removeAttribute('data-typing')
