@@ -10,15 +10,19 @@ import { U } from './lib/u'
 
 import ElementQueries from 'css-element-queries/src/ElementQueries'
 
-const CSS = {
-  main: 'mgfn-trgt',
-  iphone: 'mgfn-trgt-iphone-x',
-  im: 'mgfn-trgt-im',
+const CSS = { main: 'mgfn-trgt' }
+
+const CSS_HEIRS = {
+  screen: '__screen',
+  iphone: '-iphone-x',
+  im: '-im',
+  answers: '__answers',
+  final: '__final'
 }
 
-const NODES = {}
+Object.keys(CSS_HEIRS).forEach(key => CSS[key] = CSS.main + CSS_HEIRS[key])
 
-const TIME = 1500
+const NODES = {}
 
 const CDN_URL = Data.imagesCDN
 
@@ -100,6 +104,8 @@ class Special extends BaseSpecial {
 
       let qaTmpArray = []
 
+      let arrayLOL = ['result', 'chat']
+
       qaKeys.forEach(key => {
         let newAnswerObj = qa[key]
 
@@ -117,9 +123,9 @@ class Special extends BaseSpecial {
 
         let answersTextsKeys = Object.keys(answersTexts)
 
-        answersTextsKeys.forEach(atk => {
-          let arrayLOL = ['result', 'chat']
+        level.text = U.prepareText(level.text)
 
+        answersTextsKeys.forEach(atk => {
           let qaa = {}
 
           if (actKeys.includes(atk)) {
@@ -148,18 +154,18 @@ class Special extends BaseSpecial {
 
     /* Текстовая СМС */
 
-    NODES.T.textSMS = createElement('div', [`${CSS.main}-im__msg`, `${CSS.main}-im__msg--text`])
+    NODES.T.textSMS = createElement('div', [`${CSS.im}__msg`, `${CSS.im}__msg--text`])
 
-    NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}-im__msg-author`))
-    NODES.T.textSMS.appendChild(createElement('div', `${CSS.main}-im__msg-text`))
+    NODES.T.textSMS.appendChild(createElement('div', `${CSS.im}__msg-author`))
+    NODES.T.textSMS.appendChild(createElement('div', `${CSS.im}__msg-text`))
 
     /* Кнопка ответа на вопрос */
 
-    NODES.T.answerItemBtn = createElement('div', `${CSS.main}__answers-item-btn`, { role: 'button' })
+    NODES.T.answerItemBtn = createElement('div', `${CSS.answers}-item-btn`, { role: 'button' })
 
-    NODES.T.answerItemBtn.appendChild(createElement('picture', `${CSS.main}__answers-item-btn--face`, { innerHTML: '<img>' }))
-    NODES.T.answerItemBtn.appendChild(createElement('div', `${CSS.main}__answers-item-btn--name`))
-    NODES.T.answerItemBtn.appendChild(createElement('div', `${CSS.main}__answers-item-btn--company`))
+    NODES.T.answerItemBtn.appendChild(createElement('picture', `${CSS.answers}-item-btn--face`, { innerHTML: '<img>' }))
+    NODES.T.answerItemBtn.appendChild(createElement('div', `${CSS.answers}-item-btn--name`))
+    NODES.T.answerItemBtn.appendChild(createElement('div', `${CSS.answers}-item-btn--company`))
 
     delete NODES.T._temp
   }
@@ -170,12 +176,12 @@ class Special extends BaseSpecial {
 
     /* Экраны */
 
-    NODES.S.ALL = createElement('div', `${CSS.main}__screens`)
+    NODES.S.ALL = createElement('div', `${CSS.screen}s`)
 
-    NODES.S.quiz = createElement('div', [`${CSS.main}__screen`, `${CSS.main}__screen--quiz`])
+    NODES.S.quiz = createElement('div', [`${CSS.screen}`, `${CSS.screen}--quiz`])
     NODES.S.ALL.appendChild(NODES.S.quiz)
 
-    NODES.S.final = createElement('div', [`${CSS.main}__screen`, `${CSS.main}__screen--final`])
+    NODES.S.final = createElement('div', [`${CSS.screen}`, `${CSS.screen}--final`])
     NODES.S.ALL.appendChild(NODES.S.final)
 
     this.container.appendChild(NODES.S.ALL)
@@ -221,13 +227,13 @@ class Special extends BaseSpecial {
 
     NODES.E.iphoneScreen.appendChild(NODES.E.im)
 
-    NODES.E.answers = createElement('div', `${CSS.main}__answers`, { data: { show: 'answers' } })
+    NODES.E.answers = createElement('div', `${CSS.answers}`, { data: { show: 'answers' } })
 
-    NODES.E.answersHeader = createElement('div', `${CSS.main}__answers--header`)
+    NODES.E.answersHeader = createElement('div', `${CSS.answers}--header`)
 
-    NODES.E.answersPhrase = createElement('div', `${CSS.main}__answers--phrase`, { innerText: 'Кому адресовано сообщение?' })
+    NODES.E.answersPhrase = createElement('div', `${CSS.answers}--phrase`, { innerText: 'Кому адресовано сообщение?' })
 
-    NODES.E.themeSwitcher = createElement('label', `${CSS.main}__answers--theme-switcher`, { htmlFor: 'theme_switcher' })
+    NODES.E.themeSwitcher = createElement('label', `${CSS.answers}--theme-switcher`, { htmlFor: 'theme_switcher' })
 
     NODES.E.themeSwitcherText = U.createText('Сменить тему')
     NODES.E.themeSwitcher.appendChild(NODES.E.themeSwitcherText)
@@ -249,20 +255,20 @@ class Special extends BaseSpecial {
 
     NODES.E.answers.appendChild(NODES.E.answersHeader)
 
-    NODES.E.answersMain = createElement('div', `${CSS.main}__answers--main`)
+    NODES.E.answersMain = createElement('div', `${CSS.answers}--main`)
 
-    NODES.E.answersList = createElement('div', `${CSS.main}__answers-list`, { role: 'list' })
+    NODES.E.answersList = createElement('div', `${CSS.answers}-list`, { role: 'list' })
     NODES.E.answersMain.appendChild(NODES.E.answersList)
 
-    NODES.E.answersResult = createElement('div', `${CSS.main}__answers-result`)
+    NODES.E.answersResult = createElement('div', `${CSS.answers}-result`)
 
-    NODES.E.answersResultStatus = createElement('div', `${CSS.main}__answers-result--status`)
+    NODES.E.answersResultStatus = createElement('div', `${CSS.answers}-result--status`)
     NODES.E.answersResult.appendChild(NODES.E.answersResultStatus)
 
-    NODES.E.answersResultText = createElement('div', `${CSS.main}__answers-result--text`)
+    NODES.E.answersResultText = createElement('div', `${CSS.answers}-result--text`)
     NODES.E.answersResult.appendChild(NODES.E.answersResultText)
 
-    NODES.E.answersResultBtn = createElement('button', `${CSS.main}__answers-result--next-btn`, { innerText: 'Далее' })
+    NODES.E.answersResultBtn = createElement('button', `${CSS.answers}-result--next-btn`, { innerText: 'Далее' })
     NODES.E.answersResult.appendChild(NODES.E.answersResultBtn)
 
     NODES.E.answersMain.appendChild(NODES.E.answersResult)
@@ -271,15 +277,15 @@ class Special extends BaseSpecial {
 
     NODES.S.quiz.appendChild(NODES.E.answers)
 
-    NODES.E.finalResult = createElement('div', `${CSS.main}__final-result`)
+    NODES.E.finalResult = createElement('div', `${CSS.final}-result`)
 
-    NODES.E.finalResultScore = createElement('div', `${CSS.main}__final--score`)
+    NODES.E.finalResultScore = createElement('div', `${CSS.final}--score`)
     NODES.E.finalResult.appendChild(NODES.E.finalResultScore)
 
-    NODES.E.finalResultShare = createElement('div', `${CSS.main}__final--share`)
+    NODES.E.finalResultShare = createElement('div', `${CSS.final}--share`)
     NODES.E.finalResult.appendChild(NODES.E.finalResultShare)
 
-    NODES.E.finalResultRestart = createElement('div', `${CSS.main}__final--restart-btn`)
+    NODES.E.finalResultRestart = createElement('div', `${CSS.final}--restart-btn`)
     NODES.E.finalResultRestartBtn = createElement('button', '', { innerText: 'Пройти ещё раз' })
 
     NODES.E.finalResultRestartBtn.addEventListener('click', () => {
@@ -291,28 +297,28 @@ class Special extends BaseSpecial {
 
     NODES.E.finalResult.appendChild(NODES.E.finalResultRestart)
 
-    NODES.E.finalResultSMS = createElement('div', `${CSS.main}__final--sms`)
+    NODES.E.finalResultSMS = createElement('div', `${CSS.final}--sms`)
     NODES.E.finalResult.appendChild(NODES.E.finalResultSMS)
 
-    NODES.E.finalResultFace = createElement('picture', `${CSS.main}__final--face`)
+    NODES.E.finalResultFace = createElement('picture', `${CSS.final}--face`)
     NODES.E.finalResultFace.appendChild(createElement('img', '', { alt: '' }))
     NODES.E.finalResult.appendChild(NODES.E.finalResultFace)
 
     NODES.S.final.appendChild(NODES.E.finalResult)
 
-    NODES.E.finalMegafon = createElement('div', `${CSS.main}__final-megafon`)
+    NODES.E.finalMegafon = createElement('div', `${CSS.final}-megafon`)
 
-    NODES.E.finalMegaLogo = createElement('a', `${CSS.main}__final-megafon--logo`, { href: Data.final_links.logo, target: '_blank' })
+    NODES.E.finalMegaLogo = createElement('a', `${CSS.final}-megafon--logo`, { href: Data.final_links.logo, target: '_blank' })
     NODES.E.finalMegaLogo.appendChild(createElement('img', '', { src: CDN_URL + Data.images.target_logo.x1, srcset: CDN_URL + Data.images.target_logo.x2, alt: 'Megafon Target logo' }))
     NODES.E.finalMegafon.appendChild(NODES.E.finalMegaLogo)
 
-    NODES.E.finalMegaText = createElement('div', `${CSS.main}__final-megafon--text`)
+    NODES.E.finalMegaText = createElement('div', `${CSS.final}-megafon--text`)
     Data.mega_text.forEach(paragraph => {
       NODES.E.finalMegaText.appendChild(createElement('div', '', { innerText: paragraph, role: 'paragraph' }))
     })
     NODES.E.finalMegafon.appendChild(NODES.E.finalMegaText)
 
-    NODES.E.finalMegaButton = createElement('a', `${CSS.main}__final-megafon--link`, { href: Data.final_links.button, target: '_blank', innerText: 'Попробовать' })
+    NODES.E.finalMegaButton = createElement('a', `${CSS.final}-megafon--link`, { href: Data.final_links.button, target: '_blank', innerText: 'Попробовать' })
     NODES.E.finalMegafon.appendChild(NODES.E.finalMegaButton)
 
     NODES.S.final.appendChild(NODES.E.finalMegafon)
@@ -370,7 +376,7 @@ class Special extends BaseSpecial {
           msg.innerHTML = tmp
 
           this.show()
-        }, content.text.length * 15)
+        }, content.text.replace(/<[^>]*>?/gm, '').length * 15)
       }
     }
 
@@ -491,7 +497,7 @@ class Special extends BaseSpecial {
     }
 
     currQ.answers.forEach(answerData => {
-      let answerItem = createElement('div', `${CSS.main}__answers-list-item`, { role: 'listitem' })
+      let answerItem = createElement('div', `${CSS.answers}-list-item`, { role: 'listitem' })
 
       let answerItemBtn = NODES.T.answerItemBtn.cloneNode('true')
 
@@ -546,7 +552,7 @@ class Special extends BaseSpecial {
 
           setTimeout(() => {
             delete NODES.E.answers.dataset.disallowNext
-          }, TIME / 2)
+          }, 750)
         } else {
           e.target.dataset.disabled = ''
         }

@@ -22,9 +22,10 @@ export const U = {
 
   prepareText(text) {
     let regExps = {
-      links:  new RegExp(/\[link\|(?:[^\]]+)\|([^\]]+)\]/),
-      bold:   new RegExp(/\[b\|(?:[^\]]+)\]/),
-      quote:  new RegExp(/\[q\|(?:[^\]]+)\]/),
+      links:      new RegExp(/\[link\|(?:[^\]]+)\|([^\]]+)\]/),
+      fakeLinks:  new RegExp(/\[fakelink\|(?:[^\]]+)\]/),
+      bold:       new RegExp(/\[b\|(?:[^\]]+)\]/),
+      quote:      new RegExp(/\[q\|(?:[^\]]+)\]/),
     }
 
     let regExps_keys = Object.keys(regExps)
@@ -48,6 +49,17 @@ export const U = {
         text = text.replace(
           regExps.links,
           createElement('a', '', { innerText: _link[2].replace(/]/g, ''), href: _link[1], target: '_blank' }).outerHTML
+        )
+      })
+    }
+
+    if (matches.fakeLinks) {
+      matches.fakeLinks.forEach(fakeLink => {
+        let _link = fakeLink.split('|')
+
+        text = text.replace(
+          regExps.fakeLinks,
+          createElement('span', 'mgfn-trgt__link', { innerText: _link[1].replace(/]/g, '') }).outerHTML
         )
       })
     }
