@@ -570,7 +570,7 @@ export default {
         levels: [
           {
             sender: 'SpaceX',
-            text: 'На Марс как на другой континент! Запускаем межпланетные перелеты. Записаться в лист ожидания: https://spa.ce.x',
+            text: 'На Марс как на другой континент! Запускаем межпланетные перелеты. Записаться в лист ожидания: <span class="lnk">https://spa.ce.x</span>',
             answersTexts: {
               milner: {
                 chat: '',

@@ -227,8 +227,6 @@ class Special extends BaseSpecial {
 
     NODES.E.answersPhrase = createElement('div', `${CSS.main}__answers--phrase`, { innerText: 'Кому адресовано сообщение?' })
 
-    NODES.E.answersHeader.appendChild(NODES.E.answersPhrase)
-
     NODES.E.themeSwitcher = createElement('label', `${CSS.main}__answers--theme-switcher`, { htmlFor: 'theme_switcher' })
 
     NODES.E.themeSwitcherText = U.createText('Сменить тему')
@@ -247,6 +245,7 @@ class Special extends BaseSpecial {
     NODES.E.themeSwitcher.appendChild(createElement('span'))
 
     NODES.E.answersHeader.appendChild(NODES.E.themeSwitcher)
+    NODES.E.answersHeader.appendChild(NODES.E.answersPhrase)
 
     NODES.E.answers.appendChild(NODES.E.answersHeader)
 
@@ -435,7 +434,8 @@ class Special extends BaseSpecial {
         content: {
           text: text
         },
-        type: 'text'
+        type: 'text',
+        typing: typing
       })
     }, typing ? 400 : 100)
 

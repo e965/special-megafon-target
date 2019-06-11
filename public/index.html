@@ -31,9 +31,26 @@
         justify-content: center;
         align-items: center;
         width: 100%;
+        max-width: 100%;
         min-height: 100vh;
         padding-top: 50px;
+        margin: 0 auto;
         overflow: hidden;
+    }
+    @media (min-width: 680px) {
+      .wrapper {
+        width: 640px;
+      }
+    }
+    @media (min-width: 1025px) {
+      .wrapper:not([air-module="module.feed"]) {
+        width: 1020px;
+      }
+    }
+    @media (min-width: 1340px) {
+      .wrapper:not([air-module="module.feed"]) {
+        width: 1060px;
+      }
     }
     .wrapper > header {
         position: fixed;
@@ -53,16 +70,12 @@
         left: 10px;
         user-select: none;
     }
-
-    #cmtt-special {
-      box-shadow: 0 0 4px rgba(0, 0, 0, .2);
-    }
   </style>
 </head>
 
 <body>
 
-  <div class="wrapper">
+  <div id="wrapper" class="wrapper">
     <header></header>
     <label class="toggle" for="feed-toggle">
       <input type="checkbox" id="feed-toggle">
@@ -106,8 +119,10 @@
       toggle.addEventListener('change', function () {
         if (this.checked) {
           specialContainer.dataset.isFeed = ''
+          wrapper.setAttribute('air-module', 'module.feed')
         } else {
           delete specialContainer.dataset.isFeed
+          wrapper.removeAttribute('air-module')
         }
       });
     })(document, window);

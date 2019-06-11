@@ -95,6 +95,19 @@
       background-color #fff
       box-shadow 0 0 12px rgba(#000, .15)
 
+      & span.lnk
+        color var(--mgtn__chat-text-color)
+        border-bottom 1px solid var(--mgtn__link-border)
+        cursor: default
+
+        &:hover
+          color #cd192e
+          border-color #f6b4bc
+
+          @media $mq.notHover
+            color var(--mgtn__chat-text-color)
+            border-color var(--mgtn__link-border)
+
       &[data-sender='from']
         border-radius 10px 10px 10px 0
 

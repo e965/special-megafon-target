@@ -1,45 +1,62 @@
 &__answers
   position relative
-  width 100%; min-height var(--mgfn__answers-height)
-  max-width 900px;
-
-  display grid
-
-  grid-template-columns 1fr
-  grid-template-rows 40px 1fr
-
-  background-color #fff
-  box-shadow 0px -1px 34px rgba(#000, .1)
-
   z-index 102
+  width: 100%
+  max-width: 900px
+  //min-height var(--mgfn__answers-height)
+  background-color #fff
+
+  @media $mq.iphone6
+    max-width calc(100% - 20px)
+    border-radius 30px 30px 0 0
+    box-shadow 0px -1px 10px rgba(#000, .1)
+
 
   @media $mq.notMobile
     width calc(100% - 50px)
-    border-radius 30px 30px 0 0
+    box-shadow 0px -1px 34px rgba(#000, .1)
 
-  &--header, &--main
-    position relative
-    width 100%
+  &--header
+    padding: 5px 10px 0
 
-  &--phrase, &--theme-switcher
-    position absolute
-    padding 15px 15px 0
+    @media $mq.iphone6
+      padding: 10px 20px 0
+
+    @media $mq.notMobile
+      display: flex
+      justify-content: space-between
+      padding: 15px 25px 0
+
+  &--main
+    display: flex
+    align-items: center
+    min-height: 170px
+
+    @media $mq.notMobile
+      min-height: 210px
 
   &--phrase
-    left 5px
+    padding-top: 5px
+    color #5d5d5d
+    font-size: 15px
+    text-align: center
     cursor default
 
-    color #5d5d5d
-
-    grid-area phrase
+    @media $mq.notMobile
+      padding-top: 0
+      font-size: 18px
 
   &--theme-switcher
-    right 5px
-    display block
-    grid-area ts
+    display inline-block
     color #A6A6A6
+    font-size: 14px
     -webkit-tap-highlight-color transparent
     cursor pointer
+
+    @media $mq.notMobile
+      order: 1
+      margin-left: auto
+      font-size: 18px
 
     span
       position relative
@@ -80,6 +97,7 @@
     input
       position absolute
       opacity 0
+      visibility: hidden
       pointer-events none
 
       &::before, &::after
@@ -114,7 +132,7 @@
 
   &-list, &-result
     display none
-    width 100%; height 100%
+    width 100%
 
   &[data-show='answers']
     & ^[-1]-list
@@ -122,6 +140,7 @@
 
   &-list
     justify-content space-around
+    align-items: flex-start
 
     &-item
       display flex
@@ -200,7 +219,8 @@
 
   &[data-show='result']
     & ^[-1]--phrase
-      display none
+      visibility: hidden
+      opacity: 0
 
     & ^[-1]-result
       display flex
@@ -210,11 +230,12 @@
       display none
 
   &-result
-    position relative
-
     align-items center
     justify-content center
     flex-flow column
+
+    @media $mq.mobile
+      margin-top: -29px
 
     a
       color var(--mgtn__chat-text-color) !important
@@ -233,19 +254,28 @@
         color #E7473B
 
     &--status
-      font-size 1.4em
+      font-size 20px
       font-weight 700
+
+      @media $mq.notMobile
+        font-size: 25px
 
       &:empty
         display none
 
     &--text
-      max-width 550px
-      margin-top 10px
+      width 550px
+      max-width: 100%
+      margin-top .4em
       padding 0 10px
 
-      font-size .85em
+      font-size 14px
       text-align center
+      line-height: 1.3em
+
+      @media $mq.notMobile
+        margin-top .8em
+        font-size: 16px
 
     ^[-1][data-disallow-next]
       & ^[-1]--next-btn
@@ -253,19 +283,28 @@
 
     &--next-btn
       position absolute
-      bottom 15px; right 15px
-
-      padding 0
-
-      background-color transparent
+      top: 0
+      right 5px
+      height: 35px
+      padding: 0 0 0 5px
+      margin: 0
+      font-size: 15px
       border 0
-
+      background-color transparent
+      user-select none
+      outline none
+      cursor pointer
       transition var(--mgfn__standard-transilion)
 
-      cursor pointer
-      user-select none
+      @media $mq.iphone6
+        top: 5px
+        right: 15px
 
-      outline none
+      @media $mq.notMobile
+        top: auto
+        bottom: 10px
+        right: 20px
+        font-size: 18px
 
       &:not([data-end])::after
         content ''
