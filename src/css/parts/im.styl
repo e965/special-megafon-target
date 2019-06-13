@@ -85,6 +85,9 @@
     &[data-sender='from']
       margin-right: auto
 
+      & ^[-1]-author
+        visibility-hidden()
+
     &[data-sender='to']
       margin-left: auto
 
@@ -156,20 +159,3 @@
 
     &:empty
       display none
-
-&__link
-  color var(--mgtn__chat-text-color)
-  border-bottom 1px solid var(--mgtn__link-border)
-
-  user-select none
-  cursor pointer
-
-  transition var(--mgfn__standard-transilion)
-
-  &:hover
-    color #cd192e
-    border-color #f6b4bc
-
-    @media $mq.notHover
-      color var(--mgtn__chat-text-color)
-      border-color var(--mgtn__link-border)

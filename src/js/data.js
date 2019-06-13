@@ -32,7 +32,7 @@ export default {
 
         levels: [
           {
-            author: 'РобоРобо',
+            author: 'RoboRobo',
             text: 'Работники устали и хотят домой! Наши роботы рассортируют товар, упакуют, отправят. Пожизненная поддержка в подарок [fakelink|https://ro.bots]',
             answersTexts: {
               bezos: {
@@ -43,7 +43,7 @@ export default {
           },
 
           {
-            author: 'РобоРобо',
+            author: 'RoboRobo',
             text: 'И на складе, и на доставке! Предложение для лояльных клиентов: протестируй робота до того, как он поступит в продажу [fakelink|https://ro.bots]',
             answersTexts: {
               bezos: {
@@ -54,7 +54,7 @@ export default {
           },
 
           {
-            author: 'РобоРобо',
+            author: 'RoboRobo',
             text: 'Акция до 1 июля! При покупке 10 складских роботов дрон для перевозки небольших грузов в подарок. [fakelink|https://ro.bots]',
             answersTexts: {
               bezos: {
@@ -189,7 +189,7 @@ export default {
 
         levels: [
           {
-            author: 'Одежда Оптом',
+            author: 'OptClothes',
             text: 'Пошив одежды жёлтого цвета. Скидка 20% за оптовую покупку [fakelink|https://cloth.es]',
             answersTexts: {
               volozh: {
@@ -200,7 +200,7 @@ export default {
           },
 
           {
-            author: 'Одежда Оптом',
+            author: 'OptClothes',
             text: 'Пошив одежды жёлтого цвета. Скидка 20% за оптовую покупку. Рюкзаки-холодильники в подарок [fakelink|https://cloth.es]',
             answersTexts: {
               volozh: {
@@ -211,7 +211,7 @@ export default {
           },
 
           {
-            author: 'Одежда Оптом',
+            author: 'OptClothes',
             text: 'Пошив одежды жёлтого цвета. Скидка 20% за оптовую покупку. Рюкзаки-холодильники и самокаты в цвет одежды в подарок [fakelink|https://cloth.es]',
             answersTexts: {
               volozh: {
@@ -498,7 +498,7 @@ export default {
 
         levels: [
           {
-            author: 'ПродуктОптТорг',
+            author: 'FoodOptTorg',
             text: 'К клубнике, маскарпоне и фуа-гра — маршмеллоу в подарок! При покупке до десяти килограммов любого продукта [fakelink|https://fo.od]',
             answersTexts: {
               goncharov: {
@@ -509,7 +509,7 @@ export default {
           },
 
           {
-            author: 'ПродуктОптТорг',
+            author: 'FoodOptTorg',
             text: 'К клубнике, маскарпоне и фуа-гра — маршмеллоу в подарок! При покупке до десяти килограммов любого продукта. Доставка до «Депо» [fakelink|https://fo.od]',
             answersTexts: {
               goncharov: {
@@ -520,7 +520,7 @@ export default {
           },
 
           {
-            author: 'ПродуктОптТорг',
+            author: 'FoodOptTorg',
             text: 'Не хватает чего-то русского? Купи 10 кг красной икры и получи кокошники от нашего партнера [fakelink|https://fo.od]',
             answersTexts: {
               goncharov: {

@@ -372,7 +372,13 @@ class Special extends BaseSpecial {
 
     if (type === 'face') {
       msg.classList.add(`${CSS.im}__msg--face`)
-      msg.appendChild(createElement('img', '', { src: content.images.x1, srcset: content.images.x2 + ' 2x' }))
+
+      msg.appendChild(
+        createElement('img', '', {
+          src: content.images.x1,
+          srcset: content.images.x2 + ' 2x'
+        })
+      )
 
       msg.dataset.correct = success.toString()
 
