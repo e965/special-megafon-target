@@ -434,7 +434,7 @@ class Special extends BaseSpecial {
         NODES.E.answersResultBtn.onclick = () => {
           this.nextQuestion()
 
-          Analytics.sendEvent(`${this.typeShowing} — Next question (to question №${this.qIndex + 1}, score is ${this.score})`, 'Click')
+          Analytics.sendEvent(`${this.typeShowing} — Next question (to question №${this.qIndex}, score is ${this.score})`, 'Click')
         }
         NODES.E.answersResultBtn.textContent = 'Далее'; break
 
@@ -443,7 +443,7 @@ class Special extends BaseSpecial {
           this.showAnswers()
           this.nextLevel()
 
-          Analytics.sendEvent(`${this.typeShowing} — Next level — Question №${this.qIndex + 1}, to level ${this.qLevel + 1}`, 'Click')
+          Analytics.sendEvent(`${this.typeShowing} — Next level — Question №${this.qIndex}, to level ${this.qLevel + 1}`, 'Click')
         }
         NODES.E.answersResultBtn.textContent = 'Попробовать снова'; break
 
@@ -517,7 +517,7 @@ class Special extends BaseSpecial {
   newQuestion() {
     let currQ = this.getCurrentQuestion()
 
-    NODES.E.imCounter.textContent = `${this.qIndex + 1} / ${this.quizLength}`
+    NODES.E.imCounter.textContent = `${this.qIndex} / ${this.quizLength - 1}`
 
     clearNode(NODES.E.answersList)
 
@@ -581,7 +581,9 @@ class Special extends BaseSpecial {
         let isRight = ('right' in answerData && answerData.right)
 
         if (isRight) {
-          this.increaseScore()
+          if (this.qIndex != 0) {
+            this.increaseScore()
+          }
 
           NODES.E.answers.dataset.disallowNext = ''
 
@@ -592,7 +594,7 @@ class Special extends BaseSpecial {
           e.target.dataset.disabled = ''
         }
 
-        Analytics.sendEvent(`${this.typeShowing} — Answer (question №${this.qIndex + 1}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'})`, 'Click')
+        Analytics.sendEvent(`${this.typeShowing} — Answer (question №${this.qIndex}, level ${this.qLevel + 1}, ${isRight ? 'right' : 'wrong'})`, 'Click')
 
         this.send({
           sender: 'to',
@@ -618,7 +620,7 @@ class Special extends BaseSpecial {
           nextEvent = 'end'
         }
 
-        if ('chat' in cat) {
+        if ('chat' in cat && cat.chat != '') {
           setTimeout(() => {
             this.send({
               sender: 'to',
