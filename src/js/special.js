@@ -123,7 +123,13 @@ class Special extends BaseSpecial {
 
         let answersTextsKeys = Object.keys(answersTexts)
 
-        level.text = U.prepareText(level.text)
+        if (level.text instanceof Array) {
+          level.text.forEach((txt, i) => {
+            level.text[i] = U.prepareText(txt)
+          })
+        } else {
+          level.text = U.prepareText(level.text)
+        }
 
         answersTextsKeys.forEach(atk => {
           let qaa = {}
@@ -522,13 +528,30 @@ class Special extends BaseSpecial {
     clearNode(NODES.E.answersList)
 
     if (this.isStart()) {
-      this.send({
-        sender: 'from',
-        author: this.getCurrentLevel().author,
-        content: {
-          text: this.getCurrentLevel().text
-        },
-      })
+      const text = this.getCurrentLevel().text
+      if (text instanceof Array) {
+        text.forEach((t, i) => {
+          setTimeout(() => {
+            this.send({
+              sender: 'from',
+              author: this.getCurrentLevel().author,
+              content: {
+                text: t
+              },
+              type: 'text',
+              typing: !!i,
+            })
+          }, 400 * i)
+        })
+      } else {
+        this.send({
+          sender: 'from',
+          author: this.getCurrentLevel().author,
+          content: {
+            text: text
+          },
+        })
+      }
     } else {
       this.spawnNextLevelSMS()
     }
@@ -581,7 +604,7 @@ class Special extends BaseSpecial {
         let isRight = ('right' in answerData && answerData.right)
 
         if (isRight) {
-          if (this.qIndex != 0) {
+          if (this.qIndex !== 0) {
             this.increaseScore()
           }
 
@@ -673,7 +696,7 @@ class Special extends BaseSpecial {
 
     let ourResult = Object.values(results)[scoreIndex]
 
-    NODES.E.finalResultScore.textContent = `${this.score} из ${this.quizLength} адресатов разгадано`
+    NODES.E.finalResultScore.textContent = `${this.score} из ${this.quizLength - 1} адресатов разгадано`
 
     clearNode(NODES.E.finalResultShare)
 
