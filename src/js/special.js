@@ -123,7 +123,7 @@ class Special extends BaseSpecial {
 
         let answersTextsKeys = Object.keys(answersTexts)
 
-        if (level.text instanceof Array) {
+        if (Array.isArray(level.text)) {
           level.text.forEach((txt, i) => {
             level.text[i] = U.prepareText(txt)
           })
@@ -350,11 +350,10 @@ class Special extends BaseSpecial {
 
     NODES.E.svgTailPaths.classList.add(`${CSS.main}__hidden`)
 
-    NODES.E.svgTailPaths.setAttributeNS(svgNS, 'width', '35')
-    NODES.E.svgTailPaths.setAttributeNS(svgNS, 'height', '23')
-    NODES.E.svgTailPaths.setAttributeNS(svgNS, 'viewBox', '0 43 34 20')
+    NODES.E.svgTailPaths.setAttributeNS(svgNS, 'width', '0')
+    NODES.E.svgTailPaths.setAttributeNS(svgNS, 'height', '0')
 
-    NODES.E.svgTailPaths.innerHTML = `<defs><clipPath id="${CSS.main}__sms-tail-left" transform="scale(.75)"><path d="M0 64.325C19.206 53.9 15.817 41.74 15.817.047 22.784-1.304 33.894 26.8 33.894 41.162 33.894 60.85 19.77 64.325 0 64.325z"/></clipPath><clipPath id="${CSS.main}__sms-tail-right" transform="scale(.75)"><path d="M34 64C14.733 53.63 18.133 41.53 18.133.047 11.144-1.298 0 26.665 0 40.954 0 60.543 14.167 64 34 64z"/></clipPath></defs>`
+    NODES.E.svgTailPaths.innerHTML = `<defs><clipPath id="${CSS.main}__sms-tail-left" transform="scale(.75)"><path d="M0 64.325C19.206 53.9 15.817 41.74 15.817.047 22.784-1.304 33.894 26.8 33.894 41.162 33.894 60.85 19.77 64.325 0 64.325z" clip-path="url(#${CSS.main}__sms-tail-rect)"/></clipPath><clipPath id="${CSS.main}__sms-tail-right" transform="scale(.75)"><path d="M34 64C14.733 53.63 18.133 41.53 18.133.047 11.144-1.298 0 26.665 0 40.954 0 60.543 14.167 64 34 64z" clip-path="url(#${CSS.main}__sms-tail-rect)"/></clipPath><clipPath xmlns="http://www.w3.org/2000/svg" id="${CSS.main}__sms-tail-rect"><rect x="0" y="35" width="35" height="30"/></clipPath></defs>`
 
     this.container.appendChild(NODES.E.svgTailPaths)
   }
@@ -543,7 +542,7 @@ class Special extends BaseSpecial {
 
     if (this.isStart()) {
       const text = this.getCurrentLevel().text
-      if (text instanceof Array) {
+      if (Array.isArray(text)) {
         text.forEach((t, i) => {
           setTimeout(() => {
             this.send({
