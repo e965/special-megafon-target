@@ -15,7 +15,7 @@
     font-size 9px
 
   &__operator
-    position: absolute
+    position absolute
     top 0; right 16px
 
     font-size 9px
@@ -29,15 +29,15 @@
     text-align center
 
   &__sender-avatar
-    position: absolute
+    position absolute
     width 20px; height 20px
-    bottom: 2px; right: 10px
+    bottom 2px; right 10px
 
     background-image var(--mgfn__img-anon)
     background-size cover
 
   &__messages
-    height: 230px
+    height 230px
 
     background-color var(--mgtn__chat-bg-color)
     background-image var(--mgfn__img-chat-bg)
@@ -48,7 +48,7 @@
 
     transition var(--mgfn__switch-theme-transilion)
 
-    @media (min-width: 568px)
+    @media (min-width 568px)
       height 290px
 
     &-wrapper
@@ -58,6 +58,9 @@
 
     &-inner
       overflow hidden
+
+      will-change transform
+
       transform translate3d(0, 100%, 0)
 
     &-list
@@ -94,7 +97,7 @@
       margin-left 20px
 
     &--text
-      padding 15px
+      padding 12px 15px
       font-size 14px
       line-height 1.3
       background-color #fff
