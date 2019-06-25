@@ -353,7 +353,7 @@ class Special extends BaseSpecial {
     NODES.E.svgTailPaths.setAttributeNS(svgNS, 'width', '0')
     NODES.E.svgTailPaths.setAttributeNS(svgNS, 'height', '0')
 
-    NODES.E.svgTailPaths.innerHTML = `<defs><clipPath id="${CSS.main}__sms-tail-left" transform="scale(.75)"><path d="M0 64.325C19.206 53.9 15.817 41.74 15.817.047 22.784-1.304 33.894 26.8 33.894 41.162 33.894 60.85 19.77 64.325 0 64.325z" clip-path="url(#${CSS.main}__sms-tail-rect)"/></clipPath><clipPath id="${CSS.main}__sms-tail-right" transform="scale(.75)"><path d="M34 64C14.733 53.63 18.133 41.53 18.133.047 11.144-1.298 0 26.665 0 40.954 0 60.543 14.167 64 34 64z" clip-path="url(#${CSS.main}__sms-tail-rect)"/></clipPath><clipPath xmlns="http://www.w3.org/2000/svg" id="${CSS.main}__sms-tail-rect"><rect x="0" y="35" width="35" height="30"/></clipPath></defs>`
+    NODES.E.svgTailPaths.innerHTML = `<defs><clipPath id="${CSS.main}__sms-tail-left" transform="scale(.75)"><path d="M0 64.325C19.206 53.9 15.817 41.74 15.817.047 22.784-1.304 33.894 26.8 33.894 41.162 33.894 60.85 19.77 64.325 0 64.325z" clip-path="url(#${CSS.main}__sms-tail-rect)"/></clipPath><clipPath id="${CSS.main}__sms-tail-right" transform="scale(.75)"><path d="M34 64C14.733 53.63 18.133 41.53 18.133.047 11.144-1.298 0 26.665 0 40.954 0 60.543 14.167 64 34 64z" clip-path="url(#${CSS.main}__sms-tail-rect)"/></clipPath><clipPath xmlns="http://www.w3.org/2000/svg" id="${CSS.main}__sms-tail-rect"><rect x="0" y="35" width="28" height="30"/></clipPath></defs>`
 
     this.container.appendChild(NODES.E.svgTailPaths)
   }
