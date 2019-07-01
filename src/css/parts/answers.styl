@@ -43,6 +43,15 @@
 
     cursor default
 
+    &:before
+      content attr(data-counter) ' / ' attr(data-quiz-length)
+
+      display inline
+
+      margin-right 10px
+
+      color #000
+
     @media $mq.notMobile
       padding-top 0
 

@@ -16,6 +16,7 @@ const CSS_HEIRS = {
   screen: '__screen',
   iphone: '-iphone-x',
   im: '-im',
+  msg: '-im__msg',
   answers: '__answers',
   final: '__final'
 }
@@ -160,10 +161,10 @@ class Special extends BaseSpecial {
 
     /* Текстовая СМС */
 
-    NODES.T.textSMS = createElement('div', [`${CSS.im}__msg`, `${CSS.im}__msg--text`])
+    NODES.T.textSMS = createElement('div', [CSS.msg, `${CSS.msg}--text`])
 
-    NODES.T.textSMS.appendChild(createElement('div', `${CSS.im}__msg-author`))
-    NODES.T.textSMS.appendChild(createElement('div', `${CSS.im}__msg-text`))
+    NODES.T.textSMS.appendChild(createElement('div', `${CSS.msg}-author`))
+    NODES.T.textSMS.appendChild(createElement('div', `${CSS.msg}-text`))
 
     /* Кнопка ответа на вопрос */
 
@@ -219,8 +220,16 @@ class Special extends BaseSpecial {
 
     NODES.E.im = createElement('div', `${CSS.im}`)
     NODES.E.imHeader = createElement('div', `${CSS.im}__header`)
-    NODES.E.imCounter = createElement('div', `${CSS.im}__counter`)
+
     NODES.E.imOperator = createElement('div', `${CSS.im}__operator`, { innerText: 'MegaFon' })
+
+    NODES.E.imStatus = createElement('div', `${CSS.im}__status`)
+    NODES.E.imStatus.appendChild(createElement('span', '', { textContent: 'LTE' }))
+
+    NODES.E.imBattery = createElement('div', `${CSS.im}__status--battery`)
+    NODES.E.imBattery.appendChild(createElement('div'))
+
+    NODES.E.imStatus.appendChild(NODES.E.imBattery)
 
     NODES.E.imSender = createElement('div', `${CSS.im}__sender`)
 
@@ -234,9 +243,8 @@ class Special extends BaseSpecial {
     NODES.E.imMessagesWrapper = createElement('div', `${CSS.im}__messages-wrapper`)
     NODES.E.imMessagesInner = createElement('div', `${CSS.im}__messages-inner`)
     NODES.E.imMessagesList = createElement('div', `${CSS.im}__messages-list`)
-
-    NODES.E.imHeader.appendChild(NODES.E.imCounter)
     NODES.E.imHeader.appendChild(NODES.E.imOperator)
+    NODES.E.imHeader.appendChild(NODES.E.imStatus)
     NODES.E.imHeader.appendChild(NODES.E.imSender)
 
     NODES.E.imMessagesInner.appendChild(NODES.E.imMessagesList)
@@ -253,6 +261,9 @@ class Special extends BaseSpecial {
     NODES.E.answersHeader = createElement('div', `${CSS.answers}--header`)
 
     NODES.E.answersPhrase = createElement('div', `${CSS.answers}--phrase`, { innerText: 'Кому адресовано сообщение?' })
+
+    NODES.E.answersPhrase.dataset.counter = 0
+    NODES.E.answersPhrase.dataset.quizLength = this.quizLength - 1
 
     NODES.E.themeSwitcher = createElement('label', `${CSS.answers}--theme-switcher`, { htmlFor: 'theme_switcher' })
 
@@ -325,6 +336,8 @@ class Special extends BaseSpecial {
     NODES.E.finalResultFace.appendChild(createElement('img', '', { alt: '' }))
     NODES.E.finalResult.appendChild(NODES.E.finalResultFace)
 
+    this.finalFaceImg = U.qsf('img', NODES.E.finalResultFace)
+
     NODES.S.final.appendChild(NODES.E.finalResult)
 
     NODES.E.finalMegafon = createElement('div', `${CSS.final}-megafon`)
@@ -383,14 +396,14 @@ class Special extends BaseSpecial {
   }
 
   send({ sender, content, type = 'text', typing = false, author = 'Неизвестный номер', success = true }) {
-    const msg = createElement('div', `${CSS.im}__msg`, {
+    const msg = createElement('div', CSS.msg, {
       data: {
         sender: sender
       }
     })
 
     if (type === 'face') {
-      msg.classList.add(`${CSS.im}__msg--face`)
+      msg.classList.add(`${CSS.msg}--face`)
 
       msg.appendChild(
         createElement('img', '', {
@@ -401,11 +414,13 @@ class Special extends BaseSpecial {
 
       msg.dataset.correct = success.toString()
 
-    } else {
-      msg.classList.add(`${CSS.im}__msg--text`)
+      msg.appendChild(createElement('span', `${CSS.msg}-mark`))
 
-      let msgAuthorNode = createElement('div', `${CSS.im}__msg-author`, { textContent: author })
-      let msgTextNode = createElement('div', `${CSS.im}__msg-text`, { innerHTML: content.text })
+    } else {
+      msg.classList.add(`${CSS.msg}--text`)
+
+      let msgAuthorNode = createElement('div', `${CSS.msg}-author`, { textContent: author })
+      let msgTextNode = createElement('div', `${CSS.msg}-text`, { innerHTML: content.text })
 
       msg.appendChild(msgAuthorNode)
       msg.appendChild(msgTextNode)
@@ -536,7 +551,7 @@ class Special extends BaseSpecial {
   newQuestion() {
     let currQ = this.getCurrentQuestion()
 
-    NODES.E.imCounter.textContent = `${this.qIndex} / ${this.quizLength - 1}`
+    NODES.E.answersPhrase.dataset.counter = this.qIndex
 
     clearNode(NODES.E.answersList)
 
@@ -656,7 +671,10 @@ class Special extends BaseSpecial {
           nextEvent = 'end'
         }
 
-        if ('chat' in cat && cat.chat != '') {
+        console.log(cat)
+        console.log(cat.chat !== '')
+
+        if ('chat' in cat && cat.chat !== '') {
           setTimeout(() => {
             this.send({
               sender: 'to',
@@ -719,19 +737,17 @@ class Special extends BaseSpecial {
       twitter: this.params.share.title,
     }, this.typeShowing)
 
-    let finalFaceImg = U.qsf('img', NODES.E.finalResultFace)
-
     clearNode(NODES.E.finalResultSMS)
 
     NODES.E.finalResultSMS.appendChild(NODES.T.textSMS.cloneNode(true))
 
     NODES.E.finalResultSMS.firstChild.dataset.sender = 'from'
 
-    U.qsf(`.${CSS.im}__msg-author`, NODES.E.finalResultSMS).textContent = ourResult.author
-    U.qsf(`.${CSS.im}__msg-text`, NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult.text)
+    U.qsf(`.${CSS.msg}-author`, NODES.E.finalResultSMS).textContent = ourResult.author
+    U.qsf(`.${CSS.msg}-text`, NODES.E.finalResultSMS).innerHTML = U.prepareText(ourResult.text)
 
-    finalFaceImg.src = CDN_URL + Data.images.faces[`${person}_nichosi`]
-    finalFaceImg.srcset = CDN_URL + Data.images.faces_2x[`${person}_nichosi`] + ' 2x'
+    this.finalFaceImg.src = CDN_URL + Data.images.faces[`${person}_nichosi`]
+    this.finalFaceImg.srcset = CDN_URL + Data.images.faces_2x[`${person}_nichosi`] + ' 2x'
 
     this.showScreen('final')
   }
@@ -742,6 +758,9 @@ class Special extends BaseSpecial {
     this.score = 0
 
     clearNode(NODES.E.imMessagesList)
+
+    this.finalFaceImg.src = ''
+    this.finalFaceImg.srcset = ''
 
     this.newQuestion()
 
