@@ -16,6 +16,10 @@
   &__operator
     top 0; left 18px
 
+    @-moz-document url-prefix()
+      &
+        left 15px
+
   &__status
     top -1px; right 22px
 
@@ -28,15 +32,19 @@
 
       margin-left 3px
 
-      border 1px solid #fff
+      border 1px solid var(--mgfn__header-text-color)
       border-radius 3px
 
       padding 1px
 
+      transition var(--mgfn__standard-transilion)
+
       & > div
         width 90%; height 100%
 
-        background-color #fff
+        background-color var(--mgfn__header-text-color)
+
+        border-radius 3px
 
         transition var(--mgfn__standard-transilion)
 
@@ -46,10 +54,12 @@
         position absolute
         top 1px; right -4px
 
-        background-color #fff
+        width 2px; height 3px
+
+        background-color var(--mgfn__header-text-color)
         border-radius 0 10px 10px 0
 
-        width 2px; height 3px
+        transition var(--mgfn__standard-transilion)
 
   &__sender
     position relative
@@ -128,22 +138,20 @@
     &::after
       position absolute
 
-      width 25px; height 50px
-      bottom -2px;
+      width 25px
+      top 20px; bottom: 0
 
-      background-color #fff
+      background-repeat no-repeat
+      background-image var(--mgtn__user-sms-tail)
 
     &[data-sender='from']
       &::after
         content ''
 
-        left -11.5px
+        left -15px
 
-        @-moz-document url-prefix()
-          &
-            left -7px
-
-        clip-path url(#mgfn-trgt__sms-tail-left)
+        background-position 0 100%
+        background-image: $svg.tail_left
 
     &[data-sender='to']
       margin-left auto
@@ -153,21 +161,9 @@
       &::after
         content ''
 
-        right -11.5px
+        right -15px
 
-        background-color var(--mgtn__user-sms-bg-color)
-
-        clip-path url(#mgfn-trgt__sms-tail-right)
-
-    @supports (-ms-ime-align auto)
-      &[data-sender='from']
-        border-radius 25px 25px 25px 0
-
-      &[data-sender='to']
-        border-radius 25px 25px 0 25px
-
-      &::after
-        visibility-hidden()
+        background-position 100% 100%
 
     &--text
       font-size 14px
@@ -196,6 +192,9 @@
 
       &, &:after
         background-color transparent !important
+
+      &:after
+        opacity: 0
 
     &-mark
       position absolute
