@@ -229,6 +229,8 @@ class Special extends BaseSpecial {
     NODES.E.imBattery = createElement('div', `${CSS.im}__status--battery`)
     NODES.E.imBattery.appendChild(createElement('div'))
 
+    this.batteryСharge = U.qsf('div', NODES.E.imBattery)
+
     NODES.E.imStatus.appendChild(NODES.E.imBattery)
 
     NODES.E.imSender = createElement('div', `${CSS.im}__sender`)
@@ -243,6 +245,7 @@ class Special extends BaseSpecial {
     NODES.E.imMessagesWrapper = createElement('div', `${CSS.im}__messages-wrapper`)
     NODES.E.imMessagesInner = createElement('div', `${CSS.im}__messages-inner`)
     NODES.E.imMessagesList = createElement('div', `${CSS.im}__messages-list`)
+
     NODES.E.imHeader.appendChild(NODES.E.imOperator)
     NODES.E.imHeader.appendChild(NODES.E.imStatus)
     NODES.E.imHeader.appendChild(NODES.E.imSender)
@@ -440,12 +443,16 @@ class Special extends BaseSpecial {
         }
         msg.appendChild(U.createText(' печатает'))
 
+        let typingTime = content.text.replace(/<[^>]*>?/gm, '').length * 30
+
+        if (typingTime < 1500) { typingTime = 1500 }
+
         setTimeout(() => {
           msg.removeAttribute('data-typing')
           msg.innerHTML = tmp
 
           this.show()
-        }, content.text.replace(/<[^>]*>?/gm, '').length * 15)
+        }, typingTime)
       }
     }
 
@@ -513,7 +520,7 @@ class Special extends BaseSpecial {
         type: 'text',
         typing: typing
       })
-    }, typing ? 400 : 100)
+    }, typing ? 2500 : 100)
 
     if (!(this.qLevel === 0)) {
       this.btnsClickAbility = false
@@ -540,6 +547,16 @@ class Special extends BaseSpecial {
     NODES.E.imMessages.scrollTop = 0
     NODES.E.imMessagesInner.style.transition = ''
     NODES.E.imMessagesInner.style.transform = 'translate3d(0, 100%, 0)'
+
+    let bc = this.batteryСharge
+
+    if (bc.style.width === '') {
+      bc.style.width = (86 - U.random({ min: 1, max: 5 })) + '%'
+    } else {
+      let charge = Number(bc.style.width.replace('%', ''))
+
+      bc.style.width = (charge - 5 - U.random({ min: 1, max: 5 })) + '%'
+    }
 
     clearNode(NODES.E.imMessagesList)
 
@@ -569,7 +586,7 @@ class Special extends BaseSpecial {
               type: 'text',
               typing: !!i,
             })
-          }, 400 * i)
+          }, 500 * i)
         })
       } else {
         this.send({
@@ -598,7 +615,13 @@ class Special extends BaseSpecial {
       faceImg.src = CDN_URL + Data.images.faces[answerData.id]
       faceImg.srcset = CDN_URL + Data.images.faces_2x[answerData.id] + ' 2x'
 
-      U.qsf('[class$="name"]', answerItemBtn).textContent = answerData.who
+      let nameNode = U.qsf('[class$="name"]', answerItemBtn)
+
+      let splittedName = answerData.who.split(' ')
+
+      nameNode.appendChild(createElement('span', '', { textContent: splittedName[0] }))
+      nameNode.appendChild(createElement('span', '', { textContent: splittedName[1] }))
+
       U.qsf('[class$="company"]', answerItemBtn).innerHTML = answerData.company
 
       answerItemBtn.addEventListener('click', e => {
@@ -671,9 +694,6 @@ class Special extends BaseSpecial {
           nextEvent = 'end'
         }
 
-        console.log(cat)
-        console.log(cat.chat !== '')
-
         if ('chat' in cat && cat.chat !== '') {
           setTimeout(() => {
             this.send({
@@ -682,8 +702,9 @@ class Special extends BaseSpecial {
                 text: cat.chat
               },
               author: answerData.who,
+              typing: true,
             })
-          }, 400)
+          }, 500)
         }
 
         /*
@@ -756,6 +777,8 @@ class Special extends BaseSpecial {
     this.qIndex = 0
     this.qLevel = 0
     this.score = 0
+
+    this.batteryСharge.style.removeProperty('width')
 
     clearNode(NODES.E.imMessagesList)
 

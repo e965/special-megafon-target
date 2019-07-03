@@ -8,6 +8,13 @@
         &-btn
           transition var(--mgfn__standard-transilion)
 
+    // батарейка в вебките почему-то скачет
+    @supports (-webkit-appearance none)
+      &-im
+        &__status
+          &--battery
+            margin-bottom 1px
+
   @media screen and (max-height 770px)
 
     &:not([data-is-feed])
@@ -154,6 +161,14 @@
         &-btn
           &--face
             height 40px
+
+          &--name
+            span
+              display block
+
+              &:nth-child(1)
+                &::after
+                  content ''
 
     & ^[-1]__final
       &-result
