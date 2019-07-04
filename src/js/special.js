@@ -385,7 +385,21 @@ class Special extends BaseSpecial {
     }
   }
 
-  send({ sender, content, type = 'text', typing = false, author = 'Неизвестный номер', success = true }) {
+  answersClicks() {
+    return {
+      allow: () => {
+        this.btnsClickAbility = true
+        delete NODES.E.answers.dataset.disallowClicks
+      },
+
+      disallow: () => {
+        this.btnsClickAbility = false
+        NODES.E.answers.dataset.disallowClicks = ''
+      }
+    }
+  }
+
+  send({ sender, content, type = 'text', typing = false, author = 'Неизвестный номер', success = true, allowClickAfterTyping = false }) {
     const msg = createElement('div', CSS.msg, {
       data: {
         sender: sender
@@ -430,7 +444,7 @@ class Special extends BaseSpecial {
         }
         msg.appendChild(U.createText(' печатает'))
 
-        let typingTime = content.text.replace(/<[^>]*>?/gm, '').length * 30
+        let typingTime = content.text.replace(/<[^>]*>?/gm, '').length * 20
 
         if (typingTime < 1500) { typingTime = 1500 }
 
@@ -439,6 +453,10 @@ class Special extends BaseSpecial {
           msg.innerHTML = tmp
 
           this.show()
+
+          if (allowClickAfterTyping) {
+            this.answersClicks().allow()
+          }
         }, typingTime)
       }
     }
@@ -510,13 +528,11 @@ class Special extends BaseSpecial {
     }, typing ? 2500 : 100)
 
     if (!(this.qLevel === 0)) {
-      this.btnsClickAbility = false
-      NODES.E.answers.dataset.disallowClicks = ''
+      this.answersClicks().disallow()
 
       setTimeout(() => {
-        this.btnsClickAbility = true
-        delete NODES.E.answers.dataset.disallowClicks
-      }, typing ? text.length * 15 + 100 : 100)
+        this.answersClicks().allow()
+      }, typing ? text.replace(/<[^>]*>?/gm, '').length * 20 + 2500 : 100)
     }
   }
 
@@ -561,6 +577,9 @@ class Special extends BaseSpecial {
 
     if (this.isStart()) {
       const text = this.getCurrentLevel().text
+
+      this.answersClicks().disallow()
+
       if (Array.isArray(text)) {
         text.forEach((t, i) => {
           setTimeout(() => {
@@ -572,6 +591,7 @@ class Special extends BaseSpecial {
               },
               type: 'text',
               typing: !!i,
+              allowClickAfterTyping: true
             })
           }, 500 * i)
         })
@@ -584,6 +604,8 @@ class Special extends BaseSpecial {
           },
         })
       }
+
+
     } else {
       this.spawnNextLevelSMS()
     }
