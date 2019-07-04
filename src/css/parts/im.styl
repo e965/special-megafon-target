@@ -117,7 +117,6 @@
 
     background-color #fff
     box-shadow 0 0 12px rgba(#000, .15)
-    border-radius 20px 20px 20px 25px
 
     &[data-typing]
       color gray
@@ -145,6 +144,8 @@
       background-image var(--mgtn__user-sms-tail)
 
     &[data-sender='from']
+      border-radius 20px 20px 20px 25px
+
       &::after
         content ''
 
@@ -155,6 +156,8 @@
 
     &[data-sender='to']
       margin-left auto
+
+      border-radius 20px 20px 25px 20px
 
       background-color var(--mgtn__user-sms-bg-color)
 
