@@ -44,21 +44,28 @@
 
       transition var(--mgfn__standard-transilion)
 
+      span
+        margin-right 5px
+
       &::after
         content ''
 
         display inline-block
         width 1em; height 1em
-        margin-left 5px
 
         vertical-align middle
+
+        transition var(--mgfn__switch-theme-transilion)
 
         background-image var(--mgfn__svg-refresh)
         background-size contain
         background-repeat no-repeat
 
       &:hover
-        opacity .6
+        opacity .8
+
+        &:after
+          transform rotate(360deg)
 
         @media $mq.notHover
           opacity 1

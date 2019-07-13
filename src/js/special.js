@@ -321,13 +321,16 @@ class Special extends BaseSpecial {
     NODES.E.finalResult.appendChild(NODES.E.finalResultShare)
 
     NODES.E.finalResultRestart = createElement('div', `${CSS.final}--restart-btn`)
-    NODES.E.finalResultRestartBtn = createElement('button', '', { innerText: 'Пройти ещё раз' })
+    NODES.E.finalResultRestartBtn = createElement('button')
+
+    NODES.E.finalResultRestartBtn.appendChild(createElement('span', '', { innerText: 'Пройти ещё раз' }))
 
     NODES.E.finalResultRestartBtn.addEventListener('click', () => {
       this.restart()
 
       Analytics.sendEvent(`${this.typeShowing} — Restart`, 'Click')
     })
+
     NODES.E.finalResultRestart.appendChild(NODES.E.finalResultRestartBtn)
 
     NODES.E.finalResult.appendChild(NODES.E.finalResultRestart)
@@ -353,6 +356,7 @@ class Special extends BaseSpecial {
     Data.mega_text.forEach(paragraph => {
       NODES.E.finalMegaText.appendChild(createElement('div', '', { innerText: paragraph, role: 'paragraph' }))
     })
+
     NODES.E.finalMegafon.appendChild(NODES.E.finalMegaText)
 
     NODES.E.finalMegaButton = createElement('a', `${CSS.final}-megafon--link`, { href: Data.final_links.button, target: '_blank', innerText: 'Попробовать' })
@@ -372,16 +376,18 @@ class Special extends BaseSpecial {
   }
 
   show() {
-    NODES.E.imMessagesInner.style.transition = 'transform 0.25s linear'
+    if (!('show' in NODES.S.final.dataset)) { // фикс бага с последней SMS
+      NODES.E.imMessagesInner.style.transition = 'transform 0.25s linear'
 
-    if (NODES.E.imMessagesWrapper.offsetHeight > NODES.E.imMessages.offsetHeight) {
-      NODES.E.imMessages.scrollTop = NODES.E.imMessagesWrapper.offsetHeight - NODES.E.imMessages.offsetHeight
+      if (NODES.E.imMessagesWrapper.offsetHeight > NODES.E.imMessages.offsetHeight) {
+        NODES.E.imMessages.scrollTop = NODES.E.imMessagesWrapper.offsetHeight - NODES.E.imMessages.offsetHeight
 
-      setTimeout(() => {
+        setTimeout(() => {
+          NODES.E.imMessagesInner.style.transform = `translate3d(0, calc(100% - ${NODES.E.imMessagesList.offsetHeight}px), 0)`
+        }, 100)
+      } else {
         NODES.E.imMessagesInner.style.transform = `translate3d(0, calc(100% - ${NODES.E.imMessagesList.offsetHeight}px), 0)`
-      }, 100)
-    } else {
-      NODES.E.imMessagesInner.style.transform = `translate3d(0, calc(100% - ${NODES.E.imMessagesList.offsetHeight}px), 0)`
+      }
     }
   }
 
@@ -495,11 +501,16 @@ class Special extends BaseSpecial {
 
       case 'end':
         NODES.E.answersResultBtn.onclick = () => {
+          if (!this.btnsClickAbility) { return }
+
           this.final()
 
           NODES.E.imMessages.scrollTop = 0
-          NODES.E.imMessagesInner.style.transition = ''
-          NODES.E.imMessagesInner.style.transform = 'translate3d(0, 100%, 0)'
+
+          Array.from(['transition', 'transform']).forEach(p => {
+            NODES.E.imMessagesInner.style.removeProperty(p)
+          })
+
           clearNode(NODES.E.imMessagesList)
 
           Analytics.sendEvent(`${this.typeShowing} — End (score is ${this.score})`, 'Click')
