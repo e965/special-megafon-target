@@ -501,8 +501,6 @@ class Special extends BaseSpecial {
 
       case 'end':
         NODES.E.answersResultBtn.onclick = () => {
-          if (!this.btnsClickAbility) { return }
-
           this.final()
 
           NODES.E.imMessages.scrollTop = 0
