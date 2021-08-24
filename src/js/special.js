@@ -241,6 +241,13 @@ class Special extends BaseSpecial {
         NODES.E.imSenderName = createElement('div', `${CSS.im}__sender-name`, { textContent: 'Неизвестный номер' });
         NODES.E.imSenderAvatar = createElement('div', `${CSS.im}__sender-avatar`);
 
+        NODES.E.imSenderAvatarImage = createElement('img', '', {
+            src: Data.images.anon.x1,
+            srcset: Data.images.anon.x2 + ' 2x', alt: 'Sender'
+        });
+
+        NODES.E.imSenderAvatar.appendChild(NODES.E.imSenderAvatarImage)
+
         NODES.E.imSender.appendChild(NODES.E.imSenderName);
         NODES.E.imSender.appendChild(NODES.E.imSenderAvatar);
 

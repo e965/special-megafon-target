@@ -1185,6 +1185,11 @@ export default {
             zuck_nichosi: IMAGES.zuck_nichosi2x,
         },
 
+        anon: {
+            x1: IMAGES.anon,
+            x2: IMAGES.anon2x,
+        },
+
         target_logo: {
             x1: IMAGES.targetLogo,
             x2: IMAGES.targetLogo2x,
