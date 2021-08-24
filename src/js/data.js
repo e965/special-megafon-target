@@ -1116,7 +1116,7 @@ export default {
     }
   },
 
-  imagesCDN: 'https://leonardo-direct.osnova.io/',
+  imagesCDN: 'https://leonardo.osnova.io/',
 
   images: {
     faces: {
