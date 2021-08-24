@@ -2,13 +2,13 @@
 	"name": "special-megafon-target",
 	"description": "Спецпроект для «Мегафона»",
 	"private": true,
-	"version": "1.1.5b",
+	"version": "1.2.0",
 	"author": "Dmitry <dmitry@cojam.ru> (https://e965.ru)",
 	"contributors": [
 		"Evgeny Bykov (https://github.com/ebykov)",
 		"Valery Sitsov (https://github.com/valerypatorius)"
 	],
-	"repository": "github:tehcojam/special-megafon-target",
+	"repository": "github:e965/special-megafon-target",
 	"scripts": {
 		"start": "webpack-dev-server --mode development",
 		"build": "webpack --mode production",
@@ -19,26 +19,26 @@
 		"last 2 versions"
 	],
 	"dependencies": {
-		"cmtt-likely": "^1.2.2",
-		"css-element-queries": "^1.2.0"
+		"cmtt-likely": "1.2.2",
+		"css-element-queries": "1.2.3"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.4.5",
-		"@babel/preset-env": "^7.4.5",
-		"@babel/register": "^7.4.4",
-		"autoprefixer": "^9.6.0",
-		"babel-loader": "^8.0.6",
-		"css-loader": "^3.0.0",
-		"gh-pages": "^2.0.1",
-		"mini-css-extract-plugin": "^0.8.0",
-		"optimize-css-assets-webpack-plugin": "^5.0.3",
-		"postcss-loader": "^3.0.0",
-		"style-loader": "^1.0.1",
-		"stylus": "^0.54.5",
-		"stylus-loader": "^3.0.2",
-		"terser-webpack-plugin": "^2.2.1",
-		"webpack": "^4.35.2",
-		"webpack-cli": "^3.3.5",
-		"webpack-dev-server": "^3.7.2"
+		"@babel/core": "7.15.0",
+		"@babel/preset-env": "7.15.0",
+		"@babel/register": "7.15.3",
+		"autoprefixer": "9.8.6",
+		"babel-loader": "8.2.2",
+		"css-loader": "3.6.0",
+		"gh-pages": "3.2.3",
+		"mini-css-extract-plugin": "0.12.0",
+		"optimize-css-assets-webpack-plugin": "5.0.8",
+		"postcss-loader": "3.0.0",
+		"style-loader": "1.3.0",
+		"stylus": "0.54.8",
+		"stylus-loader": "3.0.2",
+		"terser-webpack-plugin": "2.3.8",
+		"webpack": "4.44.2",
+		"webpack-cli": "3.3.12",
+		"webpack-dev-server": "3.11.2"
 	}
 }
