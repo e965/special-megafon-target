@@ -1,4 +1,5 @@
 import { projectConfig } from './../../config';
+import { IS_PRODUCTION } from './vars';
 
 const CONSOLE_STYLE = 'color: #E87E04';
 
@@ -17,7 +18,7 @@ export const sendEvent = (label, action = 'Click') => {
     if (window.dataLayer !== undefined && projectConfig.analyticsCategory) {
         window.dataLayer.push({
             event: 'data_event',
-            data_description: value
+            data_description: value,
         });
     }
 };
@@ -37,7 +38,7 @@ export const sendPageView = () => {
             section: 'special',
             tags: [],
             title: document.title,
-            url: window.location.pathname
+            url: window.location.pathname,
         });
     }
 };

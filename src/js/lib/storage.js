@@ -16,7 +16,7 @@ const isAvailable = () => {
  * Get item from localStorage
  * @param {String} key
  */
-export const getItem = (key) => {
+export const getItem = key => {
     if (isAvailable()) {
         let item = window.localStorage.getItem(key);
 
@@ -36,7 +36,7 @@ export const getItem = (key) => {
  * @param {String} value
  */
 export const setItem = (key, value) => {
-    value = (typeof value === 'string') ? value : JSON.stringify(value);
+    value = typeof value === 'string' ? value : JSON.stringify(value);
 
     if (isAvailable()) {
         window.localStorage.setItem(key, value);
@@ -47,7 +47,7 @@ export const setItem = (key, value) => {
  * Remove item from localStorage
  * @param {String} key
  */
-export const removeItem = (key) => {
+export const removeItem = key => {
     if (isAvailable()) {
         window.localStorage.removeItem(key);
     }

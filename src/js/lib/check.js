@@ -1,7 +1,7 @@
 /** Do not forget to change these, if breakpoints are different in mq.styl */
 const BREAKPOINTS = {
     mobile: 680,
-    largeDesktop: 1200
+    largeDesktop: 1200,
 };
 
 /**

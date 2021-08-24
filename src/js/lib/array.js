@@ -2,12 +2,10 @@
  * Find most frequent value in array
  * @param {Array} array
  */
-export const getMostFrequentValue = (array) => {
+export const getMostFrequentValue = array => {
     let result = [...array];
 
-    return result.sort((a, b) =>
-        result.filter(v => v === a).length - result.filter(v => v === b).length
-    ).pop();
+    return result.sort((a, b) => result.filter(v => v === a).length - result.filter(v => v === b).length).pop();
 };
 
 /**
@@ -16,17 +14,17 @@ export const getMostFrequentValue = (array) => {
  */
 export const shuffleArray = a => {
     for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]]
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
     }
 
-    return a
+    return a;
 };
 
 /**
  * Convert nodelist to array
  * @param {NodeList} nodeList
  */
-export const toArray = (nodeList) => {
+export const toArray = nodeList => {
     return Array.from(nodeList);
 };

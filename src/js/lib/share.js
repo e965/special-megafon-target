@@ -5,7 +5,7 @@ import * as Analytics from './analytics';
 
 const CSS = {
     likely: 'likely',
-    likelyCustom: 'likely--custom'
+    likelyCustom: 'likely--custom',
 };
 
 export const init = () => {
@@ -19,26 +19,26 @@ export const init = () => {
  */
 
 export const make = (parentContainer, set = {}, typeShowing) => {
-  const likelyContainer = createElement('div', [CSS.likely, CSS.likelyCustom]);
-  const socials = ['facebook', 'vkontakte', 'twitter'];
+    const likelyContainer = createElement('div', [CSS.likely, CSS.likelyCustom]);
+    const socials = ['facebook', 'vkontakte', 'twitter'];
 
-  socials.forEach((social) => {
-    const button = createElement('div', social);
+    socials.forEach(social => {
+        const button = createElement('div', social);
 
-    //if (social === 'facebook') button.innerHTML = 'Поделиться';
+        //if (social === 'facebook') button.innerHTML = 'Поделиться';
 
-    button.addEventListener('click', () => {
-      Analytics.sendEvent(typeShowing ? `${typeShowing} — Share ${social}` : `Share ${social}`);
+        button.addEventListener('click', () => {
+            Analytics.sendEvent(typeShowing ? `${typeShowing} — Share ${social}` : `Share ${social}`);
+        });
+
+        likelyContainer.appendChild(button);
     });
 
-    likelyContainer.appendChild(button);
-  });
+    parentContainer.appendChild(likelyContainer);
 
-  parentContainer.appendChild(likelyContainer);
+    if (set.url) likelyContainer.dataset.url = set.url;
+    if (set.twitter) likelyContainer.dataset.twitter = set.twitter;
+    if (set.title) likelyContainer.dataset.title = set.title;
 
-  if (set.url) likelyContainer.dataset.url = set.url;
-  if (set.twitter) likelyContainer.dataset.twitter = set.twitter;
-  if (set.title) likelyContainer.dataset.title = set.title;
-
-  init();
+    init();
 };

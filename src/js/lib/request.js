@@ -5,7 +5,6 @@
  * @param {Formdata} data - FormData object
  */
 export default (url, type = 'GET', data = '') => {
-
     return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
 
@@ -30,5 +29,4 @@ export default (url, type = 'GET', data = '') => {
 
         request.send(data);
     });
-
 };

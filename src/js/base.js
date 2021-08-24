@@ -5,13 +5,12 @@ import * as Analytics from './lib/analytics';
  * Base special constructor with common methods
  */
 class BaseSpecial {
-
     constructor() {
         this.keyCodes = {
-            enter: 13
+            enter: 13,
         };
         this.params = {
-            container: document.body
+            container: document.body,
         };
 
         if (projectConfig.sendPageView) {
@@ -84,7 +83,6 @@ class BaseSpecial {
             this[action](event.target, event);
         }
     }
-
 }
 
 export default BaseSpecial;

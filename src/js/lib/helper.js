@@ -2,7 +2,7 @@
  * Simple images preload
  * @param {Array} urls - array of urls
  */
-export const preloadImages = (urls) => {
+export const preloadImages = urls => {
     urls.forEach(url => {
         let image = new Image();
         image.src = url;
@@ -57,14 +57,15 @@ export const scrollToElement = (element, offset = 0) => {
  * @param {Function} callback - fired whether command was successful or not
  */
 export const copyToClipboard = (string, callback) => {
-    let input = document.createElement('textarea')
+    let input = document.createElement('textarea');
 
     let isSuccess = false;
 
     Object.assign(input.style, {
         position: 'fixed',
-        top: '0', left: '0',
-        opacity: '0'
+        top: '0',
+        left: '0',
+        opacity: '0',
     });
 
     input.value = string;
@@ -74,7 +75,7 @@ export const copyToClipboard = (string, callback) => {
     try {
         document.execCommand('copy');
         isSuccess = true;
-    } catch (e) { }
+    } catch (e) {}
 
     document.body.removeChild(input);
 

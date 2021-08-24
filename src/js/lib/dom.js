@@ -1,4 +1,4 @@
-import { toArray } from './array'
+import { toArray } from './array';
 
 /**
  * Make html element
@@ -23,26 +23,26 @@ export const createElement = (tagName, classNames = [], attributes = []) => {
 
     for (let attr in attributes) {
         switch (attr) {
-          case 'data':
-            let dataAttributes = attributes[attr]
+            case 'data':
+                let dataAttributes = attributes[attr];
 
-            for (let attr in dataAttributes) {
-                element.dataset[attr] = dataAttributes[attr]
-            }
+                for (let attr in dataAttributes) {
+                    element.dataset[attr] = dataAttributes[attr];
+                }
 
-            break
+                break;
 
-          case 'style':
-            let styleAttributes = attributes[attr]
+            case 'style':
+                let styleAttributes = attributes[attr];
 
-            for (let attr in styleAttributes) {
-                element.style[attr] = styleAttributes[attr]
-            }
+                for (let attr in styleAttributes) {
+                    element.style[attr] = styleAttributes[attr];
+                }
 
-            break
+                break;
 
-          default:
-            element[attr] = attributes[attr]
+            default:
+                element[attr] = attributes[attr];
         }
     }
 
@@ -54,7 +54,7 @@ export const createElement = (tagName, classNames = [], attributes = []) => {
  * @param {Object} obj - object
  */
 export const cacheElements = (obj, attr = 'view') => {
-    let newObj = {}
+    let newObj = {};
 
     let elements = document.querySelectorAll(`[data-${attr}]`);
 
@@ -70,8 +70,8 @@ export const cacheElements = (obj, attr = 'view') => {
  * Get all siblings of specified element, excluding this element
  * @param {Element} element
  */
-export const getSiblings = (element) => {
-    let siblings = []
+export const getSiblings = element => {
+    let siblings = [];
 
     let sibling = element.parentNode.firstChild;
 
@@ -89,17 +89,19 @@ export const getSiblings = (element) => {
  */
 export const clearNode = (node, exceptions = []) => {
     if (node.hasChildNodes()) {
-      toArray(node.childNodes).forEach(node_ => {
-        let trigger = false
+        toArray(node.childNodes).forEach(node_ => {
+            let trigger = false;
 
-        exceptions.forEach(exception => {
-          if (node_.classList.contains(exception)) {
-            trigger = true
-          }
-        })
+            exceptions.forEach(exception => {
+                if (node_.classList.contains(exception)) {
+                    trigger = true;
+                }
+            });
 
-        if (!trigger) { node.removeChild(node_) }
-      })
+            if (!trigger) {
+                node.removeChild(node_);
+            }
+        });
     }
 };
 
@@ -107,7 +109,7 @@ export const clearNode = (node, exceptions = []) => {
  * Remove specified element from its parent
  * @param {Element} element
  */
-export const removeElement = (element) => {
+export const removeElement = element => {
     if (element) {
         element.parentNode.removeChild(element);
     }
@@ -117,7 +119,7 @@ export const removeElement = (element) => {
  * Transform html string to node
  * @param {String} html
  */
-export const htmlStringToNode = (html) => {
+export const htmlStringToNode = html => {
     let el = document.createElement('div');
 
     el.innerHTML = html;
@@ -135,6 +137,6 @@ export const prepend = (parent, el) => {
 };
 
 /** Quick check if element is in DOM */
-export const isElementInDom = (el) => {
+export const isElementInDom = el => {
     return el.parentNode;
 };
