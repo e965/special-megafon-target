@@ -12,7 +12,7 @@
     "source": "src/index.html",
     "scripts": {
         "start": "parcel",
-        "build": "parcel build --no-scope-hoist",
+        "build": "parcel build --no-scope-hoist --public-url ./",
         "clear-dist": "del-cli dist",
         "dist": "npm run clear-dist && npm run build",
         "deploy": "gh-pages -d dist",
