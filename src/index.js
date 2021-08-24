@@ -6,9 +6,8 @@ import './css/special.styl';
 
 import { Special } from './js/special.js';
 
+const Wrapper = document.getElementById('wrapper');
 const Container = document.getElementById('cmtt-special');
-
-console.log(Container);
 
 new Special({
     container: Container,
@@ -18,4 +17,16 @@ new Special({
         title: 'Тест: Кому пришла таргетированная SMS?',
     },
     allowSkip: true,
+});
+
+const FeedToggle = document.getElementById('feed-toggle');
+
+FeedToggle.addEventListener('change', function () {
+    if (this.checked) {
+        Container.dataset.isFeed = '';
+        Wrapper.setAttribute('air-module', 'module.feed');
+    } else {
+        delete Container.dataset.isFeed;
+        Wrapper.removeAttribute('air-module');
+    }
 });
